@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+/node_modules/
+server/node_modules/
+api/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*
+!.env.example
+
+# Production builds
+dist/
+build/
+
+# Vercel
+.vercel/
+
+# OS Files
+.DS_Store
+Thumbs.db
