@@ -7,6 +7,9 @@
  * Admin credentials are stored as env vars — not seeded into the DB.
  */
 
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 
@@ -18,77 +21,1155 @@ const Match = require('../models/Match');
 // ─── Raw data (mirrors mockData.js) ──────────────────────────────────────────
 const groupsRaw = [
   {
-    id: 'A', name: 'Group A',
-    teams: [
-      { id: 'madrid', name: 'Madrid Galacticos', shortName: 'MAD', strength: 94, accentColor: '#a855f7', gradient: 'from-purple-950/40 via-purple-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 7, goalsAgainst: 2, points: 7 }, form: ['W','D','W'], players: [{ name: 'Jude Bellingham', goals: 5, matchesPlayed: 3, points: 15, avatarColor: 'bg-purple-900 text-purple-200' }, { name: 'Vinicius Jr.', goals: 4, matchesPlayed: 3, points: 12, avatarColor: 'bg-purple-800 text-purple-100' }, { name: 'Kylian Mbappé', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-purple-950 text-purple-300' }, { name: 'Luka Modrić', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-purple-700 text-purple-100' }] },
-      { id: 'munich', name: 'Munich Titans', shortName: 'MUN', strength: 89, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 6, goalsAgainst: 4, points: 6 }, form: ['W','L','W'], players: [{ name: 'Harry Kane', goals: 6, matchesPlayed: 3, points: 18, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Jamal Musiala', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Leroy Sané', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Thomas Müller', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'london', name: 'London Cannons', shortName: 'LON', strength: 87, accentColor: '#f43f5e', gradient: 'from-rose-950/40 via-rose-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 4, goalsAgainst: 4, points: 4 }, form: ['W','D','L'], players: [{ name: 'Bukayo Saka', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-rose-900 text-rose-200' }, { name: 'Martin Ødegaard', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-rose-800 text-rose-100' }, { name: 'Kai Havertz', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-rose-950 text-rose-300' }, { name: 'Declan Rice', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-700 text-rose-100' }] },
-      { id: 'rome', name: 'Rome Gladiators', shortName: 'ROM', strength: 78, accentColor: '#d97706', gradient: 'from-amber-950/40 via-amber-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 1, goalsAgainst: 8, points: 0 }, form: ['L','L','L'], players: [{ name: 'Paulo Dybala', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-amber-900 text-amber-200' }, { name: 'Lorenzo Pellegrini', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-800 text-amber-100' }, { name: 'Romelu Lukaku', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-950 text-amber-300' }, { name: 'Gianluca Mancini', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-700 text-amber-100' }] },
+    "id": "A",
+    "name": "Group A",
+    "teams": [
+      {
+        "id": "a_benfica",
+        "name": "Benfica",
+        "shortName": "BEN",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muhammed Danish",
+            "username": "dereds",
+            "photo": "/teams/muhammed_danish.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
+      },
+      {
+        "id": "a_barcelona",
+        "name": "Barcelona",
+        "shortName": "BAR",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Athul Manoharan",
+            "username": "Donbosco",
+            "photo": "/teams/athul_manoharan.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
+        "id": "a_manutd",
+        "name": "MAN UTD",
+        "shortName": "MUN",
+        "strength": 80,
+        "accentColor": "#f43f5e",
+        "gradient": "from-rose-950/40 via-rose-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Adnan ali",
+            "username": "OLDTRAFFORDOB",
+            "photo": "/teams/adnan_ali.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-rose-900 text-rose-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'B', name: 'Group B',
-    teams: [
-      { id: 'paris', name: 'Paris Monarchs', shortName: 'PAR', strength: 90, accentColor: '#3b82f6', gradient: 'from-blue-950/40 via-blue-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 5, goalsAgainst: 2, points: 7 }, form: ['W','D','W'], players: [{ name: 'Ousmane Dembélé', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-900 text-blue-200' }, { name: 'Bradley Barcola', goals: 4, matchesPlayed: 3, points: 12, avatarColor: 'bg-blue-800 text-blue-100' }, { name: 'Warren Zaïre-Emery', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-blue-950 text-blue-300' }, { name: 'Vitinha', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-700 text-blue-100' }] },
-      { id: 'catalan', name: 'Catalan Giants', shortName: 'CAT', strength: 91, accentColor: '#6366f1', gradient: 'from-indigo-950/40 via-indigo-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 6, goalsAgainst: 3, points: 6 }, form: ['W','L','W'], players: [{ name: 'Robert Lewandowski', goals: 5, matchesPlayed: 3, points: 15, avatarColor: 'bg-indigo-900 text-indigo-200' }, { name: 'Lamine Yamal', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-indigo-800 text-indigo-100' }, { name: 'Raphinha', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-indigo-950 text-indigo-300' }, { name: 'Pedri', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-indigo-700 text-indigo-100' }] },
-      { id: 'milan', name: 'Milan Devils', shortName: 'MIL', strength: 84, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 3, goalsAgainst: 5, points: 3 }, form: ['L','W','L'], players: [{ name: 'Rafael Leão', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Christian Pulisic', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Alvaro Morata', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Theo Hernandez', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'ajax', name: 'Amsterdam Ajax', shortName: 'AJX', strength: 80, accentColor: '#f97316', gradient: 'from-orange-950/40 via-orange-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 2, goalsAgainst: 7, points: 1 }, form: ['D','L','L'], players: [{ name: 'Brian Brobbey', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-orange-900 text-orange-200' }, { name: 'Steven Bergwijn', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-orange-800 text-orange-100' }, { name: 'Jordan Henderson', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-orange-950 text-orange-300' }, { name: 'Kenneth Taylor', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-orange-700 text-orange-100' }] },
+    "id": "B",
+    "name": "Group B",
+    "teams": [
+      {
+        "id": "b_portugal",
+        "name": "Portugal",
+        "shortName": "POR",
+        "strength": 80,
+        "accentColor": "#6366f1",
+        "gradient": "from-indigo-950/40 via-indigo-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Harinandan S",
+            "username": "KL58AD",
+            "photo": "/teams/harinandan_s.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-indigo-900 text-indigo-200"
+          }
+        ]
+      },
+      {
+        "id": "b_acmilan",
+        "name": "AC Milan",
+        "shortName": "ACM",
+        "strength": 80,
+        "accentColor": "#d97706",
+        "gradient": "from-amber-950/40 via-amber-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Hanish S",
+            "username": "hanishs07",
+            "photo": "/teams/hanish_s.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-amber-900 text-amber-200"
+          }
+        ]
+      },
+      {
+        "id": "b_fcbarcelona",
+        "name": "FC BARCELONA",
+        "shortName": "FCB",
+        "strength": 80,
+        "accentColor": "#3b82f6",
+        "gradient": "from-blue-950/40 via-blue-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Arjun k",
+            "username": "Arjuuuhhh",
+            "photo": "/teams/arjun_k.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-blue-900 text-blue-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'C', name: 'Group C',
-    teams: [
-      { id: 'turin', name: 'Turin Zebras', shortName: 'TUR', strength: 85, accentColor: '#71717a', gradient: 'from-zinc-800/40 via-zinc-800/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 4, goalsAgainst: 1, points: 7 }, form: ['W','D','W'], players: [{ name: 'Dusan Vlahovic', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-zinc-700 text-zinc-200' }, { name: 'Kenan Yildiz', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-zinc-600 text-zinc-100' }, { name: 'Teun Koopmeiners', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-zinc-800 text-zinc-300' }, { name: 'Gleison Bremer', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-zinc-900 text-zinc-400' }] },
-      { id: 'dortmund', name: 'Dortmund Hornets', shortName: 'DOR', strength: 86, accentColor: '#eab308', gradient: 'from-yellow-950/40 via-yellow-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 2, lost: 0, goalsFor: 5, goalsAgainst: 3, points: 5 }, form: ['D','W','D'], players: [{ name: 'Serhou Guirassy', goals: 4, matchesPlayed: 3, points: 12, avatarColor: 'bg-yellow-900 text-yellow-200' }, { name: 'Julian Brandt', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-yellow-800 text-yellow-100' }, { name: 'Karim Adeyemi', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-yellow-950 text-yellow-300' }, { name: 'Emre Can', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-yellow-700 text-yellow-100' }] },
-      { id: 'lisbon', name: 'Lisbon Eagles', shortName: 'LIS', strength: 81, accentColor: '#f43f5e', gradient: 'from-rose-950/40 via-rose-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 3, goalsAgainst: 4, points: 4 }, form: ['L','W','D'], players: [{ name: 'Angel Di Maria', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-rose-900 text-rose-200' }, { name: 'Vangelis Pavlidis', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-rose-800 text-rose-100' }, { name: 'Orkun Kökcü', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-rose-950 text-rose-300' }, { name: 'Nicolas Otamendi', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-700 text-rose-100' }] },
-      { id: 'porto', name: 'Porto Dragons', shortName: 'POR', strength: 82, accentColor: '#06b6d4', gradient: 'from-cyan-950/40 via-cyan-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 1, goalsAgainst: 5, points: 0 }, form: ['L','L','L'], players: [{ name: 'Galeno', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-cyan-900 text-cyan-200' }, { name: 'Pepê', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-cyan-800 text-cyan-100' }, { name: 'Alan Varela', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-cyan-950 text-cyan-300' }, { name: 'Nico González', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-cyan-700 text-cyan-100' }] },
+    "id": "C",
+    "name": "Group C",
+    "teams": [
+      {
+        "id": "c_bayernmunichen",
+        "name": "Bayern munichen",
+        "shortName": "BAY",
+        "strength": 80,
+        "accentColor": "#06b6d4",
+        "gradient": "from-cyan-950/40 via-cyan-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Thejus",
+            "username": "allicareish",
+            "photo": "/teams/thejus.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-cyan-900 text-cyan-200"
+          }
+        ]
+      },
+      {
+        "id": "c_japan",
+        "name": "JAPAN",
+        "shortName": "JAP",
+        "strength": 80,
+        "accentColor": "#10b981",
+        "gradient": "from-emerald-950/40 via-emerald-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Amaan sajreen",
+            "username": "Amaansajreen",
+            "photo": "/teams/amaan_sajreen.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-emerald-900 text-emerald-200"
+          }
+        ]
+      },
+      {
+        "id": "c_vivabrazil",
+        "name": "Viva Brazil",
+        "shortName": "VIB",
+        "strength": 80,
+        "accentColor": "#22c55e",
+        "gradient": "from-green-950/40 via-green-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "SANJAY KP",
+            "username": "Njr_Sanju",
+            "photo": "/teams/sanjay_kp.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-green-900 text-green-200"
+          }
+        ]
+      },
+      {
+        "id": "c_argentina",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#f97316",
+        "gradient": "from-orange-950/40 via-orange-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Anand Anil",
+            "username": "19LE019",
+            "photo": "/teams/anand_anil.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-orange-900 text-orange-200"
+          }
+        ]
+      },
+      {
+        "id": "c_cr7",
+        "name": "CR7",
+        "shortName": "CR7",
+        "strength": 80,
+        "accentColor": "#0ea5e9",
+        "gradient": "from-sky-950/40 via-sky-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Abhijay TA",
+            "username": "ENEXPO",
+            "photo": "/teams/abhijay_ta.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-sky-900 text-sky-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'D', name: 'Group D',
-    teams: [
-      { id: 'manblue', name: 'Manchester Blues', shortName: 'MCI', strength: 95, accentColor: '#0ea5e9', gradient: 'from-sky-950/40 via-sky-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 8, goalsAgainst: 2, points: 7 }, form: ['W','D','W'], players: [{ name: 'Erling Haaland', goals: 7, matchesPlayed: 3, points: 21, avatarColor: 'bg-sky-900 text-sky-200' }, { name: 'Kevin De Bruyne', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-sky-800 text-sky-100' }, { name: 'Phil Foden', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-sky-950 text-sky-300' }, { name: 'Rodri', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-sky-700 text-sky-100' }] },
-      { id: 'liverpool', name: 'Liverpool Reds', shortName: 'LIV', strength: 92, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 3, points: 6 }, form: ['W','L','W'], players: [{ name: 'Mohamed Salah', goals: 4, matchesPlayed: 3, points: 12, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Luis Diaz', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Diogo Jota', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Virgil van Dijk', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'chelsea', name: 'Chelsea Lions', shortName: 'CHE', strength: 86, accentColor: '#3b82f6', gradient: 'from-blue-950/40 via-blue-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 4, goalsAgainst: 5, points: 4 }, form: ['D','W','L'], players: [{ name: 'Cole Palmer', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-blue-900 text-blue-200' }, { name: 'Nicolas Jackson', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-800 text-blue-100' }, { name: 'Christopher Nkunku', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-blue-950 text-blue-300' }, { name: 'Enzo Fernández', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-700 text-blue-100' }] },
-      { id: 'glasgow', name: 'Glasgow Celts', shortName: 'GLA', strength: 79, accentColor: '#10b981', gradient: 'from-emerald-950/40 via-emerald-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 1, goalsAgainst: 9, points: 0 }, form: ['L','L','L'], players: [{ name: 'Kyogo Furuhashi', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-emerald-900 text-emerald-200' }, { name: 'Callum McGregor', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-800 text-emerald-100' }, { name: 'Daizen Maeda', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-950 text-emerald-300' }, { name: 'Cameron Carter-Vickers', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-700 text-emerald-100' }] },
+    "id": "D",
+    "name": "Group D",
+    "teams": [
+      {
+        "id": "d_herhitler",
+        "name": "HerHITLER",
+        "shortName": "HER",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Akshay K A",
+            "username": "Zola-aizen",
+            "photo": "/teams/akshay_k_a.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
+      },
+      {
+        "id": "d_manchesterunited",
+        "name": "Manchester United",
+        "shortName": "MNU",
+        "strength": 80,
+        "accentColor": "#f43f5e",
+        "gradient": "from-rose-950/40 via-rose-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Midlaj Basheer",
+            "username": "midlaaj",
+            "photo": "/teams/midlaj_basheer.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-rose-900 text-rose-200"
+          }
+        ]
+      },
+      {
+        "id": "d_acmilan",
+        "name": "Ac milan",
+        "shortName": "ACM",
+        "strength": 80,
+        "accentColor": "#14b8a6",
+        "gradient": "from-teal-950/40 via-teal-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muhammed salman",
+            "username": "sa__lm_a_n",
+            "photo": "/teams/muhammed_salman.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-teal-900 text-teal-200"
+          }
+        ]
+      },
+      {
+        "id": "d_fcbarcelona",
+        "name": "FC Barcelona",
+        "shortName": "FCB",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muhammed Rishad",
+            "username": "leo_rishad 10",
+            "photo": "/teams/muhammed_rishad.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
+        "id": "d_question",
+        "name": "Question",
+        "shortName": "QUE",
+        "strength": 80,
+        "accentColor": "#d97706",
+        "gradient": "from-amber-950/40 via-amber-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Zain Subair",
+            "username": "Zainox99",
+            "photo": "/teams/zain_subair.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-amber-900 text-amber-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'E', name: 'Group E',
-    teams: [
-      { id: 'brussels', name: 'Brussels Devils', shortName: 'BRU', strength: 83, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 3, points: 6 }, form: ['W','L','W'], players: [{ name: 'Hans Vanaken', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Andreas Skov Olsen', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Ferran Jutglà', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Simon Mignolet', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'vienna', name: 'Vienna Stars', shortName: 'VIE', strength: 80, accentColor: '#a855f7', gradient: 'from-purple-950/40 via-purple-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 2, lost: 0, goalsFor: 4, goalsAgainst: 3, points: 5 }, form: ['D','W','D'], players: [{ name: 'Guido Burgstaller', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-purple-900 text-purple-200' }, { name: 'Marco Grüll', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-purple-800 text-purple-100' }, { name: 'Nicolas Seiwald', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-purple-950 text-purple-300' }, { name: 'Leopold Querfeld', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-purple-700 text-purple-100' }] },
-      { id: 'copenhagen', name: 'Copenhagen Vikings', shortName: 'COP', strength: 82, accentColor: '#3b82f6', gradient: 'from-blue-950/40 via-blue-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 3, goalsAgainst: 3, points: 4 }, form: ['W','D','L'], players: [{ name: 'Viktor Claesson', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-900 text-blue-200' }, { name: 'Mohamed Elyounoussi', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-blue-800 text-blue-100' }, { name: 'Rasmus Falk', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-950 text-blue-300' }, { name: 'Lukas Lerager', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-700 text-blue-100' }] },
-      { id: 'athens', name: 'Athens Spartans', shortName: 'ATH', strength: 77, accentColor: '#eab308', gradient: 'from-amber-950/40 via-amber-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 2, goalsAgainst: 5, points: 1 }, form: ['L','D','L'], players: [{ name: 'Fotis Ioannidis', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-amber-900 text-amber-200' }, { name: 'Levi García', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-800 text-amber-100' }, { name: 'Taison', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-950 text-amber-300' }, { name: 'Domagoj Vida', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-amber-700 text-amber-100' }] },
+    "id": "E",
+    "name": "Group E",
+    "teams": [
+      {
+        "id": "e_argentina",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#3b82f6",
+        "gradient": "from-blue-950/40 via-blue-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Sajin Mohandas",
+            "username": "__SAJIN__",
+            "photo": "/teams/sajin_mohandas.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-blue-900 text-blue-200"
+          }
+        ]
+      },
+      {
+        "id": "e_bestscriptedmatch",
+        "name": "Best scripted match",
+        "shortName": "BSM",
+        "strength": 80,
+        "accentColor": "#6366f1",
+        "gradient": "from-indigo-950/40 via-indigo-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muhammed Nabeel",
+            "username": "NABEEL",
+            "photo": "/teams/muhammed_nabeel.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-indigo-900 text-indigo-200"
+          }
+        ]
+      },
+      {
+        "id": "e_celtic",
+        "name": "Celtic",
+        "shortName": "CEL",
+        "strength": 80,
+        "accentColor": "#f97316",
+        "gradient": "from-orange-950/40 via-orange-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "abdulla",
+            "username": "theadil777",
+            "photo": "/teams/abdulla.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-orange-900 text-orange-200"
+          }
+        ]
+      },
+      {
+        "id": "e_germany_1",
+        "name": "Germany",
+        "shortName": "GER",
+        "strength": 80,
+        "accentColor": "#06b6d4",
+        "gradient": "from-cyan-950/40 via-cyan-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "AJAI AS",
+            "username": "V4MOZ",
+            "photo": "/teams/ajai_as.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-cyan-900 text-cyan-200"
+          }
+        ]
+      },
+      {
+        "id": "e_germany_2",
+        "name": "GERMANY",
+        "shortName": "GER",
+        "strength": 80,
+        "accentColor": "#0ea5e9",
+        "gradient": "from-sky-950/40 via-sky-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Ajai A S",
+            "username": "VAMOS",
+            "photo": "/teams/ajai_a_s.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-sky-900 text-sky-200"
+          }
+        ]
+      },
+      {
+        "id": "e_huh",
+        "name": "Huh.",
+        "shortName": "HUH",
+        "strength": 80,
+        "accentColor": "#10b981",
+        "gradient": "from-emerald-950/40 via-emerald-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Shahinshad O P",
+            "username": "ShaHINshaD",
+            "photo": "/teams/shahinshad_o_p.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-emerald-900 text-emerald-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'F', name: 'Group F',
-    teams: [
-      { id: 'istanbul', name: 'Istanbul Roosters', shortName: 'IST', strength: 84, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 5, goalsAgainst: 2, points: 7 }, form: ['W','D','W'], players: [{ name: 'Mauro Icardi', goals: 3, matchesPlayed: 3, points: 9, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Barış Alper Yılmaz', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Dries Mertens', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Kerem Aktürkoğlu', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'warsaw', name: 'Warsaw Eagles', shortName: 'WAR', strength: 78, accentColor: '#f43f5e', gradient: 'from-rose-950/40 via-rose-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 2, lost: 0, goalsFor: 3, goalsAgainst: 2, points: 5 }, form: ['D','W','D'], players: [{ name: 'Josué Pesqueira', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-rose-900 text-rose-200' }, { name: 'Marc Gual', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-rose-800 text-rose-100' }, { name: 'Tomas Pekhart', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-950 text-rose-300' }, { name: 'Bartosz Kapustka', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-700 text-rose-100' }] },
-      { id: 'prague', name: 'Prague Kings', shortName: 'PRA', strength: 81, accentColor: '#3b82f6', gradient: 'from-blue-950/40 via-blue-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 4, goalsAgainst: 5, points: 3 }, form: ['L','W','L'], players: [{ name: 'Jan Kuchta', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-900 text-blue-200' }, { name: 'Lukas Haraslin', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-800 text-blue-100' }, { name: 'Veljko Birmančević', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-950 text-blue-300' }, { name: 'Ladislav Krejčí', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-700 text-blue-100' }] },
-      { id: 'zagreb', name: 'Zagreb Knights', shortName: 'ZAG', strength: 79, accentColor: '#6366f1', gradient: 'from-indigo-950/40 via-indigo-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 2, goalsAgainst: 5, points: 1 }, form: ['D','L','L'], players: [{ name: 'Bruno Petković', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-indigo-900 text-indigo-200' }, { name: 'Martin Baturina', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-indigo-800 text-indigo-100' }, { name: 'Josip Mišić', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-indigo-950 text-indigo-300' }, { name: 'Stefan Ristovski', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-indigo-700 text-indigo-100' }] },
+    "id": "F",
+    "name": "Group F",
+    "teams": [
+      {
+        "id": "f_argentina_1",
+        "name": "ARGENTINA",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#22c55e",
+        "gradient": "from-green-950/40 via-green-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "NIDHIN Biju V",
+            "username": "Nidhin7788",
+            "photo": "/teams/nidhin_biju_v.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-green-900 text-green-200"
+          }
+        ]
+      },
+      {
+        "id": "f_argentina_2",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#14b8a6",
+        "gradient": "from-teal-950/40 via-teal-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muflih basheer",
+            "username": "muf_lih",
+            "photo": "/teams/muflih_basheer.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-teal-900 text-teal-200"
+          }
+        ]
+      },
+      {
+        "id": "f_argentina_3",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Anujith PV",
+            "username": "Prokm 50",
+            "photo": "",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
+        "id": "f_borussiadortmund",
+        "name": "Borussia Dortmund",
+        "shortName": "BOD",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Amanyu. K",
+            "username": "Daarkkk",
+            "photo": "/teams/amanyu_k.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
+      },
+      {
+        "id": "f_challenger",
+        "name": "CHALLENGER",
+        "shortName": "CHA",
+        "strength": 80,
+        "accentColor": "#f43f5e",
+        "gradient": "from-rose-950/40 via-rose-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "MUHAMMED SHEZIN",
+            "username": "sheziiii",
+            "photo": "/teams/muhammed_shezin.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-rose-900 text-rose-200"
+          }
+        ]
+      },
+      {
+        "id": "f_savage",
+        "name": "SAVAGE",
+        "shortName": "SAV",
+        "strength": 80,
+        "accentColor": "#d97706",
+        "gradient": "from-amber-950/40 via-amber-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "MIDHUN RAJ",
+            "username": "m1dhunnrajj",
+            "photo": "/teams/midhun_raj.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-amber-900 text-amber-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'G', name: 'Group G',
-    teams: [
-      { id: 'geneva', name: 'Geneva Falcons', shortName: 'GEN', strength: 82, accentColor: '#10b981', gradient: 'from-emerald-950/40 via-emerald-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 4, goalsAgainst: 2, points: 6 }, form: ['W','L','W'], players: [{ name: 'Miroslav Stevanović', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-emerald-900 text-emerald-200' }, { name: 'Chris Bedia', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-emerald-800 text-emerald-100' }, { name: 'Dereck Kutesa', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-emerald-950 text-emerald-300' }, { name: 'Timothé Cognat', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-700 text-emerald-100' }] },
-      { id: 'monaco', name: 'Monaco Princes', shortName: 'MON', strength: 85, accentColor: '#ef4444', gradient: 'from-red-950/40 via-red-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 2, lost: 0, goalsFor: 3, goalsAgainst: 2, points: 5 }, form: ['D','W','D'], players: [{ name: 'Wissam Ben Yedder', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-red-900 text-red-200' }, { name: 'Aleksandr Golovin', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-red-800 text-red-100' }, { name: 'Takumi Minamino', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-950 text-red-300' }, { name: 'Folarin Balogun', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-red-700 text-red-100' }] },
-      { id: 'dublin', name: 'Dublin Shamrocks', shortName: 'DUB', strength: 76, accentColor: '#22c55e', gradient: 'from-green-950/40 via-green-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 2, goalsAgainst: 3, points: 4 }, form: ['L','D','W'], players: [{ name: 'Rory Gaffney', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-green-900 text-green-200' }, { name: 'Graham Burke', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-green-800 text-green-100' }, { name: 'Jack Byrne', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-green-950 text-green-300' }, { name: 'Lee Grace', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-green-700 text-green-100' }] },
-      { id: 'oslo', name: 'Oslo Wolves', shortName: 'OSL', strength: 78, accentColor: '#0ea5e9', gradient: 'from-sky-950/40 via-sky-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 1, goalsAgainst: 3, points: 1 }, form: ['L','D','L'], players: [{ name: 'Amahl Pellegrino', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-sky-900 text-sky-200' }, { name: 'Albert Grønbæk', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-sky-800 text-sky-100' }, { name: 'Patrick Berg', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-sky-950 text-sky-300' }, { name: 'Hugo Vetlesen', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-sky-700 text-sky-100' }] },
+    "id": "G",
+    "name": "Group G",
+    "teams": [
+      {
+        "id": "g_aethelgard",
+        "name": "Aethelgard",
+        "shortName": "AET",
+        "strength": 80,
+        "accentColor": "#3b82f6",
+        "gradient": "from-blue-950/40 via-blue-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Kiran Babu C",
+            "username": "kcb",
+            "photo": "/teams/kiran_babu_c.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-blue-900 text-blue-200"
+          }
+        ]
+      },
+      {
+        "id": "g_babuartsandsports",
+        "name": "BABU ARTS AND SPORTS",
+        "shortName": "BAA",
+        "strength": 80,
+        "accentColor": "#6366f1",
+        "gradient": "from-indigo-950/40 via-indigo-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Adam Saeed",
+            "username": "hakooona",
+            "photo": "/teams/adam_saeed.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-indigo-900 text-indigo-200"
+          }
+        ]
+      },
+      {
+        "id": "g_bleedblaugrana",
+        "name": "BLEED BLAUGRANA",
+        "shortName": "BLB",
+        "strength": 80,
+        "accentColor": "#f97316",
+        "gradient": "from-orange-950/40 via-orange-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Navadev",
+            "username": "NAVDVED",
+            "photo": "/teams/navadev.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-orange-900 text-orange-200"
+          }
+        ]
+      },
+      {
+        "id": "g_japan",
+        "name": "Japan",
+        "shortName": "JAP",
+        "strength": 80,
+        "accentColor": "#06b6d4",
+        "gradient": "from-cyan-950/40 via-cyan-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Shreedev TP",
+            "username": "efb_Yz1tBvohGhu",
+            "photo": "/teams/shreedev_tp.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-cyan-900 text-cyan-200"
+          }
+        ]
+      },
+      {
+        "id": "g_portugal",
+        "name": "portugal",
+        "shortName": "POR",
+        "strength": 80,
+        "accentColor": "#0ea5e9",
+        "gradient": "from-sky-950/40 via-sky-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Govind v raju",
+            "username": "FAZE77",
+            "photo": "/teams/govind_v_raju.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-sky-900 text-sky-200"
+          }
+        ]
+      }
     ]
   },
   {
-    id: 'H', name: 'Group H',
-    teams: [
-      { id: 'stockholm', name: 'Stockholm Vikings', shortName: 'STO', strength: 80, accentColor: '#3b82f6', gradient: 'from-blue-950/40 via-blue-950/10 to-zinc-950/40', stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 4, goalsAgainst: 2, points: 6 }, form: ['W','L','W'], players: [{ name: 'Viktor Djukanović', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-blue-900 text-blue-200' }, { name: 'Nahir Besara', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-blue-800 text-blue-100' }, { name: 'Juel Nielsen', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-blue-950 text-blue-300' }, { name: 'Oliver Dovin', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-blue-700 text-blue-100' }] },
-      { id: 'helsinki', name: 'Helsinki Ice', shortName: 'HEL', strength: 75, accentColor: '#14b8a6', gradient: 'from-teal-950/40 via-teal-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 3, goalsAgainst: 3, points: 4 }, form: ['D','W','L'], players: [{ name: 'Bojan Radulović', goals: 2, matchesPlayed: 3, points: 6, avatarColor: 'bg-teal-900 text-teal-200' }, { name: 'Santeri Hostikka', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-teal-800 text-teal-100' }, { name: 'Lucas Lingman', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-teal-950 text-teal-300' }, { name: 'Perparim Hetemaj', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-teal-700 text-teal-100' }] },
-      { id: 'budapest', name: 'Budapest Magyars', shortName: 'BUD', strength: 77, accentColor: '#10b981', gradient: 'from-emerald-950/40 via-emerald-950/10 to-zinc-950/40', stats: { played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 2, goalsAgainst: 2, points: 4 }, form: ['W','D','L'], players: [{ name: 'Barnabás Varga', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-emerald-900 text-emerald-200' }, { name: 'Kristoffer Zachariassen', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-emerald-800 text-emerald-100' }, { name: 'Adama Traoré', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-950 text-emerald-300' }, { name: 'Dénes Dibusz', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-emerald-700 text-emerald-100' }] },
-      { id: 'bucharest', name: 'Bucharest Stars', shortName: 'BUC', strength: 76, accentColor: '#f43f5e', gradient: 'from-rose-950/40 via-rose-950/10 to-zinc-950/40', stats: { played: 3, won: 0, drawn: 2, lost: 1, goalsFor: 1, goalsAgainst: 3, points: 2 }, form: ['D','D','L'], players: [{ name: 'Florinel Coman', goals: 1, matchesPlayed: 3, points: 3, avatarColor: 'bg-rose-900 text-rose-200' }, { name: 'Darius Olaru', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-800 text-rose-100' }, { name: 'Adrian Şut', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-950 text-rose-300' }, { name: 'Risto Radunović', goals: 0, matchesPlayed: 3, points: 0, avatarColor: 'bg-rose-700 text-rose-100' }] },
+    "id": "H",
+    "name": "Group H",
+    "teams": [
+      {
+        "id": "h_jogobonito",
+        "name": "Jogo Bonito",
+        "shortName": "JOB",
+        "strength": 80,
+        "accentColor": "#10b981",
+        "gradient": "from-emerald-950/40 via-emerald-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Rino Joseph",
+            "username": "Rinchee",
+            "photo": "",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-emerald-900 text-emerald-200"
+          }
+        ]
+      },
+      {
+        "id": "h_manchesterunitedfc",
+        "name": "Manchester United FC",
+        "shortName": "MUF",
+        "strength": 80,
+        "accentColor": "#22c55e",
+        "gradient": "from-green-950/40 via-green-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Nevin George",
+            "username": "mdxphsyco",
+            "photo": "/teams/nevin_george.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-green-900 text-green-200"
+          }
+        ]
+      },
+      {
+        "id": "h_morocco",
+        "name": "Morocco",
+        "shortName": "MOR",
+        "strength": 80,
+        "accentColor": "#14b8a6",
+        "gradient": "from-teal-950/40 via-teal-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Muhammed shamil",
+            "username": "Shamil2325",
+            "photo": "/teams/muhammed_shamil.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-teal-900 text-teal-200"
+          }
+        ]
+      },
+      {
+        "id": "h_radyornot",
+        "name": "R\u00a3ADY OR NOT",
+        "shortName": "RON",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Sayanth A",
+            "username": "ALOHOMORA",
+            "photo": "/teams/sayanth_a.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
+        "id": "h_yousure",
+        "name": "YOU SURE?",
+        "shortName": "YOS",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "Aravind",
+            "username": "08Kinginikuttan",
+            "photo": "/teams/aravind.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
+      }
     ]
-  },
+  }
 ];
 
 // ─── Main seed function ───────────────────────────────────────────────────────
@@ -112,11 +1193,9 @@ async function seed() {
     Match.deleteMany({}),
   ]);
 
-  // ℹ️  Admin credentials are NOT stored in DB — use ADMIN_USERNAME + ADMIN_PASSWORD_HASH env vars.
-
   // ── Groups, Teams, Players ─────────────────────────────────────────────────
   // Keep a map from legacy string ID → Mongoose ObjectId for match seeding
-  const teamIdMap = {}; // e.g. { madrid: ObjectId }
+  const teamIdMap = {}; // e.g. { a_benfica: ObjectId }
 
   for (const groupRaw of groupsRaw) {
     const teamIds = [];
@@ -148,6 +1227,8 @@ async function seed() {
       for (const pRaw of teamRaw.players) {
         const p = await Player.create({
           name: pRaw.name,
+          username: pRaw.username || '',
+          photo: pRaw.photo || '',
           teamId: team._id,
           goals: pRaw.goals,
           matchesPlayed: pRaw.matchesPlayed,
@@ -171,31 +1252,87 @@ async function seed() {
   console.log('⚽  Groups, Teams, Players seeded');
 
   // ── Group Stage Matches ────────────────────────────────────────────────────
+  //
+  // Schedule algorithm:
+  //   • Groups with exactly 3 teams → full round-robin (3 matches, each team plays 2)
+  //   • Groups with N > 3 teams    → ring schedule: T[i] vs T[(i+1) % N]
+  //     Gives exactly N matches total, each team appears once as
+  //     left-side of pair i and once as right-side of pair (i-1), = 2 matches each.
+  //     Works for any N ≥ 3; handles future changes in group size automatically.
+  //
+  // Current group sizes:
+  //   A: 3 teams (full round-robin) | B: 3 teams (full round-robin)
+  //   C: 5 teams (ring)             | D: 5 teams (ring)
+  //   E: 6 teams (ring)             | F: 6 teams (ring)
+  //   G: 5 teams (ring)             | H: 5 teams (ring)
+  //
   const groupMatches = [
-    // Group A
-    { groupId: 'A', teamAKey: 'madrid', teamBKey: 'munich', scoreA: 3, scoreB: 2, status: 'completed', date: 'TODAY - JULY 10, 2026', time: 'Completed' },
-    { groupId: 'A', teamAKey: 'london', teamBKey: 'rome', scoreA: 2, scoreB: 0, status: 'completed', date: 'TODAY - JULY 10, 2026', time: 'Completed' },
-    // Group B
-    { groupId: 'B', teamAKey: 'paris', teamBKey: 'catalan', scoreA: 2, scoreB: 1, status: 'completed', date: 'TODAY - JULY 10, 2026', time: 'Completed' },
-    { groupId: 'B', teamAKey: 'milan', teamBKey: 'ajax', scoreA: 2, scoreB: 1, status: 'completed', date: 'TODAY - JULY 10, 2026', time: 'Completed' },
-    // Group C
-    { groupId: 'C', teamAKey: 'turin', teamBKey: 'dortmund', scoreA: 1, scoreB: 1, status: 'completed', date: 'TOMORROW - JULY 11, 2026', time: 'Completed' },
-    { groupId: 'C', teamAKey: 'lisbon', teamBKey: 'porto', scoreA: 2, scoreB: 1, status: 'completed', date: 'TOMORROW - JULY 11, 2026', time: 'Completed' },
-    // Group D
-    { groupId: 'D', teamAKey: 'manblue', teamBKey: 'liverpool', scoreA: 4, scoreB: 1, status: 'completed', date: 'TOMORROW - JULY 11, 2026', time: 'Completed' },
-    { groupId: 'D', teamAKey: 'chelsea', teamBKey: 'glasgow', scoreA: 2, scoreB: 1, status: 'completed', date: 'TOMORROW - JULY 11, 2026', time: 'Completed' },
-    // Group E
-    { groupId: 'E', teamAKey: 'brussels', teamBKey: 'vienna', scoreA: null, scoreB: null, status: 'upcoming', date: 'SUNDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'E', teamAKey: 'copenhagen', teamBKey: 'athens', scoreA: null, scoreB: null, status: 'upcoming', date: 'SUNDAY - JULY 12, 2026', time: '20:30' },
-    // Group F
-    { groupId: 'F', teamAKey: 'istanbul', teamBKey: 'warsaw', scoreA: null, scoreB: null, status: 'upcoming', date: 'SUNDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'F', teamAKey: 'prague', teamBKey: 'zagreb', scoreA: null, scoreB: null, status: 'upcoming', date: 'SUNDAY - JULY 12, 2026', time: '20:30' },
-    // Group G
-    { groupId: 'G', teamAKey: 'geneva', teamBKey: 'monaco', scoreA: null, scoreB: null, status: 'upcoming', date: 'MONDAY - JULY 13, 2026', time: '18:00' },
-    { groupId: 'G', teamAKey: 'dublin', teamBKey: 'oslo', scoreA: null, scoreB: null, status: 'upcoming', date: 'MONDAY - JULY 13, 2026', time: '20:30' },
-    // Group H
-    { groupId: 'H', teamAKey: 'stockholm', teamBKey: 'helsinki', scoreA: null, scoreB: null, status: 'upcoming', date: 'MONDAY - JULY 13, 2026', time: '18:00' },
-    { groupId: 'H', teamAKey: 'budapest', teamBKey: 'bucharest', scoreA: null, scoreB: null, status: 'upcoming', date: 'MONDAY - JULY 13, 2026', time: '20:30' },
+    // ── Group A: 3 teams → full round-robin (3 matches, 2 per team) ──
+    { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_barcelona', date: 'THURSDAY - JULY 10, 2026', time: '18:00' },
+    { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_manutd',    date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
+    { groupId: 'A', teamAKey: 'a_barcelona', teamBKey: 'a_manutd',    date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
+
+    // ── Group B: 3 teams → full round-robin (3 matches, 2 per team) ──
+    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_acmilan',     date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
+    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_fcbarcelona', date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
+    { groupId: 'B', teamAKey: 'b_acmilan',    teamBKey: 'b_fcbarcelona', date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+
+    // ── Group C: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: c_bayernmunichen → c_japan → c_vivabrazil → c_argentina → c_cr7 → (back to c_bayernmunichen)
+    { groupId: 'C', teamAKey: 'c_bayernmunichen', teamBKey: 'c_japan',          date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
+    { groupId: 'C', teamAKey: 'c_japan',          teamBKey: 'c_vivabrazil',     date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
+    { groupId: 'C', teamAKey: 'c_vivabrazil',     teamBKey: 'c_argentina',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    { groupId: 'C', teamAKey: 'c_argentina',      teamBKey: 'c_cr7',            date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
+    { groupId: 'C', teamAKey: 'c_cr7',            teamBKey: 'c_bayernmunichen', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+
+    // ── Group D: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: d_herhitler → d_manchesterunited → d_acmilan → d_fcbarcelona → d_question → (back to d_herhitler)
+    { groupId: 'D', teamAKey: 'd_herhitler',         teamBKey: 'd_manchesterunited', date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
+    { groupId: 'D', teamAKey: 'd_manchesterunited',  teamBKey: 'd_acmilan',          date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
+    { groupId: 'D', teamAKey: 'd_acmilan',           teamBKey: 'd_fcbarcelona',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    { groupId: 'D', teamAKey: 'd_fcbarcelona',       teamBKey: 'd_question',         date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
+    { groupId: 'D', teamAKey: 'd_question',          teamBKey: 'd_herhitler',        date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+
+    // ── Group E: 6 teams → ring schedule (6 matches, 2 per team) ──
+    // Ring: e_argentina → e_bestscriptedmatch → e_celtic → e_germany_1 → e_germany_2 → e_huh → (back)
+    // Match-by-match verification (each team plays exactly 2):
+    //   e_argentina:        M1 (vs e_bestscriptedmatch) + M6 (vs e_huh)       ✓
+    //   e_bestscriptedmatch M1 (vs e_argentina) + M2 (vs e_celtic)            ✓
+    //   e_celtic:           M2 (vs e_bestscriptedmatch) + M3 (vs e_germany_1) ✓
+    //   e_germany_1:        M3 (vs e_celtic) + M4 (vs e_germany_2)            ✓
+    //   e_germany_2:        M4 (vs e_germany_1) + M5 (vs e_huh)               ✓
+    //   e_huh:              M5 (vs e_germany_2) + M6 (vs e_argentina)         ✓
+    { groupId: 'E', teamAKey: 'e_argentina',         teamBKey: 'e_bestscriptedmatch', date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    { groupId: 'E', teamAKey: 'e_bestscriptedmatch', teamBKey: 'e_celtic',            date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
+    { groupId: 'E', teamAKey: 'e_celtic',            teamBKey: 'e_germany_1',         date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'E', teamAKey: 'e_germany_1',         teamBKey: 'e_germany_2',         date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+    { groupId: 'E', teamAKey: 'e_germany_2',         teamBKey: 'e_huh',               date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
+    { groupId: 'E', teamAKey: 'e_huh',               teamBKey: 'e_argentina',         date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
+
+    // ── Group F: 6 teams → ring schedule (6 matches, 2 per team) ──
+    // Ring: f_argentina_1 → f_argentina_2 → f_argentina_3 → f_borussiadortmund → f_challenger → f_savage → (back)
+    { groupId: 'F', teamAKey: 'f_argentina_1',     teamBKey: 'f_argentina_2',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    { groupId: 'F', teamAKey: 'f_argentina_2',     teamBKey: 'f_argentina_3',      date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
+    { groupId: 'F', teamAKey: 'f_argentina_3',     teamBKey: 'f_borussiadortmund', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'F', teamAKey: 'f_borussiadortmund', teamBKey: 'f_challenger',      date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+    { groupId: 'F', teamAKey: 'f_challenger',      teamBKey: 'f_savage',           date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
+    { groupId: 'F', teamAKey: 'f_savage',          teamBKey: 'f_argentina_1',      date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
+
+    // ── Group G: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: g_aethelgard → g_babuartsandsports → g_bleedblaugrana → g_japan → g_portugal → (back)
+    { groupId: 'G', teamAKey: 'g_aethelgard',        teamBKey: 'g_babuartsandsports', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'G', teamAKey: 'g_babuartsandsports', teamBKey: 'g_bleedblaugrana',    date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+    { groupId: 'G', teamAKey: 'g_bleedblaugrana',    teamBKey: 'g_japan',             date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
+    { groupId: 'G', teamAKey: 'g_japan',             teamBKey: 'g_portugal',          date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
+    { groupId: 'G', teamAKey: 'g_portugal',          teamBKey: 'g_aethelgard',        date: 'TUESDAY - JULY 15, 2026',  time: '18:00' },
+
+    // ── Group H: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: h_jogobonito → h_manchesterunitedfc → h_morocco → h_radyornot → h_yousure → (back)
+    { groupId: 'H', teamAKey: 'h_jogobonito',         teamBKey: 'h_manchesterunitedfc', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'H', teamAKey: 'h_manchesterunitedfc', teamBKey: 'h_morocco',            date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+    { groupId: 'H', teamAKey: 'h_morocco',            teamBKey: 'h_radyornot',          date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
+    { groupId: 'H', teamAKey: 'h_radyornot',          teamBKey: 'h_yousure',            date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
+    { groupId: 'H', teamAKey: 'h_yousure',            teamBKey: 'h_jogobonito',         date: 'TUESDAY - JULY 15, 2026',  time: '18:00' },
   ];
 
   for (const m of groupMatches) {
@@ -204,36 +1341,57 @@ async function seed() {
       groupId: m.groupId,
       teamA: teamIdMap[m.teamAKey],
       teamB: teamIdMap[m.teamBKey],
-      scoreA: m.scoreA,
-      scoreB: m.scoreB,
-      status: m.status,
+      scoreA: null,
+      scoreB: null,
+      status: 'upcoming',
       date: m.date,
       time: m.time,
     });
   }
 
   // ── Knockout Matches ───────────────────────────────────────────────────────
-  // winnerAdvancesTo links bracket slots
+  //
+  // Bracket structure: R16 (8) → QF (4) → SF (2) → Final (1)
+  //
+  // R16 cross-group pairings (Xn = Group X's nth-place finisher):
+  //   R16-1: A1 vs H2  ─┐
+  //   R16-2: B1 vs G2  ─┤ → QF-A → SF-1 ─┐
+  //   R16-3: C1 vs F2  ─┤                 │
+  //   R16-4: D1 vs E2  ─┘ → QF-B → SF-1 ─┤ → FINAL
+  //   R16-5: D2 vs E1  ─┐                 │
+  //   R16-6: C2 vs F1  ─┤ → QF-C → SF-2 ─┘
+  //   R16-7: B2 vs G1  ─┤
+  //   R16-8: A2 vs H1  ─┘ → QF-D → SF-2
+  //
+  // teamA/teamB slots in R16 are null until group stage finishes.
+  // TODO: automate R16 population — once ALL matches for a group are
+  //       marked 'completed', compute standings (points → GD → GF → H2H)
+  //       and write the top-2 team ObjectIds into the corresponding R16 slots.
+  //       Until then, the admin can update via the admin panel manually.
+  //
   const knockoutMatches = [
-    // Round of 16 — 4 completed, 4 upcoming
-    { stage: 'R16', bracketPosition: 'R16-1', teamAName: 'Madrid Galacticos', teamBName: 'Catalan Giants', teamAKey: 'madrid', teamBKey: 'catalan', scoreA: 3, scoreB: 2, status: 'completed', date: 'July 14, 2026', time: 'Completed', winnerAdvancesTo: 'QF-1' },
-    { stage: 'R16', bracketPosition: 'R16-2', teamAName: 'Manchester Blues', teamBName: 'Dortmund Hornets', teamAKey: 'manblue', teamBKey: 'dortmund', scoreA: 4, scoreB: 2, status: 'completed', date: 'July 14, 2026', time: 'Completed', winnerAdvancesTo: 'QF-1' },
-    { stage: 'R16', bracketPosition: 'R16-3', teamAName: 'Paris Monarchs', teamBName: 'Munich Titans', teamAKey: 'paris', teamBKey: 'munich', scoreA: 1, scoreB: 2, status: 'completed', date: 'July 14, 2026', time: 'Completed', winnerAdvancesTo: 'QF-2' },
-    { stage: 'R16', bracketPosition: 'R16-4', teamAName: 'Turin Zebras', teamBName: 'Liverpool Reds', teamAKey: 'turin', teamBKey: 'liverpool', scoreA: 0, scoreB: 2, status: 'completed', date: 'July 14, 2026', time: 'Completed', winnerAdvancesTo: 'QF-2' },
-    { stage: 'R16', bracketPosition: 'R16-5', teamAName: 'Brussels Devils', teamBName: 'Monaco Princes', teamAKey: 'brussels', teamBKey: 'monaco', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 15, 2026', time: '18:00', winnerAdvancesTo: 'QF-3' },
-    { stage: 'R16', bracketPosition: 'R16-6', teamAName: 'Istanbul Roosters', teamBName: 'Helsinki Ice', teamAKey: 'istanbul', teamBKey: 'helsinki', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 15, 2026', time: '21:00', winnerAdvancesTo: 'QF-3' },
-    { stage: 'R16', bracketPosition: 'R16-7', teamAName: 'Geneva Falcons', teamBName: 'Vienna Stars', teamAKey: 'geneva', teamBKey: 'vienna', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 16, 2026', time: '18:00', winnerAdvancesTo: 'QF-4' },
-    { stage: 'R16', bracketPosition: 'R16-8', teamAName: 'Stockholm Vikings', teamBName: 'Warsaw Eagles', teamAKey: 'stockholm', teamBKey: 'warsaw', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 16, 2026', time: '21:00', winnerAdvancesTo: 'QF-4' },
-    // Quarter-Finals
-    { stage: 'QF', bracketPosition: 'QF-1', teamAName: 'Madrid Galacticos', teamBName: 'Manchester Blues', teamAKey: 'madrid', teamBKey: 'manblue', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 18, 2026', time: '18:00', winnerAdvancesTo: 'SF-1' },
-    { stage: 'QF', bracketPosition: 'QF-2', teamAName: 'Munich Titans', teamBName: 'Liverpool Reds', teamAKey: 'munich', teamBKey: 'liverpool', scoreA: null, scoreB: null, status: 'upcoming', date: 'July 18, 2026', time: '21:00', winnerAdvancesTo: 'SF-1' },
-    { stage: 'QF', bracketPosition: 'QF-3', teamAName: 'Winner R16-5', teamBName: 'Winner R16-6', teamAKey: null, teamBKey: null, scoreA: null, scoreB: null, status: 'upcoming', date: 'July 19, 2026', time: '18:00', winnerAdvancesTo: 'SF-2' },
-    { stage: 'QF', bracketPosition: 'QF-4', teamAName: 'Winner R16-7', teamBName: 'Winner R16-8', teamAKey: null, teamBKey: null, scoreA: null, scoreB: null, status: 'upcoming', date: 'July 19, 2026', time: '21:00', winnerAdvancesTo: 'SF-2' },
-    // Semi-Finals
-    { stage: 'SF', bracketPosition: 'SF-1', teamAName: 'Winner QF-1', teamBName: 'Winner QF-2', teamAKey: null, teamBKey: null, scoreA: null, scoreB: null, status: 'upcoming', date: 'July 22, 2026', time: '20:00', winnerAdvancesTo: 'final-1' },
-    { stage: 'SF', bracketPosition: 'SF-2', teamAName: 'Winner QF-3', teamBName: 'Winner QF-4', teamAKey: null, teamBKey: null, scoreA: null, scoreB: null, status: 'upcoming', date: 'July 23, 2026', time: '20:00', winnerAdvancesTo: 'final-1' },
-    // Final
-    { stage: 'final', bracketPosition: 'final-1', teamAName: 'Winner SF-1', teamBName: 'Winner SF-2', teamAKey: null, teamBKey: null, scoreA: null, scoreB: null, status: 'upcoming', date: 'July 26, 2026', time: '21:00', winnerAdvancesTo: null },
+    // ── Round of 16 ──
+    { stage: 'R16', bracketPosition: 'R16-1', teamAName: 'A1 (TBD)', teamBName: 'H2 (TBD)', date: 'WEDNESDAY - JULY 16, 2026', time: '18:00', winnerAdvancesTo: 'QF-A' },
+    { stage: 'R16', bracketPosition: 'R16-2', teamAName: 'B1 (TBD)', teamBName: 'G2 (TBD)', date: 'WEDNESDAY - JULY 16, 2026', time: '20:30', winnerAdvancesTo: 'QF-A' },
+    { stage: 'R16', bracketPosition: 'R16-3', teamAName: 'C1 (TBD)', teamBName: 'F2 (TBD)', date: 'THURSDAY - JULY 17, 2026',  time: '18:00', winnerAdvancesTo: 'QF-B' },
+    { stage: 'R16', bracketPosition: 'R16-4', teamAName: 'D1 (TBD)', teamBName: 'E2 (TBD)', date: 'THURSDAY - JULY 17, 2026',  time: '20:30', winnerAdvancesTo: 'QF-B' },
+    { stage: 'R16', bracketPosition: 'R16-5', teamAName: 'D2 (TBD)', teamBName: 'E1 (TBD)', date: 'FRIDAY - JULY 18, 2026',    time: '18:00', winnerAdvancesTo: 'QF-C' },
+    { stage: 'R16', bracketPosition: 'R16-6', teamAName: 'C2 (TBD)', teamBName: 'F1 (TBD)', date: 'FRIDAY - JULY 18, 2026',    time: '20:30', winnerAdvancesTo: 'QF-C' },
+    { stage: 'R16', bracketPosition: 'R16-7', teamAName: 'B2 (TBD)', teamBName: 'G1 (TBD)', date: 'SATURDAY - JULY 19, 2026',  time: '18:00', winnerAdvancesTo: 'QF-D' },
+    { stage: 'R16', bracketPosition: 'R16-8', teamAName: 'A2 (TBD)', teamBName: 'H1 (TBD)', date: 'SATURDAY - JULY 19, 2026',  time: '20:30', winnerAdvancesTo: 'QF-D' },
+
+    // ── Quarter-Finals ──
+    { stage: 'QF', bracketPosition: 'QF-A', teamAName: 'Winner R16-1', teamBName: 'Winner R16-2', date: 'MONDAY - JULY 21, 2026',   time: '18:00', winnerAdvancesTo: 'SF-1' },
+    { stage: 'QF', bracketPosition: 'QF-B', teamAName: 'Winner R16-3', teamBName: 'Winner R16-4', date: 'MONDAY - JULY 21, 2026',   time: '20:30', winnerAdvancesTo: 'SF-1' },
+    { stage: 'QF', bracketPosition: 'QF-C', teamAName: 'Winner R16-5', teamBName: 'Winner R16-6', date: 'TUESDAY - JULY 22, 2026',  time: '18:00', winnerAdvancesTo: 'SF-2' },
+    { stage: 'QF', bracketPosition: 'QF-D', teamAName: 'Winner R16-7', teamBName: 'Winner R16-8', date: 'TUESDAY - JULY 22, 2026',  time: '20:30', winnerAdvancesTo: 'SF-2' },
+
+    // ── Semi-Finals ──
+    { stage: 'SF', bracketPosition: 'SF-1', teamAName: 'Winner QF-A', teamBName: 'Winner QF-B', date: 'THURSDAY - JULY 24, 2026', time: '20:00', winnerAdvancesTo: 'FINAL' },
+    { stage: 'SF', bracketPosition: 'SF-2', teamAName: 'Winner QF-C', teamBName: 'Winner QF-D', date: 'FRIDAY - JULY 25, 2026',   time: '20:00', winnerAdvancesTo: 'FINAL' },
+
+    // ── Final ──
+    { stage: 'final', bracketPosition: 'FINAL', teamAName: 'Winner SF-1', teamBName: 'Winner SF-2', date: 'SUNDAY - JULY 27, 2026', time: '21:00', winnerAdvancesTo: null },
   ];
 
   for (const m of knockoutMatches) {

@@ -1,112 +1,191 @@
-import React from 'react';
-import { Users, Layout, Trophy, Crown, ChevronRight, Swords, Lock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, Layout, Crown, ChevronRight, Swords, Lock, ArrowRight } from 'lucide-react';
+import { getGroups, getLeaderboard } from '../lib/api';
 
 export default function Home({ setActiveTab }) {
+  const [stats, setStats] = useState({
+    teams: 38,
+    groups: 8,
+    students: 40
+  });
+
+  useEffect(() => {
+    Promise.all([getGroups(), getLeaderboard()])
+      .then(([groupsData, leaderboardData]) => {
+        const teamsCount = Array.isArray(groupsData)
+          ? groupsData.reduce((acc, g) => acc + (g.teams?.length || 0), 0)
+          : 38;
+        const groupsCount = Array.isArray(groupsData) ? groupsData.length : 8;
+        const studentsCount = Array.isArray(leaderboardData) ? leaderboardData.length : 40;
+        
+        setStats({
+          teams: teamsCount > 0 ? teamsCount : 38,
+          groups: groupsCount > 0 ? groupsCount : 8,
+          students: studentsCount > 0 ? studentsCount : 40
+        });
+      })
+      .catch((err) => {
+        console.error('Failed to load dynamic stats:', err);
+      });
+  }, []);
+
   return (
-    <div className="space-y-6 animate-fadeIn pb-24 -mx-1">
-      {/* Hero Header Card with Stadium Background */}
-      <div
-        className="relative rounded-2xl overflow-hidden bg-cover bg-center border border-zinc-800/40 p-6 min-h-[300px] flex flex-col justify-between"
-        style={{ backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 30%, rgba(13,13,13,0.95) 95%), url("/hero_stadium_background.png")' }}
+    <div className="space-y-6 animate-fadeIn pb-24 -mx-1 text-zinc-300">
+      
+      {/* ── 1. TOP BAR ── */}
+      <div className="flex justify-between items-center px-1">
+        {/* μLearn x FIFA Collab Badge */}
+        <div className="flex items-center gap-2.5 bg-black/60 border border-white/10 py-1.5 px-3.5 rounded-full select-none shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+          <img 
+            src="/mulearn_logo.png" 
+            alt="μLearn" 
+            className="h-3.5 object-contain" 
+          />
+          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">×</span>
+          <span className="text-[10px] font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-widest">FIFA</span>
+        </div>
+
+        {/* Admin Login Button */}
+        <button
+          onClick={() => setActiveTab('admin-login')}
+          title="Admin Panel"
+          className="w-9 h-9 rounded-xl bg-black/60 border border-white/10 hover:border-cyan-500/40 hover:text-cyan-400 flex items-center justify-center text-zinc-400 transition-all duration-300 shadow-lg"
+        >
+          <Lock className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* ── 2. HERO SECTION ── */}
+      <div 
+        className="relative rounded-3xl border border-white/10 p-6 min-h-[320px] flex items-center bg-cover bg-center overflow-hidden shadow-[0_15px_45px_rgba(0,242,254,0.06)]"
+        style={{ backgroundImage: 'linear-gradient(to right, rgba(5,5,8,0.92) 50%, rgba(5,5,8,0.6) 100%), url("/hologram_stadium_hero.png")' }}
       >
-        {/* Subtle Admin Icon — top right, muted */}
-        <div className="absolute top-3 right-3">
-          <button
-            onClick={() => setActiveTab('admin-login')}
-            title="Admin Panel"
-            className="w-8 h-8 rounded-lg bg-black/40 border border-zinc-700/30 flex items-center justify-center text-zinc-600 hover:text-zinc-400 hover:border-zinc-600/50 hover:bg-black/60 transition-all duration-200"
-          >
-            <Lock className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        {/* Glowing backdrop spotlights */}
+        <div className="absolute right-[-15%] top-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-cyan-500/10 blur-[100px] pointer-events-none z-0" />
+        <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-56 h-56 rounded-full bg-violet-600/10 blur-[80px] pointer-events-none z-0" />
 
-        <div className="pt-4">
-          <h1 className="text-5xl font-black tracking-tighter text-white uppercase select-none leading-none">
-            MUFIFA
-          </h1>
-          <p className="text-[#8bef05] text-xs font-bold tracking-widest uppercase mt-2">
-            CHAMPIONSHIP TOURNAMENT 2026
-          </p>
-          <div className="mt-4 space-y-1 text-zinc-300 text-sm font-medium">
-            <p>Where elite clubs compete.</p>
-            <p>Where <span className="text-[#8bef05] font-semibold">champions</span> are made.</p>
-          </div>
-        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-6 z-10">
+          {/* Hero Branding Info */}
+          <div className="flex-1 space-y-4 text-center sm:text-left">
+            <div className="space-y-2">
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-[10px] font-black tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase">
+                  🏆 TOURNAMENT 2026
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase leading-none">
+                EFOOTBALL<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">CHAMPIONSHIP</span>
+              </h1>
+            </div>
 
-        {/* Hero Stats Strip */}
-        <div className="grid grid-cols-4 gap-1 border-t border-zinc-800/60 pt-4 mt-8 bg-black/40 backdrop-blur-sm rounded-xl p-2.5">
-          <div className="text-center">
-            <Users className="w-4 h-4 mx-auto text-[#8bef05] mb-1" />
-            <span className="block text-white text-[10px] font-black leading-none">32</span>
-            <span className="text-zinc-500 text-[7px] uppercase font-bold tracking-wider">Teams</span>
+            <p className="text-zinc-400 text-xs sm:text-sm font-medium leading-relaxed max-w-[280px] mx-auto sm:mx-0">
+              Where elite clubs compete. Where champions are made.
+            </p>
+
+            <button
+              onClick={() => setActiveTab('fixtures')}
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 active:scale-[0.98] cursor-pointer"
+            >
+              <span>Tournament Fixtures</span>
+              <ArrowRight className="w-4 h-4 stroke-[3]" />
+            </button>
           </div>
-          <div className="text-center border-l border-zinc-800/80">
-            <Layout className="w-4 h-4 mx-auto text-[#8bef05] mb-1" />
-            <span className="block text-white text-[10px] font-black leading-none">8</span>
-            <span className="text-zinc-500 text-[7px] uppercase font-bold tracking-wider">Groups</span>
-          </div>
-          <div className="text-center border-l border-zinc-800/80">
-            <Swords className="w-4 h-4 mx-auto text-[#8bef05] mb-1" />
-            <span className="block text-white text-[10px] font-black leading-none">INTENSE</span>
-            <span className="text-zinc-500 text-[7px] uppercase font-bold tracking-wider">Matches</span>
-          </div>
-          <div className="text-center border-l border-zinc-800/80">
-            <Crown className="w-4 h-4 mx-auto text-[#8bef05] mb-1" />
-            <span className="block text-white text-[10px] font-black leading-none">ONE</span>
-            <span className="text-zinc-500 text-[7px] uppercase font-bold tracking-wider">Champion</span>
+
+          {/* Futuristic eFootball Trophy Image */}
+          <div className="w-36 h-48 sm:w-44 sm:h-60 shrink-0 relative flex items-center justify-center select-none">
+            <img 
+              src="/cyber_trophy.png" 
+              alt="Cyber Trophy" 
+              className="w-full h-full object-contain z-10 filter drop-shadow-[0_0_25px_rgba(0,242,254,0.5)] animate-float"
+            />
           </div>
         </div>
       </div>
 
-      {/* What is MUFIFA Card */}
-      <div className="rounded-2xl bg-zinc-950/80 p-5 border border-zinc-800/40 relative overflow-hidden flex flex-col sm:flex-row gap-4 items-center">
+      {/* ── 3. STATS BAR (4-column row) ── */}
+      <div className="grid grid-cols-4 gap-1 rounded-2xl border border-white/5 bg-black/40 p-3 shadow-lg backdrop-blur-md">
+        <div className="text-center py-1">
+          <Users className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">{stats.teams}</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Teams</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Layout className="w-5 h-5 mx-auto text-violet-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">{stats.groups}</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Groups</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Swords className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">INTENSE</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Matches</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Crown className="w-5 h-5 mx-auto text-yellow-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">ONE</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Champion</span>
+        </div>
+      </div>
+
+      {/* ── 4. WHAT IS μFIFA INFO CARD ── */}
+      <div className="rounded-2xl bg-gradient-to-r from-zinc-950 to-black/90 p-5 border border-white/5 relative overflow-hidden flex flex-col sm:flex-row gap-5 items-center shadow-xl">
         <div
-          className="w-full sm:w-1/3 aspect-video sm:aspect-square bg-cover bg-center rounded-xl border border-zinc-800 shrink-0"
+          className="w-full sm:w-1/3 aspect-video sm:aspect-square bg-cover bg-center rounded-xl border border-white/10 shrink-0"
           style={{ backgroundImage: 'url("/tactical_football_pitch.png")' }}
         />
-        <div className="flex-1 space-y-2">
-          <h2 className="text-[#8bef05] text-xs font-black uppercase tracking-wider">
-            WHAT IS MUFIFA?
+        <div className="flex-1 space-y-3.5 w-full">
+          <h2 className="text-white text-base sm:text-lg font-black uppercase tracking-tight">
+            What is <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">μFIFA?</span>
           </h2>
           <p className="text-zinc-400 text-xs leading-relaxed font-normal">
-            MUFIFA is the ultimate competitive tournament bringing together the elite clubs and players.
-            32 teams compete across 8 intense groups to qualify for the Knockout stages. Every match is
-            a battle of tactics and skill, leading up to the Grand Finale.
+            μFIFA is a large-scale innovation movement by μLearn that turns learning into a collaborative, gamified experience inspired by the FIFA World Cup. Participants join national squads, pick a domain of expertise, and work with peers on real-world challenges while representing their team.
           </p>
+          <div className="pt-1.5">
+            <a
+              href="https://mufifa.mulearn.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-black border border-white/10 hover:border-cyan-500/30 hover:bg-zinc-900 text-white text-[11px] font-black uppercase tracking-wider transition-all duration-300 shadow-md active:scale-95 w-fit"
+            >
+              <span>Check out website</span>
+              <ChevronRight className="w-3.5 h-3.5 text-cyan-400" />
+            </a>
+          </div>
         </div>
-        <div className="absolute right-2 bottom-2 w-12 h-12 opacity-15 text-[#8bef05]">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+        
+        {/* Globe backdrop icon */}
+        <div className="absolute right-3 bottom-3 w-14 h-14 opacity-[0.02] text-white pointer-events-none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
             <circle cx="12" cy="12" r="10" />
-            <path d="m21 11.5-1.4-1.4c-.3-.3-.8-.3-1.1 0l-1 1c-.3.3-.3.8 0 1.1l1.4 1.4c.3.3.8.3 1.1 0l1-1c.3-.3.3-.8 0-1.1z" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
             <path d="M2 12h20" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
           </svg>
         </div>
       </div>
 
-      {/* Prize Breakdown Section */}
+      {/* ── 5. PRIZE BREAKDOWN SECTION ── */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 px-1">
+        <div className="flex items-center gap-2.5 px-1">
           <h2 className="text-white text-xs font-black uppercase tracking-wider">PRIZE BREAKDOWN</h2>
-          <div className="flex gap-0.5 text-[#8bef05] opacity-60">
+          <div className="flex gap-0.5 text-cyan-400 opacity-60">
             <span>/</span><span>/</span><span>/</span><span>/</span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* 1st Place */}
-          <div className="rounded-2xl bg-zinc-950/70 border border-[#8bef05]/20 p-5 flex flex-col justify-between min-h-[260px] shadow-[0_0_25px_rgba(139,239,5,0.03)] hover:scale-[1.01] transition-all-custom">
+          <div className="rounded-2xl bg-zinc-950/70 border border-yellow-500/20 p-5 flex flex-col justify-between min-h-[260px] shadow-[0_0_25px_rgba(234,179,8,0.02)] hover:scale-[1.01] transition-all duration-300">
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-zinc-500 text-[9px] font-black uppercase tracking-wider block">1ST PLACE</span>
-                <span className="text-[#8bef05] text-sm font-black uppercase mt-0.5 block">GOLD CUP</span>
+                <span className="text-yellow-500 text-sm font-black uppercase mt-0.5 block">GOLD CUP</span>
               </div>
-              <span className="text-[8px] font-bold text-[#8bef05] uppercase border border-[#8bef05]/30 bg-[#8bef05]/5 px-2 py-0.5 rounded-full">
+              <span className="text-[8px] font-bold text-yellow-500 uppercase border border-yellow-500/30 bg-yellow-500/5 px-2.5 py-0.5 rounded-full">
                 MERCHANDISE
               </span>
             </div>
             <div className="my-4 flex justify-center items-center">
-              <img src="/gold_cup_prize_pack.png" alt="Gold Cup Prize Pack" className="max-h-[140px] object-contain rounded-lg" />
+              <img src="/gold_jersey_pack.png" alt="Gold Cup Prize Pack" className="max-h-[140px] object-contain rounded-lg filter drop-shadow-[0_0_10px_rgba(234,179,8,0.15)]" />
             </div>
             <div className="text-center pt-2 border-t border-zinc-900">
               <span className="text-white text-[10px] font-black uppercase tracking-wider">CHAMPION'S TROPHY</span>
@@ -115,18 +194,18 @@ export default function Home({ setActiveTab }) {
           </div>
 
           {/* 2nd Place */}
-          <div className="rounded-2xl bg-zinc-950/70 border border-zinc-800 p-5 flex flex-col justify-between min-h-[260px] hover:scale-[1.01] transition-all-custom">
+          <div className="rounded-2xl bg-zinc-950/70 border border-cyan-500/20 p-5 flex flex-col justify-between min-h-[260px] shadow-[0_0_25px_rgba(6,182,212,0.02)] hover:scale-[1.01] transition-all duration-300">
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-zinc-500 text-[9px] font-black uppercase tracking-wider block">2ND PLACE</span>
-                <span className="text-zinc-300 text-sm font-black uppercase mt-0.5 block">SILVER CUP</span>
+                <span className="text-cyan-400 text-sm font-black uppercase mt-0.5 block">SILVER CUP</span>
               </div>
-              <span className="text-[8px] font-bold text-zinc-400 uppercase border border-zinc-800 bg-white/5 px-2 py-0.5 rounded-full">
+              <span className="text-[8px] font-bold text-cyan-400 uppercase border border-cyan-500/30 bg-cyan-500/5 px-2.5 py-0.5 rounded-full">
                 MERCHANDISE
               </span>
             </div>
             <div className="my-4 flex justify-center items-center">
-              <img src="/silver_cup_prize_pack.png" alt="Silver Cup Prize Pack" className="max-h-[140px] object-contain rounded-lg" />
+              <img src="/silver_jersey_pack.png" alt="Silver Cup Prize Pack" className="max-h-[140px] object-contain rounded-lg filter drop-shadow-[0_0_10px_rgba(6,182,212,0.15)]" />
             </div>
             <div className="text-center pt-2 border-t border-zinc-900">
               <span className="text-zinc-200 text-[10px] font-black uppercase tracking-wider">RUNNER-UP TROPHY</span>
@@ -136,46 +215,52 @@ export default function Home({ setActiveTab }) {
         </div>
       </div>
 
-      {/* Highlights Strip */}
-      <div className="grid grid-cols-4 gap-2 bg-zinc-950/50 rounded-xl p-3 border border-zinc-900/60 text-center">
-        <div>
-          <Users className="w-4 h-4 mx-auto text-[#8bef05] opacity-80 mb-1" />
-          <span className="block text-white text-[9px] font-bold tracking-tight">32 TEAMS</span>
-          <span className="text-zinc-500 text-[7px] uppercase font-bold">8 Groups</span>
+      {/* ── 6. SECONDARY STATS ROW ── */}
+      <div className="rounded-2xl border border-white/5 bg-black/40 px-4 py-3 shadow-md flex items-center justify-between gap-3 overflow-x-auto no-scrollbar backdrop-blur-md">
+        <div className="flex items-center gap-4 text-[10px] sm:text-xs font-black uppercase tracking-wider shrink-0 text-zinc-400 select-none">
+          <div className="flex items-center gap-1.5">
+            <Users className="w-3.5 h-3.5 text-cyan-400" />
+            <span>{stats.students} Students</span>
+          </div>
+          <span className="text-zinc-800">|</span>
+          <div className="flex items-center gap-1.5">
+            <Layout className="w-3.5 h-3.5 text-violet-400" />
+            <span>{stats.groups} Groups</span>
+          </div>
+          <span className="text-zinc-800">|</span>
+          <div className="flex items-center gap-1.5 text-white">
+            <Crown className="w-3.5 h-3.5 text-yellow-500" />
+            <span>Top 2 Advance</span>
+          </div>
         </div>
-        <div className="border-l border-zinc-900">
-          <Layout className="w-4 h-4 mx-auto text-[#8bef05] opacity-80 mb-1" />
-          <span className="block text-white text-[9px] font-bold tracking-tight">INTENSE</span>
-          <span className="text-zinc-500 text-[7px] uppercase font-bold">Matches</span>
-        </div>
-        <div className="border-l border-zinc-900">
-          <Trophy className="w-4 h-4 mx-auto text-[#8bef05] opacity-80 mb-1" />
-          <span className="block text-white text-[9px] font-bold tracking-tight">KNOCKOUT</span>
-          <span className="text-zinc-500 text-[7px] uppercase font-bold">Stages</span>
-        </div>
-        <div className="border-l border-zinc-900">
-          <Crown className="w-4 h-4 mx-auto text-[#8bef05] opacity-80 mb-1" />
-          <span className="block text-white text-[9px] font-bold tracking-tight">1 CHAMPION</span>
-          <span className="text-zinc-500 text-[7px] uppercase font-bold">Glory Forever</span>
-        </div>
+
+        <button
+          onClick={() => setActiveTab('fixtures')}
+          className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-cyan-400 hover:underline shrink-0 cursor-pointer"
+        >
+          <span>View Full Fixture</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </button>
       </div>
 
-      {/* Call to Action Banner */}
-      <button
-        onClick={() => setActiveTab('groups')}
-        className="w-full text-left rounded-2xl overflow-hidden border border-[#8bef05]/20 bg-cover bg-center min-h-[90px] flex items-center p-4 relative group cursor-pointer transition-all duration-300 hover:border-[#8bef05]/50 hover:shadow-[0_0_20px_rgba(139,239,5,0.1)] active:scale-[0.99]"
-        style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.3) 100%), url("/mufifa_cta_banner.png")' }}
+      {/* ── 7. CLOSING CTA BANNER ── */}
+      <div 
+        className="w-full text-left rounded-3xl overflow-hidden border border-white/10 bg-cover bg-center p-5 flex items-center justify-between relative group shadow-2xl"
+        style={{ backgroundImage: 'linear-gradient(to right, rgba(5,5,8,0.92) 50%, rgba(5,5,8,0.5) 100%), url("/hologram_stadium_hero.png")' }}
       >
-        <div className="z-10 flex justify-between items-center w-full">
-          <div>
-            <h3 className="text-white text-base font-black tracking-tight uppercase">ARE YOU READY?</h3>
-            <p className="text-[#8bef05] text-xs font-bold uppercase tracking-wider mt-0.5">THE GLORY AWAITS.</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-[#8bef05] text-black flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-          </div>
+        <div className="space-y-1.5 z-10">
+          <h3 className="text-white text-base sm:text-lg font-black tracking-tight uppercase">ARE YOU READY?</h3>
+          <p className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 text-xs sm:text-sm font-black uppercase tracking-wider">THE GLORY AWAITS.</p>
         </div>
-      </button>
+
+        <button
+          onClick={() => setActiveTab('groups')}
+          className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-300 text-black flex items-center justify-center shadow-lg shadow-cyan-400/25 group-hover:scale-110 active:scale-95 transition-all duration-300 z-10 cursor-pointer"
+        >
+          <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+        </button>
+      </div>
+
     </div>
   );
 }

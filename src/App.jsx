@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Home from './components/Home';
 import Groups from './components/Groups';
 import Fixtures from './components/Fixtures';
-import Leaderboard from './components/Leaderboard';
+import WallOfVictories from './components/WallOfVictories';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import { Home as HomeIcon, Users, Calendar, Trophy } from 'lucide-react';
@@ -26,7 +26,7 @@ function App() {
       case 'fixtures':
         return <Fixtures />;
       case 'leaderboard':
-        return <Leaderboard />;
+        return <WallOfVictories />;
       case 'admin-login':
         return <AdminLogin setActiveTab={setActiveTab} />;
       case 'admin-dashboard':
@@ -58,7 +58,7 @@ function App() {
               onClick={() => setActiveTab('home')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'home'
-                  ? 'bg-[#8bef05]/10 border border-[#8bef05]/20 text-[#8bef05] scale-[1.02]'
+                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -76,7 +76,7 @@ function App() {
               onClick={() => setActiveTab('groups')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'groups'
-                  ? 'bg-[#8bef05]/10 border border-[#8bef05]/20 text-[#8bef05] scale-[1.02]'
+                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -94,7 +94,7 @@ function App() {
               onClick={() => setActiveTab('fixtures')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'fixtures'
-                  ? 'bg-[#8bef05]/10 border border-[#8bef05]/20 text-[#8bef05] scale-[1.02]'
+                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -107,12 +107,12 @@ function App() {
               <span className="text-[9px] font-black tracking-widest uppercase mt-0.5 select-none">Fixtures</span>
             </button>
 
-            {/* Leaderboard Tab */}
+            {/* Leaderboard/Wall Tab */}
             <button
               onClick={() => setActiveTab('leaderboard')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'leaderboard'
-                  ? 'bg-[#8bef05]/10 border border-[#8bef05]/20 text-[#8bef05] scale-[1.02]'
+                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -122,7 +122,7 @@ function App() {
                 fill={activeTab === 'leaderboard' ? 'currentColor' : 'none'}
                 strokeWidth={activeTab === 'leaderboard' ? 1.5 : 2}
               />
-              <span className="text-[9px] font-black tracking-widest uppercase mt-0.5 select-none">Ranks</span>
+              <span className="text-[9px] font-black tracking-widest uppercase mt-0.5 select-none">Wall</span>
             </button>
           </nav>
         )}
@@ -130,5 +130,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

@@ -47,6 +47,8 @@ router.get('/groups', async (req, res) => {
               _id: p._id,
               id: p._id,
               name: p.name,
+              username: p.username,
+              photo: p.photo,
               goals: p.goals,
               matches: p.matchesPlayed,
               points: p.points,
@@ -88,6 +90,8 @@ router.get('/groups/:id', async (req, res) => {
         players: t.players.map((p) => ({
           _id: p._id,
           name: p.name,
+          username: p.username,
+          photo: p.photo,
           goals: p.goals,
           matches: p.matchesPlayed,
           points: p.points,
@@ -107,8 +111,16 @@ router.get('/fixtures', async (req, res) => {
 
     if (stage === 'group' || !stage) {
       const matches = await Match.find({ stage: 'group' })
-        .populate('teamA', 'name shortName accentColor')
-        .populate('teamB', 'name shortName accentColor')
+        .populate({
+          path: 'teamA',
+          select: 'name shortName accentColor players',
+          populate: { path: 'players', model: 'Player', select: 'name username photo' }
+        })
+        .populate({
+          path: 'teamB',
+          select: 'name shortName accentColor players',
+          populate: { path: 'players', model: 'Player', select: 'name username photo' }
+        })
         .sort({ date: 1, time: 1 });
 
       // Group matches by date label
@@ -145,8 +157,16 @@ router.get('/fixtures', async (req, res) => {
       const result = [];
       for (const s of stages) {
         const matches = await Match.find({ stage: s })
-          .populate('teamA', 'name shortName accentColor')
-          .populate('teamB', 'name shortName accentColor')
+          .populate({
+            path: 'teamA',
+            select: 'name shortName accentColor players',
+            populate: { path: 'players', model: 'Player', select: 'name username photo' }
+          })
+          .populate({
+            path: 'teamB',
+            select: 'name shortName accentColor players',
+            populate: { path: 'players', model: 'Player', select: 'name username photo' }
+          })
           .sort({ bracketPosition: 1 });
 
         result.push({
@@ -156,6 +176,7 @@ router.get('/fixtures', async (req, res) => {
             _id: m._id,
             id: m._id,
             bracketPosition: m.bracketPosition,
+            winnerAdvancesTo: m.winnerAdvancesTo || null,
             teamA: m.teamA,
             teamB: m.teamB,
             teamAName: m.teamA ? m.teamA.name : (m.teamAName || 'TBD'),
@@ -220,6 +241,8 @@ router.get('/players/:id', async (req, res) => {
     res.json({
       _id: player._id,
       name: player.name,
+      username: player.username,
+      photo: player.photo,
       goals: player.goals,
       matchesPlayed: player.matchesPlayed,
       points: player.points,

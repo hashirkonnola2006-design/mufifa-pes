@@ -5,6 +5,9 @@
  * container that already has an open connection — or spin up a fresh one. Caching
  * on the `global` object prevents connection exhaustion across hot invocations.
  */
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 const mongoose = require('mongoose');
 
 // Use a global cache so the connection persists between warm invocations

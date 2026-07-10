@@ -1,14 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { getGroups } from '../lib/api';
+
+// Flag image component — rectangular, shows full logo uncropped
+function TeamFlag({ photo, name, accentColor, size = 'sm' }) {
+  const [imgError, setImgError] = useState(false);
+  const logoSrc = photo?.replace('/teams/', '/teams/logos/');
+
+  // Square-ish container that fits the logo. The cropped logos are roughly square so we use equal width/height.
+  const dims =
+    size === 'lg'
+      ? 'w-11 h-11'
+      : size === 'md'
+      ? 'w-9 h-9'
+      : 'w-7 h-7'; // sm
+
+  if (logoSrc && !imgError) {
+    return (
+      <img
+        src={logoSrc}
+        alt={name}
+        className={`${dims} rounded-md object-contain bg-[#1a1a2e] shrink-0 border border-white/10 p-0.5`}
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  // Initials fallback
+  const initials = name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase() || '—';
+
+  return (
+    <div
+      className={`${dims} rounded-md flex items-center justify-center text-[8px] font-black shrink-0`}
+      style={{
+        backgroundColor: `${accentColor || '#52525b'}20`,
+        border: `1.5px solid ${accentColor || '#52525b'}50`,
+        color: accentColor || '#a1a1aa',
+      }}
+    >
+      {initials}
+    </div>
+  );
+}
 
 // Loading skeleton row
 function SkeletonRow() {
   return (
     <tr className="border-b border-zinc-800/60">
-      {[...Array(9)].map((_, i) => (
-        <td key={i} className="py-3 px-2">
-          <div className="h-3 bg-zinc-800 rounded animate-pulse w-full" />
+      {[...Array(8)].map((_, i) => (
+        <td key={i} className="py-3.5 px-3">
+          <div className="h-3.5 bg-zinc-800 rounded animate-pulse w-full" />
         </td>
       ))}
     </tr>
@@ -21,6 +67,7 @@ export default function Groups() {
   const [error, setError] = useState('');
   const [activeGroup, setActiveGroup] = useState('A');
   const [expandedTeamId, setExpandedTeamId] = useState(null);
+  const [activePhotoModal, setActivePhotoModal] = useState(null);
 
   useEffect(() => {
     getGroups()
@@ -45,14 +92,12 @@ export default function Groups() {
     setExpandedTeamId(expandedTeamId === String(teamId) ? null : String(teamId));
   };
 
-  // Form dot renderer
   const renderFormDot = (res, i) => {
     let bgClass = '';
     if (res === 'W') bgClass = 'bg-emerald-500 border-emerald-500';
     else if (res === 'L') bgClass = 'bg-red-500 border-red-500';
     else if (res === 'D') bgClass = 'bg-yellow-500 border-yellow-500';
     else bgClass = 'border-zinc-700 bg-transparent';
-
     return (
       <span
         key={i}
@@ -67,11 +112,11 @@ export default function Groups() {
       <div className="space-y-6 animate-fadeIn pb-24">
         <div className="flex gap-2 overflow-x-auto pb-2 px-1">
           {['A','B','C','D','E','F','G','H'].map((g) => (
-            <div key={g} className="shrink-0 w-14 h-11 bg-zinc-900 rounded-full animate-pulse" />
+            <div key={g} className="shrink-0 w-14 h-12 bg-zinc-900 rounded-full animate-pulse" />
           ))}
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse min-w-[480px]">
+          <table className="w-full border-collapse min-w-[520px]">
             <tbody>{[...Array(4)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
           </table>
         </div>
@@ -107,12 +152,11 @@ export default function Groups() {
               <button
                 key={group.id}
                 onClick={() => handleGroupChange(group.id)}
-                className={`snap-start shrink-0 min-w-[56px] h-11 rounded-full flex items-center justify-center text-sm font-black transition-all-custom ${
+                className={`snap-start shrink-0 min-w-[56px] h-12 rounded-full flex items-center justify-center text-sm font-black transition-all-custom ${
                   isActive
                     ? 'bg-[#8bef05] text-black scale-[1.05] shadow-[0_0_12px_rgba(139,239,5,0.25)]'
                     : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
                 }`}
-                style={{ height: '44px' }}
               >
                 {group.id}
               </button>
@@ -123,26 +167,29 @@ export default function Groups() {
 
       {/* Table Section */}
       {selectedGroup && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex justify-between items-center px-1">
+            <span className="text-white text-base font-black tracking-tight">
+              Group {selectedGroup.id}
+            </span>
             <span className="text-zinc-500 text-xs font-semibold uppercase tracking-wider">
-              {selectedGroup.name} Standings
+              {selectedGroup.teams?.length || 0} Teams
             </span>
           </div>
 
-          <div className="overflow-x-auto no-scrollbar -mx-1 px-1">
-            <table className="w-full text-left border-collapse min-w-[480px]">
+          <div className="overflow-x-auto no-scrollbar -mx-1 px-1 rounded-2xl border border-zinc-800/60 bg-zinc-950/40">
+            <table className="w-full text-left border-collapse min-w-[520px]">
               <thead>
-                <tr className="border-b border-zinc-800/80">
-                  <th className="py-2.5 px-2 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wider w-8">#</th>
-                  <th className="py-2.5 px-2 text-left text-xs font-semibold text-zinc-400 uppercase tracking-wider">Team</th>
-                  <th className="py-2.5 px-2 text-center text-xs font-semibold text-zinc-400 uppercase tracking-wider w-10">MP</th>
-                  <th className="py-2.5 px-2 text-center text-xs font-semibold text-zinc-400 uppercase tracking-wider w-8">W</th>
-                  <th className="py-2.5 px-2 text-center text-xs font-semibold text-zinc-400 uppercase tracking-wider w-8">D</th>
-                  <th className="py-2.5 px-2 text-center text-xs font-semibold text-zinc-400 uppercase tracking-wider w-8">L</th>
-                  <th className="py-2.5 px-2 text-right text-xs font-bold text-zinc-400 uppercase tracking-wider w-12">Pts</th>
-                  <th className="py-2.5 px-2 text-center text-xs font-semibold text-zinc-400 uppercase tracking-wider w-28">Form</th>
-                  <th className="py-2.5 px-2 w-8"></th>
+                <tr className="border-b-2 border-zinc-800/80">
+                  <th className="py-3 px-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">#</th>
+                  <th className="py-3 px-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Team</th>
+                  <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-12">MP</th>
+                  <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">W</th>
+                  <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">D</th>
+                  <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">L</th>
+                  <th className="py-3 px-3 text-right text-xs font-bold text-[#8bef05] uppercase tracking-wider w-14">Pts</th>
+                  <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-32">Form</th>
+                  <th className="py-3 px-3 w-8"></th>
                 </tr>
               </thead>
               <tbody>
@@ -150,95 +197,140 @@ export default function Groups() {
                   const teamKey = String(team._id || team.id);
                   const isExpanded = expandedTeamId === teamKey;
                   const form = team.stats?.form || [];
+                  const player = team.players?.[0];
 
                   return (
                     <React.Fragment key={teamKey}>
                       {/* Team Row */}
                       <tr
                         onClick={() => toggleTeam(team._id || team.id)}
-                        className={`cursor-pointer border-b border-zinc-800/60 transition-colors duration-150 hover:bg-white/[0.04] ${
+                        className={`cursor-pointer border-b border-zinc-800/50 transition-colors duration-150 hover:bg-white/[0.05] ${
                           index % 2 === 1 ? 'bg-white/[0.02]' : 'bg-transparent'
                         }`}
                       >
-                        <td className="py-3 px-2 text-sm font-bold text-zinc-500 w-8">{index + 1}</td>
-                        <td className="py-3 px-2">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-black uppercase shrink-0"
-                              style={{
-                                backgroundColor: `${team.accentColor}20`,
-                                borderColor: `${team.accentColor}45`,
-                                borderWidth: '1.5px',
-                                color: team.accentColor,
-                              }}
-                            >
-                              {team.shortName?.substring(0, 3)}
-                            </div>
-                            <div className="flex items-baseline gap-1.5 min-w-0">
-                              <span className="text-white text-sm font-bold tracking-tight truncate block max-w-[80px] xs:max-w-[120px]">
-                                {team.name}
+                        <td className="py-4 px-3 text-sm font-bold text-zinc-500 w-10">{index + 1}</td>
+                        <td className="py-4 px-3">
+                          <div className="flex items-center gap-3">
+                            <TeamFlag
+                              photo={player?.photo}
+                              name={player?.name || team.name}
+                              accentColor={team.accentColor}
+                              size="md"
+                            />
+                            <div className="min-w-0">
+                              <span className="text-white text-sm font-bold tracking-tight truncate block max-w-[130px] xs:max-w-[180px]">
+                                {player?.username ? `@${player.username}` : team.name}
                               </span>
-                              <span className="text-zinc-500 text-[10px] font-bold tracking-wide uppercase shrink-0">
-                                {team.shortName}
-                              </span>
+                              {player?.name && (
+                                <span className="text-zinc-500 text-[11px] font-medium block truncate max-w-[130px]">
+                                  {player.name}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </td>
-                        <td className="py-3 px-2 text-center text-xs font-semibold text-zinc-400 w-10">{team.stats?.played ?? 0}</td>
-                        <td className="py-3 px-2 text-center text-xs font-semibold text-zinc-400 w-8">{team.stats?.won ?? 0}</td>
-                        <td className="py-3 px-2 text-center text-xs font-semibold text-zinc-400 w-8">{team.stats?.drawn ?? 0}</td>
-                        <td className="py-3 px-2 text-center text-xs font-semibold text-zinc-400 w-8">{team.stats?.lost ?? 0}</td>
-                        <td className="py-3 px-2 text-right text-sm font-black text-white w-12 pr-3">{team.stats?.points ?? 0}</td>
-                        <td className="py-3 px-2 w-28">
-                          <div className="flex justify-center gap-1">
+                        <td className="py-4 px-3 text-center text-sm font-semibold text-zinc-300 w-12">{team.stats?.played ?? 0}</td>
+                        <td className="py-4 px-3 text-center text-sm font-semibold text-zinc-300 w-10">{team.stats?.won ?? 0}</td>
+                        <td className="py-4 px-3 text-center text-sm font-semibold text-zinc-300 w-10">{team.stats?.drawn ?? 0}</td>
+                        <td className="py-4 px-3 text-center text-sm font-semibold text-zinc-300 w-10">{team.stats?.lost ?? 0}</td>
+                        <td className="py-4 px-3 text-right text-base font-black text-white w-14 pr-4">{team.stats?.points ?? 0}</td>
+                        <td className="py-4 px-3 w-32">
+                          <div className="flex justify-center gap-1.5">
                             {form.length > 0
                               ? form.map((res, i) => renderFormDot(res, i))
                               : ['-', '-', '-', '-', '-'].map((_, i) => renderFormDot('-', i))}
                           </div>
                         </td>
-                        <td className="py-3 px-2 text-zinc-600 text-center w-8">
+                        <td className="py-4 px-3 text-zinc-600 text-center w-8">
                           {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                         </td>
                       </tr>
 
                       {/* Squad Details Row */}
                       {isExpanded && (
-                        <tr className="bg-black/40">
-                          <td colSpan={9} className="px-4 py-4 border-b border-zinc-800">
-                            <div className="animate-slideDown space-y-4">
-                              <div className="space-y-3">
-                                <div className="flex justify-between items-center text-[10px] text-zinc-500 font-bold uppercase tracking-wider px-1">
-                                  <span>Squad Player</span>
-                                  <span>Tour Points</span>
+                        <tr className="bg-[#0f0f0f]/90">
+                          <td colSpan={9} className="px-4 py-6 border-b border-zinc-800/80">
+                            <div className="animate-slideDown flex flex-col sm:flex-row gap-5 items-center sm:items-start select-none">
+                              
+                              {/* Roster Photo */}
+                              <div className="shrink-0 relative">
+                                {player?.photo ? (
+                                  <img
+                                    src={player.photo}
+                                    alt={player.name}
+                                    className="w-44 h-44 sm:w-60 sm:h-60 rounded-2xl object-contain bg-zinc-950 border border-zinc-800/80 shadow-lg shadow-black/65 cursor-zoom-in hover:border-zinc-700 transition-colors"
+                                    onClick={() => setActivePhotoModal(player.photo)}
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                      const sibling = e.target.nextSibling;
+                                      if (sibling) sibling.style.display = 'flex';
+                                    }}
+                                  />
+                                ) : null}
+                                <div
+                                  className={`w-44 h-44 sm:w-60 sm:h-60 rounded-2xl flex items-center justify-center text-4xl font-black uppercase border border-zinc-800/60 ${
+                                    player?.avatarColor || 'bg-zinc-900 text-zinc-400'
+                                  }`}
+                                  style={{ display: player?.photo ? 'none' : 'flex' }}
+                                >
+                                  {player?.name
+                                    ?.split(' ')
+                                    .map((n) => n[0])
+                                    .join('')
+                                    .substring(0, 2) || '—'}
                                 </div>
-                                <div className="space-y-2">
-                                  {team.players.map((player) => {
-                                    const pKey = String(player._id || player.id);
-                                    return (
-                                      <div
-                                        key={pKey}
-                                        className="flex justify-between items-center py-2 px-1 border-b border-zinc-900/40 last:border-0"
-                                      >
-                                        <div className="flex items-center gap-2">
-                                          <div
-                                            className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black uppercase ${player.avatarColor || 'bg-zinc-800 text-zinc-300'}`}
-                                          >
-                                            {player.name
-                                              .split(' ')
-                                              .map((n) => n[0])
-                                              .join('')
-                                              .substring(0, 2)}
-                                          </div>
-                                          <span className="text-zinc-200 text-sm font-semibold">{player.name}</span>
-                                        </div>
-                                        <div className="text-right">
-                                          <span className="text-white text-sm font-black tracking-tight">{player.points ?? 0}</span>
-                                          <span className="text-[10px] text-zinc-500 block">{player.goals ?? 0} G</span>
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
+                              </div>
+
+                              {/* Details Info */}
+                              <div className="flex-1 space-y-4 text-center sm:text-left w-full">
+                                <div>
+                                  <h4 className="text-white text-lg sm:text-xl font-black tracking-tight leading-none">
+                                    {player?.name || '—'}
+                                  </h4>
+                                  {player?.username && (
+                                    <span className="text-[#8bef05] text-sm font-bold block mt-1.5 uppercase tracking-wider">
+                                      @{player.username}
+                                    </span>
+                                  )}
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-2.5 max-w-sm mx-auto sm:mx-0">
+                                  <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex items-center gap-3">
+                                    <TeamFlag
+                                      photo={player?.photo}
+                                      name={team.name}
+                                      accentColor={team.accentColor}
+                                      size="lg"
+                                    />
+                                    <div className="min-w-0 flex-1">
+                                      <span className="text-[9px] font-bold uppercase text-zinc-500 block mb-0.5">Representing Team</span>
+                                      <span className="text-white text-xs sm:text-sm font-extrabold tracking-tight truncate block">{team.name}</span>
+                                    </div>
+                                  </div>
+                                  <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800">
+                                    <span className="text-[9px] font-bold uppercase text-zinc-500 block mb-0.5">Abbreviation</span>
+                                    <span className="text-[#8bef05] text-sm sm:text-base font-black tracking-wide">{team.shortName}</span>
+                                  </div>
+                                </div>
+
+                                {/* Stats Badges */}
+                                <div className="grid grid-cols-3 gap-2.5 max-w-sm mx-auto sm:mx-0 pt-1">
+                                  <div className="bg-zinc-900 p-2.5 rounded-xl border border-zinc-800 text-center">
+                                    <span className="text-[9px] font-bold text-zinc-500 block uppercase mb-1">Goals</span>
+                                    <span className="text-base sm:text-lg font-black text-white">{player?.goals ?? 0}</span>
+                                  </div>
+                                  <div className="bg-zinc-900 p-2.5 rounded-xl border border-zinc-800 text-center">
+                                    <span className="text-[9px] font-bold text-zinc-500 block uppercase mb-1">Matches</span>
+                                    <span className="text-base sm:text-lg font-black text-white">
+                                      {player?.matches !== undefined ? player.matches : (player?.matchesPlayed ?? 0)}
+                                    </span>
+                                  </div>
+                                  <div className="bg-zinc-900 p-2.5 rounded-xl border border-zinc-800 text-center">
+                                    <span className="text-[9px] font-bold text-zinc-500 block uppercase mb-1">Tour Pts</span>
+                                    <span className="text-base sm:text-lg font-black text-amber-500">{player?.points ?? 0}</span>
+                                  </div>
+                                </div>
+
                               </div>
                             </div>
                           </td>
@@ -249,6 +341,33 @@ export default function Groups() {
                 })}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox / Zoomed Image Modal */}
+      {activePhotoModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm animate-fadeIn"
+          onClick={() => setActivePhotoModal(null)}
+        >
+          <div
+            className="relative max-w-[95vw] max-h-[90vh] md:max-w-4xl md:max-h-[90vh] flex flex-col items-center justify-center p-2 bg-zinc-950/80 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl animate-scaleUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setActivePhotoModal(null)}
+              className="absolute top-4 right-4 bg-black/60 hover:bg-black/90 border border-zinc-800 hover:border-zinc-700 text-white rounded-full p-2.5 transition-colors cursor-pointer z-10"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img
+              src={activePhotoModal}
+              alt="Enlarged Player Photo"
+              className="w-full h-auto max-h-[82vh] object-contain rounded-2xl"
+            />
           </div>
         </div>
       )}
