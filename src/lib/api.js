@@ -21,22 +21,12 @@ async function apiFetch(path, options = {}) {
   return res.json();
 }
 
-// ─── Cache Layer ─────────────────────────────────────────────────────────────
-let cache = {};
-
+// ─── Cache Layer (Disabled to ensure live updates) ───────────────────────────
 function cachedGet(key, fetcher) {
-  if (!cache[key]) {
-    cache[key] = fetcher().catch((err) => {
-      delete cache[key];
-      throw err;
-    });
-  }
-  return cache[key];
+  return fetcher();
 }
 
-export const invalidateCache = () => {
-  cache = {};
-};
+export const invalidateCache = () => {};
 
 // ─── Public endpoints ─────────────────────────────────────────────────────────
 export const getGroups = () => cachedGet('groups', () => apiFetch('/groups'));

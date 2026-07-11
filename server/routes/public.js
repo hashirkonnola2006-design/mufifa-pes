@@ -27,8 +27,17 @@ router.get('/groups', async (req, res) => {
     const result = await Promise.all(
       groups.map(async (group) => {
         const teams = await Team.find({ groupId: group.groupId })
-          .populate({ path: 'players', model: 'Player' })
-          .sort({ 'stats.points': -1, 'stats.won': -1 });
+          .populate({ path: 'players', model: 'Player' });
+
+        // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+        teams.sort((a, b) => {
+          if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
+          if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+          const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
+          const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
+          if (gdB !== gdA) return gdB - gdA;
+          return b.stats.goalsFor - a.stats.goalsFor;
+        });
 
         return {
           id: group.groupId,
@@ -74,8 +83,17 @@ router.get('/groups/:id', async (req, res) => {
     if (!group) return res.status(404).json({ error: 'Group not found' });
 
     const teams = await Team.find({ groupId })
-      .populate({ path: 'players', model: 'Player' })
-      .sort({ 'stats.points': -1, 'stats.won': -1 });
+      .populate({ path: 'players', model: 'Player' });
+
+    // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+    teams.sort((a, b) => {
+      if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
+      if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+      const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
+      const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
+      if (gdB !== gdA) return gdB - gdA;
+      return b.stats.goalsFor - a.stats.goalsFor;
+    });
 
     res.json({
       id: group.groupId,
