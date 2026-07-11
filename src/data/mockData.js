@@ -826,6 +826,35 @@ export const groupsData = [
         ]
       },
       {
+        "id": "f_borussiadortmund_daarkkk",
+        "name": "Borussia Dortmund",
+        "shortName": "BVB",
+        "strength": 80,
+        "accentColor": "#eab308",
+        "gradient": "from-yellow-950/40 via-yellow-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "amanyu",
+            "username": "Daarkkk",
+            "photo": "/teams/amanyu_k.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-yellow-900 text-yellow-200"
+          }
+        ]
+      },
+      {
         "id": "f_challenger",
         "name": "CHALLENGER",
         "shortName": "CHA",
