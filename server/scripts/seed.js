@@ -1043,8 +1043,8 @@ const groupsRaw = [
         "players": [
           {
             "name": "Rino Joseph",
-            "username": "Rinchee",
-            "photo": "",
+            "username": "Rinohehe",
+            "photo": "/teams/rinohehe.jpeg",
             "goals": 0,
             "matchesPlayed": 0,
             "points": 0,
