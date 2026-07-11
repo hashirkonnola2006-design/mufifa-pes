@@ -57,9 +57,9 @@ function App() {
           <header className="hidden md:flex items-center justify-between py-4 border-b border-zinc-900 mb-6 select-none">
             {/* Left: Collab brand */}
             <div onClick={() => setActiveTab('home')} className="flex items-center gap-2 cursor-pointer select-none">
-              <span className="text-xl font-black text-white lowercase tracking-tight">mulearn</span>
+              <span className="text-xl font-black text-white lowercase tracking-tight">μlearn</span>
               <span className="text-sm font-bold text-zinc-500">×</span>
-              <span className="text-xl font-black text-[#2563eb] uppercase tracking-widest">MUFIFA</span>
+              <span className="text-xl font-black text-[#2563eb] tracking-widest">μFIFA</span>
             </div>
 
             {/* Center: Tabs */}

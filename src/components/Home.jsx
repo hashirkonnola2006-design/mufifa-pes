@@ -36,9 +36,9 @@ export default function Home({ setActiveTab }) {
       <div className="relative flex md:hidden justify-center items-center py-2 px-1">
         {/* mulearn x FIFA Collab Badge (Centered and Enlarged) */}
         <div className="flex items-center gap-2 select-none">
-          <span className="text-lg sm:text-xl font-black text-white lowercase tracking-tight">mulearn</span>
+          <span className="text-lg sm:text-xl font-black text-white lowercase tracking-tight">μlearn</span>
           <span className="text-sm font-bold text-zinc-500">×</span>
-          <span className="text-lg sm:text-xl font-black text-blue-500 uppercase tracking-widest">FIFA</span>
+          <span className="text-lg sm:text-xl font-black text-blue-500 tracking-widest">μFIFA</span>
         </div>
 
         {/* Admin Login Button (Absolute Right) */}

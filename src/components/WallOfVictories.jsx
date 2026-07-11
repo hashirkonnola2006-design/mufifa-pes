@@ -193,35 +193,6 @@ export default function WallOfVictories() {
         </div>
       )}
 
-      {/* ── Navigation Filters ── */}
-      <div className="overflow-x-auto no-scrollbar -mx-1 px-1">
-        <div className="flex gap-2 min-w-max pb-1">
-          {[
-            { id: 'ALL', label: 'All Matches' },
-            { id: 'GROUP', label: 'Group Stage' },
-            { id: 'R16', label: 'Round of 16' },
-            { id: 'QF', label: 'Quarter Finals' },
-            { id: 'SF', label: 'Semi Finals' },
-            { id: 'final', label: 'Final' },
-          ].map((tab) => {
-            const isActive = activeFilter === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveFilter(tab.id)}
-                className={`px-4 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all-custom border ${
-                  isActive
-                    ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                    : 'bg-zinc-900/60 border-zinc-800/80 text-zinc-400 hover:text-zinc-200'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {/* ── Stats & Progress Widgets ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Tournament Progress */}
@@ -286,6 +257,35 @@ export default function WallOfVictories() {
               <span className="text-[9px] text-zinc-700 font-medium block mt-1">Tourney starts today</span>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ── Navigation Filters ── */}
+      <div className="overflow-x-auto no-scrollbar -mx-1 px-1">
+        <div className="flex gap-2 min-w-max pb-1">
+          {[
+            { id: 'ALL', label: 'All Matches' },
+            { id: 'GROUP', label: 'Group Stage' },
+            { id: 'R16', label: 'Round of 16' },
+            { id: 'QF', label: 'Quarter Finals' },
+            { id: 'SF', label: 'Semi Finals' },
+            { id: 'final', label: 'Final' },
+          ].map((tab) => {
+            const isActive = activeFilter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveFilter(tab.id)}
+                className={`px-4 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all-custom border ${
+                  isActive
+                    ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                    : 'bg-zinc-900/60 border-zinc-800/80 text-zinc-400 hover:text-zinc-200'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

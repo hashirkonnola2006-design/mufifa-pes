@@ -1,6 +1,6 @@
-# MUFIFA
+# μFIFA
 
-A premium web application for managing and tracking MUFIFA tournaments.
+A premium web application for managing and tracking μFIFA tournaments.
 
 ## Tech Stack
 - **Frontend:** React, Tailwind CSS, Vite

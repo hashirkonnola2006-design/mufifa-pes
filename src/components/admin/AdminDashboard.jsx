@@ -23,7 +23,7 @@ export default function AdminDashboard({ setActiveTab }) {
             Admin Mode
           </span>
           <h1 className="text-white text-base font-black tracking-tight leading-none">
-            MUFIFA Control Panel
+            μFIFA Control Panel
           </h1>
         </div>
         <button

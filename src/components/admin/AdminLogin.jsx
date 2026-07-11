@@ -34,7 +34,7 @@ export default function AdminLogin({ setActiveTab }) {
         </div>
         <div className="text-center">
           <h1 className="text-white text-xl font-black tracking-tight">Admin Login</h1>
-          <p className="text-zinc-500 text-xs mt-1 font-medium">MUFIFA Tournament Control Panel</p>
+          <p className="text-zinc-500 text-xs mt-1 font-medium">μFIFA Tournament Control Panel</p>
         </div>
       </div>
 
