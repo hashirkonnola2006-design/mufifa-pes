@@ -118,11 +118,13 @@ export default function WallOfVictories() {
 
   // Dynamic progress stats
   const totalMatches = groupMatches.length + knockoutRounds.reduce((acc, r) => acc + (r.matches?.length || 0), 0);
-  const completedMatches = [...groupMatches, ...knockoutRounds.flatMap(r => r.matches || [])].filter(m => m.status === 'completed');
+  const completedMatches = [...groupMatches, ...knockoutRounds.flatMap(r => r.matches || [])]
+    .filter(m => m.status === 'completed')
+    .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
   const completedCount = completedMatches.length;
 
-  // Last Victory: most recently completed match
-  const lastVictory = completedMatches.length > 0 ? completedMatches[completedMatches.length - 1] : null;
+  // Last Victory: most recently completed match (only 1)
+  const lastVictory = completedMatches.length > 0 ? completedMatches[0] : null;
 
   // Eliminated teams calculation (placeholder simulation or count from TBDs)
   // For group stage, nobody is eliminated yet. Let's count teams that have finished knockout stages or lost
@@ -131,21 +133,18 @@ export default function WallOfVictories() {
   return (
     <div className="space-y-6 animate-fadeIn pb-24 text-zinc-300">
       
-      {/* ── Header Banner (Golden Gradient Style) ── */}
-      <div className="text-center py-5 bg-gradient-to-b from-amber-500/10 via-zinc-950/20 to-transparent rounded-3xl border border-amber-500/10 p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.05)_0%,transparent_70%)] pointer-events-none" />
-        <span className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-500/80 block mb-1">
-          eFOOTBALL COLLEGE CHAMPIONSHIP 2026
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-tight leading-none uppercase mb-1">
-          Wall of Victories
-        </h1>
-        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-          Every Match. Every Victory. One Champion.
-        </p>
+      {/* ── Header Banner (Golden Gradient Style with Background image) ── */}
+      <div className="relative rounded-3xl border border-zinc-800/80 min-h-[160px] sm:min-h-[200px] flex flex-col items-center justify-center p-6 overflow-hidden shadow-2xl">
+        {/* Background Image Container with Gradient Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center z-0" 
+          style={{ 
+            backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%), url("/wall_victory_banner.png")'
+          }}
+        />
 
         {/* 40 Teams / 1 Champion Badge */}
-        <div className="inline-flex items-center gap-3 bg-zinc-900/90 border border-amber-500/20 px-4 py-2 rounded-full mt-4 shadow-lg shadow-black/40">
+        <div className="relative z-10 mt-auto inline-flex items-center gap-3 bg-zinc-950/90 border border-amber-500/20 px-4 py-2 rounded-xl shadow-lg backdrop-blur-md">
           <div className="text-left">
             <span className="text-xs font-black text-white block uppercase leading-none">{totalTeams} TEAMS</span>
             <span className="text-[9px] text-zinc-500 font-bold block uppercase mt-0.5">1 Champion</span>
