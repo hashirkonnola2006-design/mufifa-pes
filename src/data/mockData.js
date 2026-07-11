@@ -675,35 +675,6 @@ export const groupsData = [
         ]
       },
       {
-        "id": "e_germany_2",
-        "name": "GERMANY",
-        "shortName": "GER",
-        "strength": 80,
-        "accentColor": "#0ea5e9",
-        "gradient": "from-sky-950/40 via-sky-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "Ajai A S",
-            "username": "VAMOS",
-            "photo": "/teams/ajai_a_s.jpeg",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-sky-900 text-sky-200"
-          }
-        ]
-      },
-      {
         "id": "e_huh",
         "name": "Huh.",
         "shortName": "HUH",

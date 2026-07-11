@@ -687,35 +687,6 @@ const groupsRaw = [
         ]
       },
       {
-        "id": "e_germany_2",
-        "name": "GERMANY",
-        "shortName": "GER",
-        "strength": 80,
-        "accentColor": "#0ea5e9",
-        "gradient": "from-sky-950/40 via-sky-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "Ajai A S",
-            "username": "VAMOS",
-            "photo": "/teams/ajai_a_s.jpeg",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-sky-900 text-sky-200"
-          }
-        ]
-      },
-      {
         "id": "e_huh",
         "name": "Huh.",
         "shortName": "HUH",
@@ -1320,7 +1291,7 @@ async function seed() {
   // Current group sizes:
   //   A: 3 teams (full round-robin) | B: 5 teams (ring)
   //   C: 5 teams (ring)             | D: 5 teams (ring)
-  //   E: 6 teams (ring)             | F: 6 teams (ring)
+  //   E: 5 teams (ring)             | F: 6 teams (ring)
   //   G: 5 teams (ring)             | H: 5 teams (ring)
   //
   const groupMatches = [
@@ -1352,20 +1323,12 @@ async function seed() {
     { groupId: 'D', teamAKey: 'd_fcbarcelona',       teamBKey: 'd_question',         date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
     { groupId: 'D', teamAKey: 'd_question',          teamBKey: 'd_herhitler',        date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
 
-    // ── Group E: 6 teams → ring schedule (6 matches, 2 per team) ──
-    // Ring: e_argentina → e_bestscriptedmatch → e_celtic → e_germany_1 → e_germany_2 → e_huh → (back)
-    // Match-by-match verification (each team plays exactly 2):
-    //   e_argentina:        M1 (vs e_bestscriptedmatch) + M6 (vs e_huh)       ✓
-    //   e_bestscriptedmatch M1 (vs e_argentina) + M2 (vs e_celtic)            ✓
-    //   e_celtic:           M2 (vs e_bestscriptedmatch) + M3 (vs e_germany_1) ✓
-    //   e_germany_1:        M3 (vs e_celtic) + M4 (vs e_germany_2)            ✓
-    //   e_germany_2:        M4 (vs e_germany_1) + M5 (vs e_huh)               ✓
-    //   e_huh:              M5 (vs e_germany_2) + M6 (vs e_argentina)         ✓
+    // ── Group E: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: e_argentina → e_bestscriptedmatch → e_celtic → e_germany_1 → e_huh → (back)
     { groupId: 'E', teamAKey: 'e_argentina',         teamBKey: 'e_bestscriptedmatch', date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
     { groupId: 'E', teamAKey: 'e_bestscriptedmatch', teamBKey: 'e_celtic',            date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
     { groupId: 'E', teamAKey: 'e_celtic',            teamBKey: 'e_germany_1',         date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'E', teamAKey: 'e_germany_1',         teamBKey: 'e_germany_2',         date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-    { groupId: 'E', teamAKey: 'e_germany_2',         teamBKey: 'e_huh',               date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
+    { groupId: 'E', teamAKey: 'e_germany_1',         teamBKey: 'e_huh',               date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
     { groupId: 'E', teamAKey: 'e_huh',               teamBKey: 'e_argentina',         date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
 
     // ── Group F: 6 teams → ring schedule (6 matches, 2 per team) ──
