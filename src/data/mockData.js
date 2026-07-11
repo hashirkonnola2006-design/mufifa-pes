@@ -768,35 +768,6 @@ export const groupsData = [
         ]
       },
       {
-        "id": "f_argentina_3",
-        "name": "Argentina",
-        "shortName": "ARG",
-        "strength": 80,
-        "accentColor": "#a855f7",
-        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "Anujith PV",
-            "username": "Prokm 50",
-            "photo": "",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-purple-900 text-purple-200"
-          }
-        ]
-      },
-      {
         "id": "f_borussiadortmund",
         "name": "Borussia Dortmund",
         "shortName": "BOD",

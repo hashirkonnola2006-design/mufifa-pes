@@ -780,35 +780,6 @@ const groupsRaw = [
         ]
       },
       {
-        "id": "f_argentina_3",
-        "name": "Argentina",
-        "shortName": "ARG",
-        "strength": 80,
-        "accentColor": "#a855f7",
-        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "Anujith PV",
-            "username": "Prokm 50",
-            "photo": "",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-purple-900 text-purple-200"
-          }
-        ]
-      },
-      {
         "id": "f_borussiadortmund",
         "name": "Borussia Dortmund",
         "shortName": "BOD",
@@ -1291,7 +1262,7 @@ async function seed() {
   // Current group sizes:
   //   A: 3 teams (full round-robin) | B: 5 teams (ring)
   //   C: 5 teams (ring)             | D: 5 teams (ring)
-  //   E: 5 teams (ring)             | F: 6 teams (ring)
+  //   E: 5 teams (ring)             | F: 5 teams (ring)
   //   G: 5 teams (ring)             | H: 5 teams (ring)
   //
   const groupMatches = [
@@ -1331,12 +1302,11 @@ async function seed() {
     { groupId: 'E', teamAKey: 'e_germany_1',         teamBKey: 'e_huh',               date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
     { groupId: 'E', teamAKey: 'e_huh',               teamBKey: 'e_argentina',         date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
 
-    // ── Group F: 6 teams → ring schedule (6 matches, 2 per team) ──
-    // Ring: f_argentina_1 → f_argentina_2 → f_argentina_3 → f_borussiadortmund → f_challenger → f_savage → (back)
+    // ── Group F: 5 teams → ring schedule (5 matches, 2 per team) ──
+    // Ring: f_argentina_1 → f_argentina_2 → f_borussiadortmund → f_challenger → f_savage → (back)
     { groupId: 'F', teamAKey: 'f_argentina_1',     teamBKey: 'f_argentina_2',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'F', teamAKey: 'f_argentina_2',     teamBKey: 'f_argentina_3',      date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
-    { groupId: 'F', teamAKey: 'f_argentina_3',     teamBKey: 'f_borussiadortmund', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'F', teamAKey: 'f_borussiadortmund', teamBKey: 'f_challenger',      date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
+    { groupId: 'F', teamAKey: 'f_argentina_2',     teamBKey: 'f_borussiadortmund', date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
+    { groupId: 'F', teamAKey: 'f_borussiadortmund', teamBKey: 'f_challenger',      date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
     { groupId: 'F', teamAKey: 'f_challenger',      teamBKey: 'f_savage',           date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
     { groupId: 'F', teamAKey: 'f_savage',          teamBKey: 'f_argentina_1',      date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
 
