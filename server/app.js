@@ -21,19 +21,29 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
   .map((s) => s.trim())
   .filter(Boolean);
 
-// Always allow localhost in development
-if (process.env.NODE_ENV !== 'production') {
-  allowedOrigins.push('http://localhost:5173', 'http://localhost:4173');
-}
-
 app.use(cors({
-  origin: allowedOrigins.length > 0
-    ? (origin, cb) => {
-        // Allow requests with no origin (mobile apps, curl, same-origin)
-        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-        return cb(new Error('Not allowed by CORS'));
-      }
-    : true, // allow all if env var not set
+  origin: (origin, cb) => {
+    // Always allow in development/local environments
+    if (process.env.NODE_ENV !== 'production') {
+      return cb(null, true);
+    }
+    // Allow requests with no origin (mobile apps, curl, same-origin)
+    if (!origin) return cb(null, true);
+
+    // In production, check allowed origins, local addresses, or Vercel preview domains
+    const isAllowed = allowedOrigins.length === 0 || 
+                      allowedOrigins.includes(origin) ||
+                      origin.startsWith('http://localhost') ||
+                      origin.startsWith('http://127.0.0.1') ||
+                      origin.startsWith('http://[::1]') ||
+                      origin.endsWith('.vercel.app') ||
+                      /^https:\/\/mufifa-pes-.*\.vercel\.app$/.test(origin);
+
+    if (isAllowed) {
+      return cb(null, true);
+    }
+    return cb(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 

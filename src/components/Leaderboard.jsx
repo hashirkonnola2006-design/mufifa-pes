@@ -27,7 +27,7 @@ export default function Leaderboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-6 h-6 text-[#8bef05] animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#00f2fe] animate-spin" />
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function Leaderboard() {
         <p className="text-red-400 text-sm font-bold">{error}</p>
         <button
           onClick={() => { setLoading(true); setError(''); getLeaderboard().then(setAllPlayers).catch((e) => setError(e.message)).finally(() => setLoading(false)); }}
-          className="text-[#8bef05] text-xs font-bold hover:underline"
+          className="text-[#00f2fe] text-xs font-bold hover:underline"
         >
           Retry
         </button>
