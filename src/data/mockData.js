@@ -98,6 +98,64 @@ export const groupsData = [
             "avatarColor": "bg-rose-900 text-rose-200"
           }
         ]
+      },
+      {
+        "id": "a_argentina_3",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "anujith",
+            "username": "prokm50",
+            "photo": "/teams/anujith.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
+        "id": "a_borussiadortmund",
+        "name": "FC DORTMUND",
+        "shortName": "BOD",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "pranav",
+            "username": "pranaavvvvvvhhh",
+            "photo": "/teams/pranav.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
       }
     ]
   },
@@ -764,64 +822,6 @@ export const groupsData = [
             "matchesPlayed": 0,
             "points": 0,
             "avatarColor": "bg-teal-900 text-teal-200"
-          }
-        ]
-      },
-      {
-        "id": "f_argentina_3",
-        "name": "Argentina",
-        "shortName": "ARG",
-        "strength": 80,
-        "accentColor": "#a855f7",
-        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "anujith",
-            "username": "prokm50",
-            "photo": "/teams/anujith.jpeg",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-purple-900 text-purple-200"
-          }
-        ]
-      },
-      {
-        "id": "f_borussiadortmund",
-        "name": "FC DORTMUND",
-        "shortName": "BOD",
-        "strength": 80,
-        "accentColor": "#ef4444",
-        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
-        "stats": {
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "points": 0
-        },
-        "form": [],
-        "players": [
-          {
-            "name": "pranav",
-            "username": "pranaavvvvvvhhh",
-            "photo": "/teams/pranav.jpeg",
-            "goals": 0,
-            "matchesPlayed": 0,
-            "points": 0,
-            "avatarColor": "bg-red-900 text-red-200"
           }
         ]
       },
