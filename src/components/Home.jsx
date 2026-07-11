@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Layout, Crown, Lock, ArrowRight, ExternalLink } from 'lucide-react';
+import { Users, Layout, Crown, Lock, ArrowRight, ExternalLink, Trophy } from 'lucide-react';
 import { getGroups, getLeaderboard } from '../lib/api';
 
 export default function Home({ setActiveTab }) {
@@ -116,53 +116,62 @@ export default function Home({ setActiveTab }) {
       </div>
 
       {/* ── 4. PRIZE BREAKDOWN SECTION ── */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2.5 px-1">
-          <h2 className="text-white text-xs font-black uppercase tracking-wider">Prize Breakdown</h2>
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 px-1 select-none">
+          <h2 className="text-white text-sm font-black uppercase tracking-wider">
+            PRIZE <span className="text-blue-500">BREAKDOWN</span>
+          </h2>
+          <span className="text-cyan-500 font-bold text-sm tracking-widest ml-1">////</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-3.5">
+        <div className="grid grid-cols-2 gap-4">
           {/* 1st Place */}
-          <div className="rounded-2xl bg-zinc-950/70 border border-yellow-500/10 p-4 flex flex-col justify-between min-h-[220px] shadow-lg text-left">
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-zinc-500 text-[9px] font-black uppercase tracking-wider block">1ST PLACE</span>
-                <span className="text-white text-base font-black uppercase mt-0.5 block">GOLD CUP</span>
-              </div>
+          <div className="relative rounded-2xl bg-zinc-950/80 border border-amber-500/20 p-5 flex flex-col justify-between shadow-2xl hover:scale-[1.01] transition-all duration-300 overflow-hidden">
+            {/* Golden Badge/Trophy Icon in Top Right */}
+            <div className="absolute top-5 right-5 w-10 h-12 border border-amber-500/30 bg-amber-500/5 rounded-b-xl rounded-t-sm flex items-center justify-center text-amber-500">
+              <Trophy className="w-4 h-4 stroke-[1.5]" />
             </div>
-            <div className="my-2 flex justify-center items-center">
-              <img src="/gold_jersey_pack.png" alt="Gold Cup" className="max-h-[90px] object-contain rounded-lg" />
-            </div>
-            <div className="pt-2 border-t border-zinc-900 flex justify-between items-center">
-              <div>
-                <span className="text-zinc-400 text-[9px] font-black uppercase tracking-wider block">CHAMPION'S TROPHY</span>
-                <span className="text-zinc-600 text-[8px] block font-semibold uppercase mt-0.5">+ EXCLUSIVE MERCH</span>
+
+            <div className="space-y-4 text-left">
+              <div className="space-y-1.5">
+                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-amber-500 border border-amber-500/20 bg-amber-500/5 px-2.5 py-0.5 rounded-md">
+                  1ST PLACE
+                </span>
+                <h3 className="text-amber-500 text-lg sm:text-xl font-black uppercase tracking-tight">GOLD CUP</h3>
+                <div className="space-y-0.5 text-[10px] sm:text-xs">
+                  <p className="text-white font-bold">Champion's Trophy</p>
+                  <p className="text-amber-500 font-bold">+ Exclusive Merch</p>
+                </div>
               </div>
-              <span className="text-[8px] font-bold text-yellow-500 uppercase border border-yellow-500/30 bg-yellow-500/5 px-2 py-0.5 rounded-full">
-                MERCHANDISE
-              </span>
+
+              <div className="mt-2 flex justify-center items-end">
+                <img src="/gold_jersey_pack.png" alt="Gold Cup Prizes" className="w-full object-contain rounded-xl" />
+              </div>
             </div>
           </div>
 
           {/* 2nd Place */}
-          <div className="rounded-2xl bg-zinc-950/70 border border-blue-500/10 p-4 flex flex-col justify-between min-h-[220px] shadow-lg text-left">
-            <div className="flex justify-between items-start">
-              <div>
-                <span className="text-zinc-500 text-[9px] font-black uppercase tracking-wider block">2ND PLACE</span>
-                <span className="text-white text-base font-black uppercase mt-0.5 block">SILVER CUP</span>
-              </div>
+          <div className="relative rounded-2xl bg-zinc-950/80 border border-blue-500/20 p-5 flex flex-col justify-between shadow-2xl hover:scale-[1.01] transition-all duration-300 overflow-hidden">
+            {/* Blue Badge/Trophy Icon in Top Right */}
+            <div className="absolute top-5 right-5 w-10 h-12 border border-blue-500/30 bg-blue-500/5 rounded-b-xl rounded-t-sm flex items-center justify-center text-blue-500">
+              <Trophy className="w-4 h-4 stroke-[1.5]" />
             </div>
-            <div className="my-2 flex justify-center items-center">
-              <img src="/silver_jersey_pack.png" alt="Silver Cup" className="max-h-[90px] object-contain rounded-lg" />
-            </div>
-            <div className="pt-2 border-t border-zinc-900 flex justify-between items-center">
-              <div>
-                <span className="text-zinc-400 text-[9px] font-black uppercase tracking-wider block">RUNNER-UP TROPHY</span>
-                <span className="text-zinc-600 text-[8px] block font-semibold uppercase mt-0.5">+ EXCLUSIVE MERCH</span>
+
+            <div className="space-y-4 text-left">
+              <div className="space-y-1.5">
+                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-blue-500 border border-blue-500/20 bg-blue-500/5 px-2.5 py-0.5 rounded-md">
+                  2ND PLACE
+                </span>
+                <h3 className="text-blue-500 text-lg sm:text-xl font-black uppercase tracking-tight">SILVER CUP</h3>
+                <div className="space-y-0.5 text-[10px] sm:text-xs">
+                  <p className="text-white font-bold">Runner-up Prize</p>
+                  <p className="text-blue-500 font-bold">+ Exclusive Merch</p>
+                </div>
               </div>
-              <span className="text-[8px] font-bold text-blue-500 uppercase border border-blue-500/30 bg-blue-500/5 px-2 py-0.5 rounded-full">
-                MERCHANDISE
-              </span>
+
+              <div className="mt-2 flex justify-center items-end">
+                <img src="/silver_jersey_pack.png" alt="Silver Cup Prizes" className="w-full object-contain rounded-xl" />
+              </div>
             </div>
           </div>
         </div>
