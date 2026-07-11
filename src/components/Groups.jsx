@@ -374,7 +374,7 @@ export default function Groups() {
               </span>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {matches.map((match, idx) => {
                 const teamA = match.teamA || {};
                 const teamB = match.teamB || {};

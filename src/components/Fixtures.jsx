@@ -260,13 +260,14 @@ export default function Fixtures() {
           {allGroupMatches.length === 0 ? (
             <p className="text-zinc-500 text-sm text-center py-10">No group matches scheduled yet.</p>
           ) : (
-            <div className="rounded-2xl border border-zinc-800/60 bg-zinc-950/40 overflow-hidden">
-              {allGroupMatches.map((match, idx) => (
-                <MatchCard
-                  key={match._id || match.id}
-                  match={match}
-                  isLast={idx === allGroupMatches.length - 1}
-                />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {allGroupMatches.map((match) => (
+                <div key={match._id || match.id} className="rounded-2xl border border-zinc-800/60 bg-zinc-950/40 overflow-hidden">
+                  <MatchCard
+                    match={match}
+                    isLast={true}
+                  />
+                </div>
               ))}
             </div>
           )}
@@ -349,7 +350,7 @@ export default function Fixtures() {
                     { qf: 'QF-D', matches: activeRoundData.matches.slice(6, 8) },
                   ];
                   return (
-                    <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {pairs.map((pair) => (
                         <div key={pair.qf} className="rounded-2xl border border-zinc-800/60 bg-zinc-950/40 overflow-hidden">
                           {/* Pair header showing QF destination */}
@@ -378,15 +379,15 @@ export default function Fixtures() {
                   );
                 })()
               ) : (
-                // QF / SF / Final: simple card list
-                <div className="rounded-2xl border border-zinc-800/60 bg-zinc-950/40 overflow-hidden">
-                  {activeRoundData.matches.map((match, idx) => (
-                    <MatchCard
-                      key={match._id || match.id}
-                      match={match}
-                      showBracketInfo={true}
-                      isLast={idx === activeRoundData.matches.length - 1}
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  {activeRoundData.matches.map((match) => (
+                    <div key={match._id || match.id} className="rounded-2xl border border-zinc-800/60 bg-zinc-950/40 overflow-hidden">
+                      <MatchCard
+                        match={match}
+                        showBracketInfo={true}
+                        isLast={true}
+                      />
+                    </div>
                   ))}
                 </div>
               )}

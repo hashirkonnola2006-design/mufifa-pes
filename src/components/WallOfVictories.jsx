@@ -303,7 +303,7 @@ export default function WallOfVictories() {
             <span className="text-zinc-500 text-xs font-bold uppercase tracking-widest block">No matches found</span>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-3.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {filteredMatches.map((match) => {
               const teamA = match.teamA || {};
               const teamB = match.teamB || {};
