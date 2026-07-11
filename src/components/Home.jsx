@@ -100,8 +100,8 @@ export default function Home({ setActiveTab }) {
         <div className="md:col-span-7 flex flex-col space-y-4 text-left w-full">
           <div className="flex items-center gap-3">
             {/* Soccer Ball Badge */}
-            <div className="w-10 h-10 rounded-xl bg-blue-950/30 border border-blue-900/40 flex items-center justify-center shrink-0">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-12 h-12 rounded-xl bg-blue-950/30 border border-blue-900/40 flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 24 24" className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <polygon points="12,7.5 16.25,10.5 14.5,15.5 9.5,15.5 7.75,10.5" />
                 <line x1="12" y1="2" x2="12" y2="7.5" />
@@ -111,7 +111,7 @@ export default function Home({ setActiveTab }) {
                 <line x1="18.2" y1="20" x2="14.5" y2="15.5" />
               </svg>
             </div>
-            <h2 className="text-white text-base sm:text-lg font-black tracking-tight uppercase">
+            <h2 className="text-white text-lg sm:text-xl md:text-2xl font-black tracking-tight uppercase">
               WHAT IS <span className="text-blue-500">μFIFA?</span>
             </h2>
           </div>
@@ -120,40 +120,40 @@ export default function Home({ setActiveTab }) {
           <div className="w-8 h-[2px] bg-blue-500" />
 
           {/* Paragraph */}
-          <p className="text-zinc-400 text-xs leading-relaxed font-semibold">
+          <p className="text-zinc-300 text-xs sm:text-sm md:text-[15px] leading-relaxed font-semibold">
             μFIFA is a large-scale innovation movement by μLearn that turns learning into a collaborative, gamified experience inspired by the FIFA World Cup. Participants join national squads, pick a domain of expertise, and work with peers on real-world challenges while representing their team.
           </p>
 
           {/* Features Row */}
-          <div className="grid grid-cols-4 gap-1 pt-3 border-t border-zinc-900/80">
+          <div className="grid grid-cols-4 gap-2 pt-4 border-t border-zinc-900/80">
             {/* Col 1 */}
-            <div className="text-center md:text-left space-y-1.5">
-              <Users className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
-              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+            <div className="text-center md:text-left space-y-2">
+              <Users className="w-5 h-5 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[9px] md:text-[10px] font-black uppercase text-zinc-400 tracking-wider leading-snug">
                 Collaborative Learning
               </span>
             </div>
             
             {/* Col 2 */}
-            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
-              <Trophy className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
-              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+            <div className="text-center md:text-left space-y-2 border-l border-zinc-900 px-2.5">
+              <Trophy className="w-5 h-5 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[9px] md:text-[10px] font-black uppercase text-zinc-400 tracking-wider leading-snug">
                 World Cup Inspired
               </span>
             </div>
 
             {/* Col 3 */}
-            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
-              <Globe className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
-              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+            <div className="text-center md:text-left space-y-2 border-l border-zinc-900 px-2.5">
+              <Globe className="w-5 h-5 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[9px] md:text-[10px] font-black uppercase text-zinc-400 tracking-wider leading-snug">
                 Real-World Challenges
               </span>
             </div>
 
             {/* Col 4 */}
-            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
-              <Shield className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
-              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+            <div className="text-center md:text-left space-y-2 border-l border-zinc-900 px-2.5">
+              <Shield className="w-5 h-5 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[9px] md:text-[10px] font-black uppercase text-zinc-400 tracking-wider leading-snug">
                 Represent Your Team
               </span>
             </div>
@@ -165,7 +165,7 @@ export default function Home({ setActiveTab }) {
               href="https://mufifa.mulearn.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-500 hover:text-blue-400 text-[10px] font-black uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-1.5 text-blue-500 hover:text-blue-400 text-xs sm:text-sm font-black uppercase tracking-wider transition-colors"
             >
               <span>Check out website</span>
               <ExternalLink className="w-3.5 h-3.5" />
