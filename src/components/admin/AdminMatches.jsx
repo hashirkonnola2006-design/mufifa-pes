@@ -142,6 +142,8 @@ function MatchRow({ match, onUpdate }) {
 
   const teamAName = match.teamA?.name || match.teamAName || 'TBD';
   const teamBName = match.teamB?.name || match.teamBName || 'TBD';
+  const usernameA = match.teamA?.players?.[0]?.username ? `@${match.teamA.players[0].username}` : null;
+  const usernameB = match.teamB?.players?.[0]?.username ? `@${match.teamB.players[0].username}` : null;
   const hasScore = match.scoreA !== null && match.scoreB !== null;
 
   const handleSave = async (id, data) => {
@@ -174,9 +176,13 @@ function MatchRow({ match, onUpdate }) {
         {/* Left: teams */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-white font-bold truncate max-w-[90px]">{teamAName}</span>
+            {/* Team A */}
+            <div className="min-w-0">
+              <span className="text-white font-bold block truncate max-w-[90px]">{teamAName}</span>
+              {usernameA && <span className="text-zinc-500 text-[9px] font-semibold block truncate max-w-[90px]">{usernameA}</span>}
+            </div>
             <span
-              className={`font-black px-1.5 py-0.5 rounded text-[10px] border ${
+              className={`font-black px-1.5 py-0.5 rounded text-[10px] border shrink-0 ${
                 hasScore
                   ? 'bg-zinc-800 border-zinc-700 text-white'
                   : 'bg-transparent border-zinc-800 text-zinc-500'
@@ -184,7 +190,11 @@ function MatchRow({ match, onUpdate }) {
             >
               {hasScore ? `${match.scoreA} – ${match.scoreB}` : 'vs'}
             </span>
-            <span className="text-white font-bold truncate max-w-[90px]">{teamBName}</span>
+            {/* Team B */}
+            <div className="min-w-0 text-right">
+              <span className="text-white font-bold block truncate max-w-[90px]">{teamBName}</span>
+              {usernameB && <span className="text-zinc-500 text-[9px] font-semibold block truncate max-w-[90px]">{usernameB}</span>}
+            </div>
           </div>
           <div className="flex items-center gap-2 mt-1">
             <span

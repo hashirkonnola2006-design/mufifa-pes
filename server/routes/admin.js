@@ -14,8 +14,16 @@ router.use(authMiddleware);
 router.get('/matches', async (req, res) => {
   try {
     const matches = await Match.find()
-      .populate('teamA', 'name shortName accentColor groupId')
-      .populate('teamB', 'name shortName accentColor groupId')
+      .populate({
+        path: 'teamA',
+        select: 'name shortName accentColor groupId players',
+        populate: { path: 'players', model: 'Player', select: 'name username' }
+      })
+      .populate({
+        path: 'teamB',
+        select: 'name shortName accentColor groupId players',
+        populate: { path: 'players', model: 'Player', select: 'name username' }
+      })
       .sort({ stage: 1, date: 1, bracketPosition: 1 });
 
     res.json(matches);
