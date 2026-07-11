@@ -108,8 +108,10 @@ export default function WallOfVictories() {
       const round = knockoutRounds.find(r => r.roundId === activeFilter);
       list = round ? (round.matches || []) : [];
     }
-    // Filter to only include completed matches
-    return list.filter(m => m.status === 'completed');
+    // Filter to only include completed matches and sort them descending by updatedAt so the latest is at the top
+    return list
+      .filter(m => m.status === 'completed')
+      .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
   };
 
   const filteredMatches = getFilteredMatches();

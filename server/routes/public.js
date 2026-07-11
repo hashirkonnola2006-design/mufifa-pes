@@ -215,6 +215,7 @@ router.get('/fixtures', async (req, res) => {
           status: m.status,
           date: m.date,
           time: m.time,
+          updatedAt: m.updatedAt,
         });
       }
 
@@ -262,6 +263,7 @@ router.get('/fixtures', async (req, res) => {
             status: m.status,
             date: m.date,
             time: m.time,
+            updatedAt: m.updatedAt,
           })),
         });
       }
