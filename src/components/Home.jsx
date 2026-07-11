@@ -52,11 +52,14 @@ export default function Home({ setActiveTab }) {
       </div>
 
       {/* ── 2. HERO SECTION ── */}
-      <div 
-        className="relative rounded-2xl border border-white/10 p-6 min-h-[280px] flex items-center bg-cover bg-center overflow-hidden shadow-2xl"
-        style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.2) 100%), url("/hero_stadium_background.png")' }}
-      >
-        <div className="flex flex-col items-start w-full gap-4 z-10 text-left">
+      <div className="relative rounded-2xl border border-white/10 p-6 min-h-[280px] flex items-center overflow-hidden shadow-2xl">
+        {/* Background Image Container with Gradient Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center z-0" 
+          style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.92) 40%, rgba(0,0,0,0.45) 75%, rgba(0,0,0,0.1) 100%), url("/hero_stadium_background.png")' }}
+        />
+        
+        <div className="flex flex-col items-start w-full gap-4 z-10 text-left relative">
           <div className="space-y-1">
             <span className="text-[10px] font-black tracking-widest text-blue-500 uppercase block">
               TOURNAMENT 2026
@@ -89,8 +92,8 @@ export default function Home({ setActiveTab }) {
           style={{ backgroundImage: 'url("/tactical_football_pitch.png")' }}
         />
         <div className="md:col-span-7 flex-1 space-y-2 w-full text-left">
-          <h2 className="text-white text-sm font-black uppercase tracking-tight">
-            What is <span className="text-blue-500">μFIFA?</span>
+          <h2 className="text-white text-sm font-black tracking-tight">
+            WHAT IS <span className="text-blue-500">μFIFA?</span>
           </h2>
           <p className="text-zinc-400 text-[11px] leading-relaxed font-semibold">
             μFIFA is a large-scale innovation movement by μLearn that turns learning into a collaborative, gamified experience inspired by the FIFA World Cup. Participants join national squads, pick a domain of expertise, and work with peers on real-world challenges while representing their team.
@@ -183,11 +186,14 @@ export default function Home({ setActiveTab }) {
       </div>
 
       {/* ── 6. CLOSING CTA BANNER ── */}
-      <div 
-        className="w-full text-left rounded-2xl overflow-hidden border border-white/10 bg-cover bg-center p-5 flex items-center justify-between relative group shadow-2xl"
-        style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.4) 100%), url("/hologram_stadium_hero.png")' }}
-      >
-        <div className="space-y-1.5 z-10">
+      <div className="w-full text-left rounded-2xl overflow-hidden border border-white/10 p-5 flex items-center justify-between relative group shadow-2xl">
+        {/* Background Image Container with Gradient Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center z-0" 
+          style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.92) 50%, rgba(0,0,0,0.4) 100%), url("/hologram_stadium_hero.png")' }}
+        />
+        
+        <div className="space-y-1.5 z-10 relative">
           <h3 className="text-white text-base sm:text-lg font-black tracking-tight uppercase">ARE YOU READY?</h3>
           <p className="text-blue-500 text-xs font-black uppercase tracking-wider">THE GLORY AWAITS.</p>
         </div>
