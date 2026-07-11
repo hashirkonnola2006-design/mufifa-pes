@@ -3,11 +3,25 @@ const Match = require('../models/Match');
 const Player = require('../models/Player');
 const authMiddleware = require('../middleware/auth');
 const { recalculateTeamStats } = require('../lib/recalculate');
+const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
 
-// Apply auth to all admin routes
+// Admin operations rate limiter: max 100 requests per 15 minutes per IP
+const writeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: { error: 'Too many admin requests, please try again after 15 minutes' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Helper to validate MongoDB ObjectId
+const isValidObjectId = (id) => typeof id === 'string' && /^[0-9a-fA-F]{24}$/.test(id);
+
+// Apply auth and rate limiting to all admin routes
 router.use(authMiddleware);
+router.use(writeLimiter);
 
 // ─── GET /api/admin/matches ───────────────────────────────────────────────────
 // Full match list for admin dashboard (all stages)
@@ -36,7 +50,22 @@ router.get('/matches', async (req, res) => {
 // Update group stage match score + status. Triggers team stat recalculation.
 router.put('/matches/:id', async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid match ID format' });
+    }
+
     const { scoreA, scoreB, status } = req.body;
+
+    // Body Validation
+    if (scoreA !== undefined && scoreA !== null && (!Number.isInteger(Number(scoreA)) || Number(scoreA) < 0)) {
+      return res.status(400).json({ error: 'scoreA must be a non-negative integer or null' });
+    }
+    if (scoreB !== undefined && scoreB !== null && (!Number.isInteger(Number(scoreB)) || Number(scoreB) < 0)) {
+      return res.status(400).json({ error: 'scoreB must be a non-negative integer or null' });
+    }
+    if (status !== undefined && !['upcoming', 'completed'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid match status value' });
+    }
 
     const match = await Match.findById(req.params.id);
     if (!match) return res.status(404).json({ error: 'Match not found' });
@@ -163,7 +192,34 @@ router.put('/matches/:id', async (req, res) => {
 // Update knockout match score, team names, status. Optionally advance winner.
 router.put('/knockout/:matchId', async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.matchId)) {
+      return res.status(400).json({ error: 'Invalid match ID format' });
+    }
+
     const { scoreA, scoreB, status, teamAName, teamBName, teamA, teamB } = req.body;
+
+    // Body Validation
+    if (scoreA !== undefined && scoreA !== null && (!Number.isInteger(Number(scoreA)) || Number(scoreA) < 0)) {
+      return res.status(400).json({ error: 'scoreA must be a non-negative integer or null' });
+    }
+    if (scoreB !== undefined && scoreB !== null && (!Number.isInteger(Number(scoreB)) || Number(scoreB) < 0)) {
+      return res.status(400).json({ error: 'scoreB must be a non-negative integer or null' });
+    }
+    if (status !== undefined && !['upcoming', 'completed'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid match status value' });
+    }
+    if (teamAName !== undefined && teamAName !== null && (typeof teamAName !== 'string' || teamAName.length > 100)) {
+      return res.status(400).json({ error: 'teamAName must be a string under 100 characters' });
+    }
+    if (teamBName !== undefined && teamBName !== null && (typeof teamBName !== 'string' || teamBName.length > 100)) {
+      return res.status(400).json({ error: 'teamBName must be a string under 100 characters' });
+    }
+    if (teamA !== undefined && teamA !== null && teamA !== '' && !isValidObjectId(teamA)) {
+      return res.status(400).json({ error: 'teamA must be a valid MongoDB ObjectId or empty' });
+    }
+    if (teamB !== undefined && teamB !== null && teamB !== '' && !isValidObjectId(teamB)) {
+      return res.status(400).json({ error: 'teamB must be a valid MongoDB ObjectId or empty' });
+    }
 
     const match = await Match.findById(req.params.matchId);
     if (!match) return res.status(404).json({ error: 'Match not found' });
@@ -245,9 +301,13 @@ router.put('/knockout/:matchId', async (req, res) => {
 // Manually adjust a player's goal count
 router.put('/players/:id/goals', async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid player ID format' });
+    }
+
     const { goals } = req.body;
-    if (goals === undefined || isNaN(Number(goals))) {
-      return res.status(400).json({ error: 'goals must be a number' });
+    if (goals === undefined || !Number.isInteger(Number(goals)) || Number(goals) < 0) {
+      return res.status(400).json({ error: 'goals must be a non-negative integer' });
     }
 
     const player = await Player.findByIdAndUpdate(

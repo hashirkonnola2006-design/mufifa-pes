@@ -7,6 +7,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const connectDB = require('./lib/db');
 
 const authRoutes = require('./routes/auth');
@@ -14,6 +15,9 @@ const publicRoutes = require('./routes/public');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
+
+// ─── HELMET SECURITY HEADERS ──────────────────────────────────────────────────
+app.use(helmet());
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
