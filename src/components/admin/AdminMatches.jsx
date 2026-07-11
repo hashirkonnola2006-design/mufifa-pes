@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Check, X, ChevronDown, ChevronUp, Loader2, Trophy, Users } from 'lucide-react';
-import { adminGetMatches, adminUpdateMatch } from '../../lib/api';
+import { adminGetMatches, adminUpdateMatch, adminUpdateKnockout } from '../../lib/api';
 
 // ─── Toast component ─────────────────────────────────────────────────────────
 function Toast({ message, type, onClose }) {
