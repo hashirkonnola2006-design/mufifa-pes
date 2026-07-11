@@ -89,16 +89,30 @@ export default function Home({ setActiveTab }) {
       </div>
 
       {/* ── 3. WHAT IS μFIFA INFO CARD ── */}
-      <div className="grid grid-cols-1 md:grid-cols-12 rounded-2xl bg-zinc-950/60 p-4 border border-zinc-900/80 gap-4 items-center shadow-xl">
-        <div
-          className="md:col-span-5 w-full aspect-video md:aspect-[4/3] bg-cover bg-center rounded-xl border border-zinc-800"
-          style={{ backgroundImage: 'url("/tactical_football_pitch.png")' }}
-        />
-        <div className="md:col-span-7 flex-1 space-y-2 w-full text-left">
-          <h2 className="text-white text-sm font-black tracking-tight">
+      <div className="rounded-2xl bg-zinc-950/40 p-6 border border-zinc-900/60 shadow-xl space-y-4 text-left">
+        <div className="flex items-center gap-4">
+          {/* Soccer Ball Badge */}
+          <div className="w-12 h-12 rounded-xl bg-blue-950/30 border border-blue-900/40 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 24 24" className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="12,7.5 16.25,10.5 14.5,15.5 9.5,15.5 7.75,10.5" />
+              <line x1="12" y1="2" x2="12" y2="7.5" />
+              <line x1="2.2" y1="9" x2="7.75" y2="10.5" />
+              <line x1="21.8" y1="9" x2="16.25" y2="10.5" />
+              <line x1="5.8" y1="20" x2="9.5" y2="15.5" />
+              <line x1="18.2" y1="20" x2="14.5" y2="15.5" />
+            </svg>
+          </div>
+          <h2 className="text-white text-lg sm:text-xl font-black tracking-tight uppercase">
             WHAT IS <span className="text-blue-500">μFIFA?</span>
           </h2>
-          <p className="text-zinc-400 text-[11px] leading-relaxed font-semibold">
+        </div>
+
+        {/* Short Blue Underline */}
+        <div className="w-8 h-[2px] bg-blue-500" />
+
+        <div className="space-y-3">
+          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-semibold">
             μFIFA is a large-scale innovation movement by μLearn that turns learning into a collaborative, gamified experience inspired by the FIFA World Cup. Participants join national squads, pick a domain of expertise, and work with peers on real-world challenges while representing their team.
           </p>
           <div className="pt-1">
@@ -106,7 +120,7 @@ export default function Home({ setActiveTab }) {
               href="https://mufifa.mulearn.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-blue-500 hover:text-blue-400 text-[10px] font-black uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-1.5 text-blue-500 hover:text-blue-400 text-xs font-black uppercase tracking-wider transition-colors"
             >
               <span>Check out website</span>
               <ExternalLink className="w-3 h-3" />
