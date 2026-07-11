@@ -9,7 +9,17 @@ import { Home as HomeIcon, Users, Calendar, Trophy } from 'lucide-react';
 import { isLoggedIn } from './lib/auth';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTabState] = useState(() => {
+    const saved = localStorage.getItem('mufifa_active_tab');
+    if (saved === 'admin-dashboard' && isLoggedIn()) return 'admin-dashboard';
+    if (saved === 'admin-login' && isLoggedIn()) return 'admin-dashboard';
+    return saved || 'home';
+  });
+
+  const setActiveTab = (tab) => {
+    localStorage.setItem('mufifa_active_tab', tab);
+    setActiveTabState(tab);
+  };
 
   // Determine if we're in an admin view
   const isAdminView = activeTab === 'admin-login' || activeTab === 'admin-dashboard';
@@ -38,7 +48,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black flex justify-center items-start md:items-center py-0 md:py-8 px-0 md:px-4">
-      <div className="w-full max-w-[500px] min-h-screen md:min-h-[840px] md:max-h-[880px] bg-[#0d0d0d] text-white flex flex-col relative md:rounded-[36px] md:shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:border md:border-zinc-800/80 overflow-y-auto no-scrollbar px-5 pt-4 pb-24">
+      <div className="w-full max-w-[500px] min-h-screen md:min-h-[840px] md:max-h-[880px] bg-[#0d0d0d] text-white flex flex-col relative md:rounded-[36px] md:shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:border md:border-zinc-800/80 overflow-y-auto no-scrollbar scroll-container px-5 pt-4 pb-24">
 
         {/* iOS-style top notch spacer for desktop mockup */}
         <div className="hidden md:flex justify-center items-center px-4 py-2 select-none border-b border-zinc-950 mb-4">

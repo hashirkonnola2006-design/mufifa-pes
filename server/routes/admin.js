@@ -51,6 +51,64 @@ router.put('/matches/:id', async (req, res) => {
       if (match.teamA) recalcPromises.push(recalculateTeamStats(match.teamA));
       if (match.teamB) recalcPromises.push(recalculateTeamStats(match.teamB));
       await Promise.all(recalcPromises);
+
+      // Check if all group stage matches in this group are completed
+      const unplayedCount = await Match.countDocuments({
+        stage: 'group',
+        groupId: match.groupId,
+        status: { $ne: 'completed' }
+      });
+
+      if (unplayedCount === 0) {
+        console.log(`Group ${match.groupId} is complete. Calculating standings for R16 advancement...`);
+        const Team = require('../models/Team');
+        const teams = await Team.find({ groupId: match.groupId });
+
+        // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+        const sortedTeams = teams.sort((a, b) => {
+          if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
+          if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+          const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
+          const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
+          if (gdB !== gdA) return gdB - gdA;
+          return b.stats.goalsFor - a.stats.goalsFor;
+        });
+
+        const firstPlace = sortedTeams[0];
+        const secondPlace = sortedTeams[1];
+
+        const r16Mapping = {
+          A: [ { rank: 1, pos: 'R16-1', slot: 'teamA' }, { rank: 2, pos: 'R16-8', slot: 'teamA' } ],
+          B: [ { rank: 1, pos: 'R16-2', slot: 'teamA' }, { rank: 2, pos: 'R16-7', slot: 'teamA' } ],
+          C: [ { rank: 1, pos: 'R16-3', slot: 'teamA' }, { rank: 2, pos: 'R16-6', slot: 'teamA' } ],
+          D: [ { rank: 1, pos: 'R16-4', slot: 'teamA' }, { rank: 2, pos: 'R16-5', slot: 'teamA' } ],
+          E: [ { rank: 1, pos: 'R16-5', slot: 'teamB' }, { rank: 2, pos: 'R16-4', slot: 'teamB' } ],
+          F: [ { rank: 1, pos: 'R16-6', slot: 'teamB' }, { rank: 2, pos: 'R16-3', slot: 'teamB' } ],
+          G: [ { rank: 1, pos: 'R16-7', slot: 'teamB' }, { rank: 2, pos: 'R16-2', slot: 'teamB' } ],
+          H: [ { rank: 1, pos: 'R16-8', slot: 'teamB' }, { rank: 2, pos: 'R16-1', slot: 'teamB' } ],
+        };
+
+        const groupRules = r16Mapping[match.groupId];
+        if (groupRules) {
+          for (const rule of groupRules) {
+            const team = rule.rank === 1 ? firstPlace : secondPlace;
+            if (team) {
+              const r16Match = await Match.findOne({ stage: 'R16', bracketPosition: rule.pos });
+              if (r16Match) {
+                if (rule.slot === 'teamA') {
+                  r16Match.teamA = team._id;
+                  r16Match.teamAName = team.name;
+                } else {
+                  r16Match.teamB = team._id;
+                  r16Match.teamBName = team.name;
+                }
+                await r16Match.save();
+                console.log(`Advanced Group ${match.groupId} rank ${rule.rank} (${team.name}) to R16 match ${rule.pos} ${rule.slot}`);
+              }
+            }
+          }
+        }
+      }
     }
 
     // Return populated match
@@ -108,17 +166,27 @@ router.put('/knockout/:matchId', async (req, res) => {
       if (winnerName || winnerTeamId) {
         const nextMatch = await Match.findOne({ bracketPosition: match.winnerAdvancesTo });
         if (nextMatch) {
-          // Determine which slot: A or B based on bracket convention
-          // bracketPosition format: "QF-1", "QF-2" etc. Odd source → slot A, Even → slot B
-          const posNum = parseInt(match.bracketPosition.split('-')[1], 10);
-          if (posNum % 2 === 1) {
+          const [stagePrefix, slotId] = match.bracketPosition.split('-');
+          let nextSlot = 'teamA';
+          
+          if (stagePrefix === 'R16') {
+            const num = parseInt(slotId, 10);
+            if (num % 2 === 0) nextSlot = 'teamB';
+          } else if (stagePrefix === 'QF') {
+            if (slotId === 'B' || slotId === 'D') nextSlot = 'teamB';
+          } else if (stagePrefix === 'SF') {
+            if (slotId === '2') nextSlot = 'teamB';
+          }
+          
+          if (nextSlot === 'teamA') {
             nextMatch.teamAName = winnerName;
-            if (winnerTeamId) nextMatch.teamA = winnerTeamId;
+            nextMatch.teamA = winnerTeamId || null;
           } else {
             nextMatch.teamBName = winnerName;
-            if (winnerTeamId) nextMatch.teamB = winnerTeamId;
+            nextMatch.teamB = winnerTeamId || null;
           }
           await nextMatch.save();
+          console.log(`Cascaded winner of ${match.bracketPosition} (${winnerName}) to next match ${match.winnerAdvancesTo} slot ${nextSlot}`);
         }
       }
     }

@@ -780,8 +780,37 @@ const groupsRaw = [
         ]
       },
       {
+        "id": "f_argentina_3",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "anujith",
+            "username": "prokm50",
+            "photo": "/teams/anujith.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
         "id": "f_borussiadortmund",
-        "name": "Borussia Dortmund",
+        "name": "FC DORTMUND",
         "shortName": "BOD",
         "strength": 80,
         "accentColor": "#ef4444",
@@ -798,9 +827,9 @@ const groupsRaw = [
         "form": [],
         "players": [
           {
-            "name": "Amanyu. K",
-            "username": "Daarkkk",
-            "photo": "/teams/amanyu_k.jpeg",
+            "name": "pranav",
+            "username": "pranaavvvvvvhhh",
+            "photo": "/teams/pranav.jpeg",
             "goals": 0,
             "matchesPlayed": 0,
             "points": 0,
@@ -1253,92 +1282,79 @@ async function seed() {
 
   // ── Group Stage Matches ────────────────────────────────────────────────────
   //
-  // Schedule algorithm:
-  //   • Groups with exactly 3 teams → full round-robin (3 matches, each team plays 2)
-  //   • Groups with N > 3 teams    → ring schedule: T[i] vs T[(i+1) % N]
-  //     Gives exactly N matches total, each team appears once as
-  //     left-side of pair i and once as right-side of pair (i-1), = 2 matches each.
-  //     Works for any N ≥ 3; handles future changes in group size automatically.
-  // Current group sizes:
-  //   A: 3 teams (full round-robin) | B: 5 teams (ring)
-  //   C: 5 teams (ring)             | D: 5 teams (ring)
-  //   E: 5 teams (ring)             | F: 5 teams (ring)
-  //   G: 5 teams (ring)             | H: 5 teams (ring)
-  //
-  const groupMatches = [
-    // ── Group A: 3 teams → full round-robin (3 matches, 2 per team) ──
-    { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_barcelona', date: 'THURSDAY - JULY 10, 2026', time: '18:00' },
-    { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_manutd',    date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
-    { groupId: 'A', teamAKey: 'a_barcelona', teamBKey: 'a_manutd',    date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
-
-    // ── Group B: 5 teams → ring schedule (5 matches, 2 per team) ──
-    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_acmilan',          date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
-    { groupId: 'B', teamAKey: 'b_acmilan',    teamBKey: 'b_fcbarcelona',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'B', teamAKey: 'b_fcbarcelona', teamBKey: 'b_manchesterunited', date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
-    { groupId: 'B', teamAKey: 'b_manchesterunited', teamBKey: 'b_suiii',        date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'B', teamAKey: 'b_suiii',            teamBKey: 'b_portugal',     date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-
-    // ── Group C: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: c_bayernmunichen → c_japan → c_vivabrazil → c_argentina → c_cr7 → (back to c_bayernmunichen)
-    { groupId: 'C', teamAKey: 'c_bayernmunichen', teamBKey: 'c_japan',          date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
-    { groupId: 'C', teamAKey: 'c_japan',          teamBKey: 'c_vivabrazil',     date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
-    { groupId: 'C', teamAKey: 'c_vivabrazil',     teamBKey: 'c_argentina',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'C', teamAKey: 'c_argentina',      teamBKey: 'c_cr7',            date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
-    { groupId: 'C', teamAKey: 'c_cr7',            teamBKey: 'c_bayernmunichen', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-
-    // ── Group D: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: d_herhitler → d_manchesterunited → d_acmilan → d_fcbarcelona → d_question → (back to d_herhitler)
-    { groupId: 'D', teamAKey: 'd_herhitler',         teamBKey: 'd_manchesterunited', date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
-    { groupId: 'D', teamAKey: 'd_manchesterunited',  teamBKey: 'd_acmilan',          date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
-    { groupId: 'D', teamAKey: 'd_acmilan',           teamBKey: 'd_fcbarcelona',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'D', teamAKey: 'd_fcbarcelona',       teamBKey: 'd_question',         date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
-    { groupId: 'D', teamAKey: 'd_question',          teamBKey: 'd_herhitler',        date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-
-    // ── Group E: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: e_argentina → e_bestscriptedmatch → e_celtic → e_germany_1 → e_huh → (back)
-    { groupId: 'E', teamAKey: 'e_argentina',         teamBKey: 'e_bestscriptedmatch', date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'E', teamAKey: 'e_bestscriptedmatch', teamBKey: 'e_celtic',            date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
-    { groupId: 'E', teamAKey: 'e_celtic',            teamBKey: 'e_germany_1',         date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'E', teamAKey: 'e_germany_1',         teamBKey: 'e_huh',               date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-    { groupId: 'E', teamAKey: 'e_huh',               teamBKey: 'e_argentina',         date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
-
-    // ── Group F: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: f_argentina_1 → f_argentina_2 → f_borussiadortmund → f_challenger → f_savage → (back)
-    { groupId: 'F', teamAKey: 'f_argentina_1',     teamBKey: 'f_argentina_2',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
-    { groupId: 'F', teamAKey: 'f_argentina_2',     teamBKey: 'f_borussiadortmund', date: 'SATURDAY - JULY 12, 2026', time: '20:30' },
-    { groupId: 'F', teamAKey: 'f_borussiadortmund', teamBKey: 'f_challenger',      date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'F', teamAKey: 'f_challenger',      teamBKey: 'f_savage',           date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
-    { groupId: 'F', teamAKey: 'f_savage',          teamBKey: 'f_argentina_1',      date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
-
-    // ── Group G: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: g_aethelgard → g_babuartsandsports → g_bleedblaugrana → g_japan → g_portugal → (back)
-    { groupId: 'G', teamAKey: 'g_aethelgard',        teamBKey: 'g_babuartsandsports', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'G', teamAKey: 'g_babuartsandsports', teamBKey: 'g_bleedblaugrana',    date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-    { groupId: 'G', teamAKey: 'g_bleedblaugrana',    teamBKey: 'g_japan',             date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
-    { groupId: 'G', teamAKey: 'g_japan',             teamBKey: 'g_portugal',          date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
-    { groupId: 'G', teamAKey: 'g_portugal',          teamBKey: 'g_aethelgard',        date: 'TUESDAY - JULY 15, 2026',  time: '18:00' },
-
-    // ── Group H: 5 teams → ring schedule (5 matches, 2 per team) ──
-    // Ring: h_jogobonito → h_manchesterunitedfc → h_morocco → h_radyornot → h_yousure → (back)
-    { groupId: 'H', teamAKey: 'h_jogobonito',         teamBKey: 'h_manchesterunitedfc', date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
-    { groupId: 'H', teamAKey: 'h_manchesterunitedfc', teamBKey: 'h_morocco',            date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
-    { groupId: 'H', teamAKey: 'h_morocco',            teamBKey: 'h_radyornot',          date: 'MONDAY - JULY 14, 2026',   time: '18:00' },
-    { groupId: 'H', teamAKey: 'h_radyornot',          teamBKey: 'h_yousure',            date: 'MONDAY - JULY 14, 2026',   time: '20:30' },
-    { groupId: 'H', teamAKey: 'h_yousure',            teamBKey: 'h_jogobonito',         date: 'TUESDAY - JULY 15, 2026',  time: '18:00' },
+  const DATES = [
+    'THURSDAY - JULY 10, 2026',
+    'FRIDAY - JULY 11, 2026',
+    'SATURDAY - JULY 12, 2026',
+    'SUNDAY - JULY 13, 2026',
+    'MONDAY - JULY 14, 2026',
+    'TUESDAY - JULY 15, 2026'
   ];
 
-  for (const m of groupMatches) {
-    await Match.create({
-      stage: 'group',
-      groupId: m.groupId,
-      teamA: teamIdMap[m.teamAKey],
-      teamB: teamIdMap[m.teamBKey],
-      scoreA: null,
-      scoreB: null,
-      status: 'upcoming',
-      date: m.date,
-      time: m.time,
+  function generateMatchesForGroup(groupId, teamKeys, startDayIdx) {
+    const N = teamKeys.length;
+    const matches = [];
+    
+    let pairings = [];
+    if (N === 3) {
+      // Double round-robin (6 matches total, each plays 4 matches)
+      pairings = [
+        [0, 1], [1, 2], [2, 0],
+        [1, 0], [2, 1], [0, 2]
+      ];
+    } else if (N >= 5) {
+      // Offset 1 and Offset 2 rings (2 * N matches total, each plays 4 matches)
+      // Conflict-free: no team plays twice in a single day
+      for (let d = 0; d < N; d++) {
+        pairings.push([d, (d + 1) % N]);
+        pairings.push([(d + 2) % N, (d + 4) % N]);
+      }
+    } else {
+      // Fallback for other group sizes (e.g. N=4)
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          pairings.push([i, j]);
+        }
+      }
+    }
+    
+    pairings.forEach((pair, idx) => {
+      const dayOffset = Math.floor(idx / 2);
+      const dayIdx = (startDayIdx + dayOffset) % DATES.length;
+      const date = DATES[dayIdx];
+      const time = idx % 2 === 0 ? '18:00' : '20:30';
+      matches.push({
+        groupId,
+        teamAKey: teamKeys[pair[0]],
+        teamBKey: teamKeys[pair[1]],
+        date,
+        time
+      });
     });
+    
+    return matches;
+  }
+
+  const startDays = { A: 0, B: 0, C: 1, D: 1, E: 2, F: 2, G: 3, H: 3 };
+
+  for (const groupRaw of groupsRaw) {
+    const teamKeys = groupRaw.teams.map(t => t.id);
+    const startDay = startDays[groupRaw.id] || 0;
+    const groupStageMatches = generateMatchesForGroup(groupRaw.id, teamKeys, startDay);
+    
+    for (const m of groupStageMatches) {
+      await Match.create({
+        stage: 'group',
+        groupId: m.groupId,
+        teamA: teamIdMap[m.teamAKey],
+        teamB: teamIdMap[m.teamBKey],
+        scoreA: null,
+        scoreB: null,
+        status: 'upcoming',
+        date: m.date,
+        time: m.time,
+      });
+    }
   }
 
   // ── Knockout Matches ───────────────────────────────────────────────────────

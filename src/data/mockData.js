@@ -768,8 +768,37 @@ export const groupsData = [
         ]
       },
       {
+        "id": "f_argentina_3",
+        "name": "Argentina",
+        "shortName": "ARG",
+        "strength": 80,
+        "accentColor": "#a855f7",
+        "gradient": "from-purple-950/40 via-purple-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "anujith",
+            "username": "prokm50",
+            "photo": "/teams/anujith.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-purple-900 text-purple-200"
+          }
+        ]
+      },
+      {
         "id": "f_borussiadortmund",
-        "name": "Borussia Dortmund",
+        "name": "FC DORTMUND",
         "shortName": "BOD",
         "strength": 80,
         "accentColor": "#ef4444",
@@ -786,9 +815,9 @@ export const groupsData = [
         "form": [],
         "players": [
           {
-            "name": "Amanyu. K",
-            "username": "Daarkkk",
-            "photo": "/teams/amanyu_k.jpeg",
+            "name": "pranav",
+            "username": "pranaavvvvvvhhh",
+            "photo": "/teams/pranav.jpeg",
             "goals": 0,
             "matchesPlayed": 0,
             "points": 0,
@@ -1202,14 +1231,14 @@ export const fixturesData = {
       roundId: "R16",
       roundName: "Round of 16",
       matches: [
-        { id: "ko-r16-1", team1Name: "Benfica", team2Name: "AC Milan", team1Score: null, team2Score: null, time: "July 14, 18:00", status: "upcoming" },
-        { id: "ko-r16-2", team1Name: "Manchester United", team2Name: "JAPAN", team1Score: null, team2Score: null, time: "July 14, 21:00", status: "upcoming" },
-        { id: "ko-r16-3", team1Name: "Portugal", team2Name: "MAN UTD", team1Score: null, team2Score: null, time: "July 14, 18:00", status: "upcoming" },
-        { id: "ko-r16-4", team1Name: "Viva Brazil", team2Name: "Question", team1Score: null, team2Score: null, time: "July 14, 21:00", status: "upcoming" },
-        { id: "ko-r16-5", team1Name: "Huh.", team2Name: "BLEED BLAUGRANA", team1Score: null, team2Score: null, time: "July 15, 18:00", status: "upcoming" },
-        { id: "ko-r16-6", team1Name: "Borussia Dortmund", team2Name: "Morocco", team1Score: null, team2Score: null, time: "July 15, 21:00", status: "upcoming" },
-        { id: "ko-r16-7", team1Name: "BABU ARTS AND SPORTS", team2Name: "Best scripted match", team1Score: null, team2Score: null, time: "July 16, 18:00", status: "upcoming" },
-        { id: "ko-r16-8", team1Name: "Manchester United FC", team2Name: "ARGENTINA", team1Score: null, team2Score: null, time: "July 16, 21:00", status: "upcoming" }
+        { id: "ko-r16-1", team1Name: "A1 (TBD)", team2Name: "H2 (TBD)", team1Score: null, team2Score: null, time: "July 14, 18:00", status: "upcoming" },
+        { id: "ko-r16-2", team1Name: "B1 (TBD)", team2Name: "G2 (TBD)", team1Score: null, team2Score: null, time: "July 14, 21:00", status: "upcoming" },
+        { id: "ko-r16-3", team1Name: "C1 (TBD)", team2Name: "F2 (TBD)", team1Score: null, team2Score: null, time: "July 14, 18:00", status: "upcoming" },
+        { id: "ko-r16-4", team1Name: "D1 (TBD)", team2Name: "E2 (TBD)", team1Score: null, team2Score: null, time: "July 14, 21:00", status: "upcoming" },
+        { id: "ko-r16-5", team1Name: "D2 (TBD)", team2Name: "E1 (TBD)", team1Score: null, team2Score: null, time: "July 15, 18:00", status: "upcoming" },
+        { id: "ko-r16-6", team1Name: "C2 (TBD)", team2Name: "F1 (TBD)", team1Score: null, team2Score: null, time: "July 15, 21:00", status: "upcoming" },
+        { id: "ko-r16-7", team1Name: "B2 (TBD)", team2Name: "G1 (TBD)", team1Score: null, team2Score: null, time: "July 16, 18:00", status: "upcoming" },
+        { id: "ko-r16-8", team1Name: "A2 (TBD)", team2Name: "H1 (TBD)", team1Score: null, team2Score: null, time: "July 16, 21:00", status: "upcoming" }
       ]
     },
     {

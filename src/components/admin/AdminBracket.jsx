@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight, Trophy, Loader2, Check, X } from 'lucide-react';
-import { getFixtures } from '../../lib/api';
-import { adminUpdateKnockout } from '../../lib/api';
+import { getFixtures, getGroups, adminUpdateKnockout } from '../../lib/api';
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
 function Toast({ message, type, onClose }) {
@@ -23,6 +22,64 @@ function Toast({ message, type, onClose }) {
   );
 }
 
+// ─── Team Autocomplete Component ──────────────────────────────────────────────
+function TeamAutocomplete({ label, value, onChange, onSelect, teams }) {
+  const [query, setQuery] = useState(value);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setQuery(value);
+  }, [value]);
+
+  const filtered = query
+    ? teams.filter(t =>
+        t.display.toLowerCase().includes(query.toLowerCase())
+      )
+    : teams;
+
+  const handleSelect = (team) => {
+    setQuery(team.name);
+    onSelect(team.id, team.name);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative space-y-1 text-left">
+      <label className="text-blue-400 text-[9px] font-black uppercase tracking-wider block">{label}</label>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          onChange(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => {
+          // Small delay to allow mouse down on list items
+          setTimeout(() => setIsOpen(false), 200);
+        }}
+        className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs font-bold focus:outline-none focus:border-blue-500 transition-colors"
+        placeholder="Search team or player..."
+      />
+
+      {isOpen && filtered.length > 0 && (
+        <div className="absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto bg-zinc-950 border border-zinc-800 rounded-lg shadow-2xl no-scrollbar divide-y divide-zinc-900/60">
+          {filtered.map((t) => (
+            <div
+              key={t.id}
+              onMouseDown={() => handleSelect(t)}
+              className="px-3 py-2 text-[11px] text-zinc-300 hover:bg-zinc-900 hover:text-white cursor-pointer transition-colors font-semibold"
+            >
+              {t.display}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Edit Modal ───────────────────────────────────────────────────────────────
 function EditModal({ match, onSave, onClose }) {
   const teamADisplay = match.teamA?.name || match.teamAName || 'TBD';
@@ -32,7 +89,36 @@ function EditModal({ match, onSave, onClose }) {
   const [scoreB, setScoreB] = useState(match.scoreB !== null ? String(match.scoreB) : '');
   const [teamAName, setTeamAName] = useState(teamADisplay);
   const [teamBName, setTeamBName] = useState(teamBDisplay);
+  const [teamAId, setTeamAId] = useState(match.teamA?._id || match.teamA || '');
+  const [teamBId, setTeamBId] = useState(match.teamB?._id || match.teamB || '');
   const [saving, setSaving] = useState(false);
+  const [teamsList, setTeamsList] = useState([]);
+
+  useEffect(() => {
+    getGroups()
+      .then(groups => {
+        const list = [];
+        if (Array.isArray(groups)) {
+          groups.forEach(g => {
+            if (Array.isArray(g.teams)) {
+              g.teams.forEach(t => {
+                const playerName = t.players?.[0]?.name || '';
+                const playerUsername = t.players?.[0]?.username || '';
+                list.push({
+                  id: t._id || t.id,
+                  name: t.name,
+                  playerName,
+                  playerUsername,
+                  display: `${t.name} (${playerName}${playerUsername ? ` - ${playerUsername}` : ''})`
+                });
+              });
+            }
+          });
+        }
+        setTeamsList(list);
+      })
+      .catch(err => console.error('Failed to load autocomplete teams:', err));
+  }, []);
 
   const handleSave = async () => {
     setSaving(true);
@@ -41,6 +127,8 @@ function EditModal({ match, onSave, onClose }) {
       scoreB: scoreB !== '' ? Number(scoreB) : null,
       teamAName,
       teamBName,
+      teamA: teamAId || null,
+      teamB: teamBId || null,
       status: scoreA !== '' && scoreB !== '' ? 'completed' : 'upcoming',
     });
     setSaving(false);
@@ -62,24 +150,34 @@ function EditModal({ match, onSave, onClose }) {
 
         {/* Team name inputs */}
         <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="text-blue-400 text-[9px] font-black uppercase tracking-wider block mb-1">Team A Name</label>
-            <input
-              type="text"
-              value={teamAName}
-              onChange={(e) => setTeamAName(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs font-bold focus:outline-none focus:border-blue-500 transition-colors"
-            />
-          </div>
-          <div>
-            <label className="text-blue-400 text-[9px] font-black uppercase tracking-wider block mb-1">Team B Name</label>
-            <input
-              type="text"
-              value={teamBName}
-              onChange={(e) => setTeamBName(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-white text-xs font-bold focus:outline-none focus:border-blue-500 transition-colors"
-            />
-          </div>
+          <TeamAutocomplete
+            label="Team A Name"
+            value={teamAName}
+            onChange={(val) => {
+              setTeamAName(val);
+              const matchTeam = teamsList.find(t => t.name.toLowerCase() === val.toLowerCase());
+              setTeamAId(matchTeam ? matchTeam.id : '');
+            }}
+            onSelect={(id, name) => {
+              setTeamAId(id);
+              setTeamAName(name);
+            }}
+            teams={teamsList}
+          />
+          <TeamAutocomplete
+            label="Team B Name"
+            value={teamBName}
+            onChange={(val) => {
+              setTeamBName(val);
+              const matchTeam = teamsList.find(t => t.name.toLowerCase() === val.toLowerCase());
+              setTeamBId(matchTeam ? matchTeam.id : '');
+            }}
+            onSelect={(id, name) => {
+              setTeamBId(id);
+              setTeamBName(name);
+            }}
+            teams={teamsList}
+          />
         </div>
 
         {/* Score inputs */}
