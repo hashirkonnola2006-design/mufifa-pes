@@ -49,8 +49,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex justify-center items-start py-0 md:py-8 px-0 md:px-4">
-      <div className="w-full max-w-[500px] md:max-w-6xl min-h-screen md:min-h-0 bg-[#0d0d0d] text-white flex flex-col relative md:rounded-[36px] md:shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:border md:border-zinc-800/80 px-5 pt-4 pb-24 md:pb-8">
+    <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col">
+      <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col relative px-4 sm:px-6 md:px-8 pt-4 pb-24 md:pb-8">
 
         {/* Desktop Top Header Navigation Bar */}
         {!isAdminView && (
