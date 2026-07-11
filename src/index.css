@@ -10,7 +10,7 @@
   --color-brand-bronze: #ac7339;
 }
 
-html, body, .scroll-container {
+.scroll-container {
   overscroll-behavior-y: contain;
 }
 
