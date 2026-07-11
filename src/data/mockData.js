@@ -220,6 +220,35 @@ export const groupsData = [
             "avatarColor": "bg-red-900 text-red-200"
           }
         ]
+      },
+      {
+        "id": "b_suiii",
+        "name": "suiii",
+        "shortName": "SUI",
+        "strength": 80,
+        "accentColor": "#ffcc00",
+        "gradient": "from-yellow-950/40 via-yellow-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "ANANDU POLA",
+            "username": "_GLIZZY_7",
+            "photo": "/teams/anandu.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-yellow-900 text-yellow-200"
+          }
+        ]
       }
     ]
   },

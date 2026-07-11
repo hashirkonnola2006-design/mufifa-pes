@@ -232,6 +232,35 @@ const groupsRaw = [
             "avatarColor": "bg-red-900 text-red-200"
           }
         ]
+      },
+      {
+        "id": "b_suiii",
+        "name": "suiii",
+        "shortName": "SUI",
+        "strength": 80,
+        "accentColor": "#ffcc00",
+        "gradient": "from-yellow-950/40 via-yellow-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "ANANDU POLA",
+            "username": "_GLIZZY_7",
+            "photo": "/teams/anandu.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-yellow-900 text-yellow-200"
+          }
+        ]
       }
     ]
   },
@@ -1288,9 +1317,8 @@ async function seed() {
   //     Gives exactly N matches total, each team appears once as
   //     left-side of pair i and once as right-side of pair (i-1), = 2 matches each.
   //     Works for any N ≥ 3; handles future changes in group size automatically.
-  //
   // Current group sizes:
-  //   A: 3 teams (full round-robin) | B: 3 teams (full round-robin)
+  //   A: 3 teams (full round-robin) | B: 5 teams (ring)
   //   C: 5 teams (ring)             | D: 5 teams (ring)
   //   E: 6 teams (ring)             | F: 6 teams (ring)
   //   G: 5 teams (ring)             | H: 5 teams (ring)
@@ -1301,11 +1329,12 @@ async function seed() {
     { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_manutd',    date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
     { groupId: 'A', teamAKey: 'a_barcelona', teamBKey: 'a_manutd',    date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
 
-    // ── Group B: 4 teams → ring schedule (4 matches, 2 per team) ──
+    // ── Group B: 5 teams → ring schedule (5 matches, 2 per team) ──
     { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_acmilan',          date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
     { groupId: 'B', teamAKey: 'b_acmilan',    teamBKey: 'b_fcbarcelona',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
     { groupId: 'B', teamAKey: 'b_fcbarcelona', teamBKey: 'b_manchesterunited', date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
-    { groupId: 'B', teamAKey: 'b_manchesterunited', teamBKey: 'b_portugal',     date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'B', teamAKey: 'b_manchesterunited', teamBKey: 'b_suiii',        date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
+    { groupId: 'B', teamAKey: 'b_suiii',            teamBKey: 'b_portugal',     date: 'SUNDAY - JULY 13, 2026',   time: '20:30' },
 
     // ── Group C: 5 teams → ring schedule (5 matches, 2 per team) ──
     // Ring: c_bayernmunichen → c_japan → c_vivabrazil → c_argentina → c_cr7 → (back to c_bayernmunichen)
