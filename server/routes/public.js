@@ -23,20 +23,51 @@ router.get('/prizepool', (req, res) => {
 router.get('/groups', async (req, res) => {
   try {
     const groups = await Group.find().sort({ groupId: 1 });
+    const allMatches = await Match.find({ stage: 'group' });
 
     const result = await Promise.all(
       groups.map(async (group) => {
         const teams = await Team.find({ groupId: group.groupId })
           .populate({ path: 'players', model: 'Player' });
 
-        // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+        const groupMatches = allMatches.filter(m => m.groupId === group.groupId);
+
+        // Sort teams: points desc, GD desc, GF desc, H2H desc
         teams.sort((a, b) => {
           if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
-          if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+
           const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
           const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
           if (gdB !== gdA) return gdB - gdA;
-          return b.stats.goalsFor - a.stats.goalsFor;
+
+          if (b.stats.goalsFor !== a.stats.goalsFor) return b.stats.goalsFor - a.stats.goalsFor;
+
+          // Head-to-Head
+          const teamAId = String(a._id);
+          const teamBId = String(b._id);
+          const h2hMatches = groupMatches.filter(m =>
+            m.status === 'completed' &&
+            ((String(m.teamA) === teamAId && String(m.teamB) === teamBId) ||
+             (String(m.teamA) === teamBId && String(m.teamB) === teamAId))
+          );
+
+          let h2hPointsA = 0;
+          let h2hPointsB = 0;
+          for (const m of h2hMatches) {
+            const isTeamA = String(m.teamA) === teamAId;
+            const scoreA = isTeamA ? m.scoreA : m.scoreB;
+            const scoreB = isTeamA ? m.scoreB : m.scoreA;
+
+            if (scoreA > scoreB) h2hPointsA += 3;
+            else if (scoreB > scoreA) h2hPointsB += 3;
+            else {
+              h2hPointsA += 1;
+              h2hPointsB += 1;
+            }
+          }
+
+          if (h2hPointsB !== h2hPointsA) return h2hPointsB - h2hPointsA;
+          return 0;
         });
 
         return {
@@ -82,17 +113,44 @@ router.get('/groups/:id', async (req, res) => {
     const group = await Group.findOne({ groupId });
     if (!group) return res.status(404).json({ error: 'Group not found' });
 
-    const teams = await Team.find({ groupId })
-      .populate({ path: 'players', model: 'Player' });
+    const matches = await Match.find({ stage: 'group', groupId });
 
-    // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+    // Sort teams: points desc, GD desc, GF desc, H2H desc
     teams.sort((a, b) => {
       if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
-      if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+
       const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
       const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
       if (gdB !== gdA) return gdB - gdA;
-      return b.stats.goalsFor - a.stats.goalsFor;
+
+      if (b.stats.goalsFor !== a.stats.goalsFor) return b.stats.goalsFor - a.stats.goalsFor;
+
+      // Head-to-Head
+      const teamAId = String(a._id);
+      const teamBId = String(b._id);
+      const h2hMatches = matches.filter(m =>
+        m.status === 'completed' &&
+        ((String(m.teamA) === teamAId && String(m.teamB) === teamBId) ||
+         (String(m.teamA) === teamBId && String(m.teamB) === teamAId))
+      );
+
+      let h2hPointsA = 0;
+      let h2hPointsB = 0;
+      for (const m of h2hMatches) {
+        const isTeamA = String(m.teamA) === teamAId;
+        const scoreA = isTeamA ? m.scoreA : m.scoreB;
+        const scoreB = isTeamA ? m.scoreB : m.scoreA;
+
+        if (scoreA > scoreB) h2hPointsA += 3;
+        else if (scoreB > scoreA) h2hPointsB += 3;
+        else {
+          h2hPointsA += 1;
+          h2hPointsB += 1;
+        }
+      }
+
+      if (h2hPointsB !== h2hPointsA) return h2hPointsB - h2hPointsA;
+      return 0;
     });
 
     res.json({

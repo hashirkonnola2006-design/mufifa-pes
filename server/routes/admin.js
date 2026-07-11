@@ -60,18 +60,46 @@ router.put('/matches/:id', async (req, res) => {
       });
 
       if (unplayedCount === 0) {
-        console.log(`Group ${match.groupId} is complete. Calculating standings for R16 advancement...`);
         const Team = require('../models/Team');
         const teams = await Team.find({ groupId: match.groupId });
+        const groupMatches = await Match.find({ stage: 'group', groupId: match.groupId });
 
-        // Sort teams: points desc, wins desc, goal diff desc, goals for desc
+        // Sort teams based on: 1. Points, 2. GD, 3. GF, 4. H2H, 5. Fallback
         const sortedTeams = teams.sort((a, b) => {
           if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
-          if (b.stats.won !== a.stats.won) return b.stats.won - a.stats.won;
+
           const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
           const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
           if (gdB !== gdA) return gdB - gdA;
-          return b.stats.goalsFor - a.stats.goalsFor;
+
+          if (b.stats.goalsFor !== a.stats.goalsFor) return b.stats.goalsFor - a.stats.goalsFor;
+
+          // Head-to-Head
+          const teamAId = String(a._id);
+          const teamBId = String(b._id);
+          const h2hMatches = groupMatches.filter(m =>
+            m.status === 'completed' &&
+            ((String(m.teamA) === teamAId && String(m.teamB) === teamBId) ||
+             (String(m.teamA) === teamBId && String(m.teamB) === teamAId))
+          );
+
+          let h2hPointsA = 0;
+          let h2hPointsB = 0;
+          for (const m of h2hMatches) {
+            const isTeamA = String(m.teamA) === teamAId;
+            const scoreA = isTeamA ? m.scoreA : m.scoreB;
+            const scoreB = isTeamA ? m.scoreB : m.scoreA;
+
+            if (scoreA > scoreB) h2hPointsA += 3;
+            else if (scoreB > scoreA) h2hPointsB += 3;
+            else {
+              h2hPointsA += 1;
+              h2hPointsB += 1;
+            }
+          }
+
+          if (h2hPointsB !== h2hPointsA) return h2hPointsB - h2hPointsA;
+          return 0;
         });
 
         const firstPlace = sortedTeams[0];
