@@ -148,7 +148,7 @@ function MatchRow({ match, onUpdate }) {
 
   const handleSave = async (id, data) => {
     try {
-      const updated = await onUpdate(id, data);
+      const updated = await onUpdate(id, data, match.stage);
       setToast({ message: 'Score saved!', type: 'success' });
       setExpanded(false);
       return updated;
@@ -252,9 +252,15 @@ export default function AdminMatches() {
 
   useEffect(() => { fetchMatches(); }, [fetchMatches]);
 
-  const handleUpdate = useCallback(async (id, data) => {
-    const updated = await adminUpdateMatch(id, data);
-    setMatches((prev) => prev.map((m) => (String(m._id) === String(id) ? updated : m)));
+  const handleUpdate = useCallback(async (id, data, stage) => {
+    const isKnockout = stage && stage !== 'group';
+    const updated = isKnockout 
+      ? await adminUpdateKnockout(id, data)
+      : await adminUpdateMatch(id, data);
+    
+    // Refresh all matches so newly advanced teams show up
+    const refreshed = await adminGetMatches();
+    setMatches(refreshed);
     return updated;
   }, []);
 
