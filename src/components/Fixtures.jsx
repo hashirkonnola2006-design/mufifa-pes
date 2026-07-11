@@ -40,12 +40,10 @@ function MatchCard({ match, showBracketInfo = false, isLast = false }) {
   const playerA = teamA.players?.[0];
   const playerB = teamB.players?.[0];
 
-  const nameA = playerA?.username
-    ? `@${playerA.username}`
-    : (match.teamAName || teamA.name || 'TBD');
-  const nameB = playerB?.username
-    ? `@${playerB.username}`
-    : (match.teamBName || teamB.name || 'TBD');
+  const clubNameA = teamA.name || match.teamAName || 'TBD';
+  const clubNameB = teamB.name || match.teamBName || 'TBD';
+  const usernameA = playerA?.username ? `@${playerA.username}` : null;
+  const usernameB = playerB?.username ? `@${playerB.username}` : null;
 
   const isCompleted = match.status === 'completed';
   const isTBD = !match.teamA && !match.teamB;
@@ -75,13 +73,20 @@ function MatchCard({ match, showBracketInfo = false, isLast = false }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
             <TeamFlag photo={playerA?.photo} name={teamA.name} accentColor={teamA.accentColor} size="md" />
-            <span
-              className={`text-sm font-bold tracking-tight truncate max-w-[160px] sm:max-w-[220px] ${
-                isTBD ? 'text-zinc-500 italic' : 'text-white'
-              }`}
-            >
-              {nameA}
-            </span>
+            <div className="min-w-0">
+              <span
+                className={`text-sm font-bold tracking-tight block truncate max-w-[160px] sm:max-w-[220px] ${
+                  isTBD ? 'text-zinc-500 italic' : 'text-white'
+                }`}
+              >
+                {clubNameA}
+              </span>
+              {usernameA && (
+                <span className="text-[10px] font-semibold text-zinc-500 block truncate max-w-[160px]">
+                  {usernameA}
+                </span>
+              )}
+            </div>
           </div>
           {isCompleted && (
             <span className="text-white text-base font-black tabular-nums ml-3 w-5 text-right">{match.scoreA ?? '-'}</span>
@@ -92,13 +97,20 @@ function MatchCard({ match, showBracketInfo = false, isLast = false }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
             <TeamFlag photo={playerB?.photo} name={teamB.name} accentColor={teamB.accentColor} size="md" />
-            <span
-              className={`text-sm font-bold tracking-tight truncate max-w-[160px] sm:max-w-[220px] ${
-                isTBD ? 'text-zinc-500 italic' : 'text-white'
-              }`}
-            >
-              {nameB}
-            </span>
+            <div className="min-w-0">
+              <span
+                className={`text-sm font-bold tracking-tight block truncate max-w-[160px] sm:max-w-[220px] ${
+                  isTBD ? 'text-zinc-500 italic' : 'text-white'
+                }`}
+              >
+                {clubNameB}
+              </span>
+              {usernameB && (
+                <span className="text-[10px] font-semibold text-zinc-500 block truncate max-w-[160px]">
+                  {usernameB}
+                </span>
+              )}
+            </div>
           </div>
           {isCompleted && (
             <span className="text-white text-base font-black tabular-nums ml-3 w-5 text-right">{match.scoreB ?? '-'}</span>
