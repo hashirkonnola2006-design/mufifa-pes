@@ -55,8 +55,11 @@ export default function Home({ setActiveTab }) {
       <div className="relative rounded-2xl border border-white/10 p-6 min-h-[280px] flex items-center overflow-hidden shadow-2xl">
         {/* Background Image Container with Gradient Overlay */}
         <div 
-          className="absolute inset-0 bg-cover bg-center z-0" 
-          style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.92) 40%, rgba(0,0,0,0.45) 75%, rgba(0,0,0,0.1) 100%), url("/hero_stadium_background.png")' }}
+          className="absolute inset-0 bg-cover z-0" 
+          style={{ 
+            backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.92) 35%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.1) 100%), url("/hero_stadium_background.png")',
+            backgroundPosition: '85% center'
+          }}
         />
         
         <div className="flex flex-col items-start w-full gap-4 z-10 text-left relative">
