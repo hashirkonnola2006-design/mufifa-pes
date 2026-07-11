@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Loader2, ArrowRight } from 'lucide-react';
-import { getFixtures } from '../lib/api';
+import { Trophy, Loader2, ArrowRight, Users, Layout, Swords, Crown } from 'lucide-react';
+import { getFixtures, getGroups } from '../lib/api';
 
 // Full-logo flag component
 function TeamFlag({ photo, name, accentColor, size = 'sm' }) {
@@ -134,15 +134,29 @@ export default function Fixtures() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeKORound, setActiveKORound] = useState('R16');
+  const [stats, setStats] = useState({ teams: 40, groups: 8 });
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
         setLoading(true);
-        const [gData, kData] = await Promise.all([getFixtures('group'), getFixtures('knockout')]);
+        const [gData, kData, groupsData] = await Promise.all([
+          getFixtures('group'),
+          getFixtures('knockout'),
+          getGroups()
+        ]);
         setGroupSections(Array.isArray(gData) ? gData : []);
         setKnockoutRounds(Array.isArray(kData) ? kData : []);
         if (Array.isArray(kData) && kData.length > 0) setActiveKORound(kData[0].roundId);
+
+        if (Array.isArray(groupsData)) {
+          const groupsCount = groupsData.length;
+          const teamsCount = groupsData.reduce((acc, g) => acc + (g.teams?.length || 0), 0);
+          setStats({
+            teams: teamsCount > 0 ? teamsCount : 40,
+            groups: groupsCount > 0 ? groupsCount : 8,
+          });
+        }
       } catch (err) {
         setError(err.message || 'Failed to load fixtures');
       } finally {
@@ -176,6 +190,30 @@ export default function Fixtures() {
 
   return (
     <div className="space-y-6 animate-fadeIn pb-24">
+      {/* ── STATS BAR (4-column row) ── */}
+      <div className="grid grid-cols-4 gap-1 rounded-2xl border border-white/5 bg-black/40 p-3 shadow-lg backdrop-blur-md">
+        <div className="text-center py-1">
+          <Users className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">{stats.teams}</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Teams</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Layout className="w-5 h-5 mx-auto text-violet-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">{stats.groups}</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Groups</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Swords className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">INTENSE</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Matches</span>
+        </div>
+        <div className="text-center py-1 border-l border-white/5">
+          <Crown className="w-5 h-5 mx-auto text-yellow-400 mb-1.5" />
+          <span className="block text-white text-lg font-black leading-none">ONE</span>
+          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Champion</span>
+        </div>
+      </div>
+
       {/* Stage toggle */}
       <div className="bg-zinc-950 p-1 rounded-full flex select-none border border-zinc-900/60">
         <button

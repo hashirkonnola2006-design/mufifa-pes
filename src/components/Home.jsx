@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Layout, Crown, ChevronRight, Swords, Lock, ArrowRight } from 'lucide-react';
+import { Users, Layout, Crown, ChevronRight, Lock, ArrowRight } from 'lucide-react';
 import { getGroups, getLeaderboard } from '../lib/api';
 
 export default function Home({ setActiveTab }) {
@@ -100,30 +100,6 @@ export default function Home({ setActiveTab }) {
               className="w-full h-full object-contain z-10 filter drop-shadow-[0_0_25px_rgba(0,242,254,0.5)] animate-float"
             />
           </div>
-        </div>
-      </div>
-
-      {/* ── 3. STATS BAR (4-column row) ── */}
-      <div className="grid grid-cols-4 gap-1 rounded-2xl border border-white/5 bg-black/40 p-3 shadow-lg backdrop-blur-md">
-        <div className="text-center py-1">
-          <Users className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
-          <span className="block text-white text-lg font-black leading-none">{stats.teams}</span>
-          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Teams</span>
-        </div>
-        <div className="text-center py-1 border-l border-white/5">
-          <Layout className="w-5 h-5 mx-auto text-violet-400 mb-1.5" />
-          <span className="block text-white text-lg font-black leading-none">{stats.groups}</span>
-          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Groups</span>
-        </div>
-        <div className="text-center py-1 border-l border-white/5">
-          <Swords className="w-5 h-5 mx-auto text-cyan-400 mb-1.5" />
-          <span className="block text-white text-lg font-black leading-none">INTENSE</span>
-          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Matches</span>
-        </div>
-        <div className="text-center py-1 border-l border-white/5">
-          <Crown className="w-5 h-5 mx-auto text-yellow-400 mb-1.5" />
-          <span className="block text-white text-lg font-black leading-none">ONE</span>
-          <span className="text-zinc-500 text-[8px] uppercase font-bold tracking-wider block mt-1">Champion</span>
         </div>
       </div>
 
