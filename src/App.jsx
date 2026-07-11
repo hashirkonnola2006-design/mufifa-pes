@@ -15,9 +15,11 @@ function App() {
     if (saved === 'admin-login' && isLoggedIn()) return 'admin-dashboard';
     return saved || 'home';
   });
+  const [tabSwitchTime, setTabSwitchTime] = useState(Date.now());
 
   const setActiveTab = (tab) => {
     localStorage.setItem('mufifa_active_tab', tab);
+    setTabSwitchTime(Date.now());
     setActiveTabState(tab);
   };
 
@@ -32,11 +34,11 @@ function App() {
       case 'home':
         return <Home setActiveTab={setActiveTab} />;
       case 'groups':
-        return <Groups />;
+        return <Groups key={tabSwitchTime} />;
       case 'fixtures':
-        return <Fixtures />;
+        return <Fixtures key={tabSwitchTime} />;
       case 'leaderboard':
-        return <WallOfVictories />;
+        return <WallOfVictories key={tabSwitchTime} />;
       case 'admin-login':
         return <AdminLogin setActiveTab={setActiveTab} />;
       case 'admin-dashboard':

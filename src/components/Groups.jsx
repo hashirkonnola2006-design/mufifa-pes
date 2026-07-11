@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { getGroups } from '../lib/api';
+import { ChevronDown, ChevronUp, Calendar } from 'lucide-react';
+import { getGroups, getFixtures } from '../lib/api';
 
 // Flag image component — rectangular, shows full logo uncropped
 function TeamFlag({ photo, name, accentColor, size = 'sm' }) {
@@ -63,6 +63,7 @@ function SkeletonRow() {
 
 export default function Groups() {
   const [groupsData, setGroupsData] = useState([]);
+  const [groupFixtures, setGroupFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeGroup, setActiveGroup] = useState('A');
@@ -70,9 +71,12 @@ export default function Groups() {
   const [activePhotoModal, setActivePhotoModal] = useState(null);
 
   useEffect(() => {
-    getGroups()
-      .then((data) => {
-        setGroupsData(data);
+    Promise.all([getGroups(), getFixtures('group')])
+      .then(([gData, fData]) => {
+        setGroupsData(gData);
+        // Flatten all group fixtures from sections
+        const flat = Array.isArray(fData) ? fData.flatMap(s => s.matches || []) : [];
+        setGroupFixtures(flat);
         setLoading(false);
       })
       .catch((err) => {
@@ -344,6 +348,113 @@ export default function Groups() {
           </div>
         </div>
       )}
+
+      {/* ── Matches in this Group ── */}
+      {selectedGroup && (() => {
+        const matches = groupFixtures.filter(
+          m => (m.group || m.groupId) === selectedGroup.id
+        );
+        if (matches.length === 0) return null;
+
+        // Build a map teamId -> player info for logo lookup
+        const teamPlayerMap = {};
+        selectedGroup.teams?.forEach(t => {
+          const p = t.players?.[0];
+          teamPlayerMap[String(t._id || t.id)] = { photo: p?.photo, accentColor: t.accentColor, name: t.name };
+        });
+
+        return (
+          <div className="space-y-3">
+            <div className="flex justify-between items-center px-1">
+              <span className="text-white text-xs font-black uppercase tracking-widest">
+                Matches in Group {selectedGroup.id}
+              </span>
+              <span className="text-zinc-500 text-xs font-bold uppercase">
+                {matches.length} Matches
+              </span>
+            </div>
+
+            <div className="space-y-2.5">
+              {matches.map((match, idx) => {
+                const teamA = match.teamA || {};
+                const teamB = match.teamB || {};
+                const playerA = teamA.players?.[0];
+                const playerB = teamB.players?.[0];
+                const usernameA = playerA?.username ? `@${playerA.username}` : (teamA.name || 'TBD');
+                const usernameB = playerB?.username ? `@${playerB.username}` : (teamB.name || 'TBD');
+                const realNameA = playerA?.name || null;
+                const realNameB = playerB?.name || null;
+                const isCompleted = match.status === 'completed';
+
+                const logoSrcA = playerA?.photo?.replace('/teams/', '/teams/logos/');
+                const logoSrcB = playerB?.photo?.replace('/teams/', '/teams/logos/');
+
+                return (
+                  <div
+                    key={match._id || match.id || idx}
+                    className={`rounded-2xl border px-4 py-3.5 flex items-center gap-3 ${
+                      isCompleted
+                        ? 'bg-zinc-950/60 border-zinc-800/80'
+                        : 'bg-zinc-950/30 border-zinc-900/60'
+                    }`}
+                  >
+                    {/* Team A */}
+                    <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                      {logoSrcA ? (
+                        <img src={logoSrcA} alt={teamA.name} className="w-9 h-9 rounded-md object-contain bg-[#1a1a2e] border border-white/10 p-0.5 shrink-0" />
+                      ) : (
+                        <div className="w-9 h-9 rounded-md flex items-center justify-center text-[8px] font-black shrink-0"
+                          style={{ backgroundColor: `${teamA.accentColor || '#52525b'}20`, border: `1.5px solid ${teamA.accentColor || '#52525b'}50`, color: teamA.accentColor || '#a1a1aa' }}>
+                          {teamA.name?.substring(0, 2).toUpperCase() || '?'}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <span className="text-white text-xs font-bold block truncate max-w-[100px]">{usernameA}</span>
+                        {realNameA && <span className="text-zinc-500 text-[10px] block truncate max-w-[100px]">{realNameA}</span>}
+                      </div>
+                    </div>
+
+                    {/* Score / Match number */}
+                    <div className="flex flex-col items-center shrink-0 text-center px-1">
+                      <span className="text-[9px] font-black text-[#00f2fe] uppercase tracking-widest mb-0.5">
+                        Match {idx + 1}
+                      </span>
+                      {isCompleted ? (
+                        <span className="text-white text-xl font-black tabular-nums tracking-tight">
+                          {match.scoreA} - {match.scoreB}
+                        </span>
+                      ) : (
+                        <span className="text-zinc-600 text-base font-bold">vs</span>
+                      )}
+                      <span className={`text-[8px] font-bold uppercase mt-0.5 ${
+                        isCompleted ? 'text-emerald-500' : 'text-zinc-600'
+                      }`}>
+                        {isCompleted ? 'Completed' : 'Upcoming'}
+                      </span>
+                    </div>
+
+                    {/* Team B */}
+                    <div className="flex items-center gap-2.5 flex-1 min-w-0 justify-end">
+                      <div className="min-w-0 text-right">
+                        <span className="text-white text-xs font-bold block truncate max-w-[100px]">{usernameB}</span>
+                        {realNameB && <span className="text-zinc-500 text-[10px] block truncate max-w-[100px]">{realNameB}</span>}
+                      </div>
+                      {logoSrcB ? (
+                        <img src={logoSrcB} alt={teamB.name} className="w-9 h-9 rounded-md object-contain bg-[#1a1a2e] border border-white/10 p-0.5 shrink-0" />
+                      ) : (
+                        <div className="w-9 h-9 rounded-md flex items-center justify-center text-[8px] font-black shrink-0"
+                          style={{ backgroundColor: `${teamB.accentColor || '#52525b'}20`, border: `1.5px solid ${teamB.accentColor || '#52525b'}50`, color: teamB.accentColor || '#a1a1aa' }}>
+                          {teamB.name?.substring(0, 2).toUpperCase() || '?'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Lightbox / Zoomed Image Modal */}
       {activePhotoModal && (
