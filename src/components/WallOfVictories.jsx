@@ -78,7 +78,7 @@ export default function WallOfVictories() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-6 h-6 text-[#00f2fe] animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#2563eb] animate-spin" />
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function WallOfVictories() {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3">
         <p className="text-red-400 text-sm font-bold">{error}</p>
-        <button onClick={() => window.location.reload()} className="text-[#00f2fe] text-xs font-bold hover:underline">
+        <button onClick={() => window.location.reload()} className="text-[#2563eb] text-xs font-bold hover:underline">
           Retry
         </button>
       </div>
@@ -248,7 +248,7 @@ export default function WallOfVictories() {
             </div>
             <div>
               <span className="text-[9px] font-bold text-zinc-500 uppercase block mb-0.5">Next Match</span>
-              <span className="text-xs font-black text-[#00f2fe] uppercase tracking-wide">
+              <span className="text-xs font-black text-[#2563eb] uppercase tracking-wide">
                 Upcoming
               </span>
             </div>

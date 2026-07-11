@@ -120,7 +120,7 @@ function MatchCard({ match, showBracketInfo = false, isLast = false }) {
         {/* Bracket destination */}
         {showBracketInfo && match.winnerAdvancesTo && (
           <div className="flex justify-end pt-1">
-            <span className="flex items-center gap-1 text-[10px] font-bold text-[#00f2fe]/70 uppercase tracking-wider">
+            <span className="flex items-center gap-1 text-[10px] font-bold text-[#2563eb]/70 uppercase tracking-wider">
               <ArrowRight className="w-3 h-3" />
               Winner to {match.winnerAdvancesTo}
             </span>
@@ -181,7 +181,7 @@ export default function Fixtures() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-6 h-6 text-[#00f2fe] animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#2563eb] animate-spin" />
       </div>
     );
   }
@@ -190,7 +190,7 @@ export default function Fixtures() {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3">
         <p className="text-red-400 text-sm font-bold">{error}</p>
-        <button onClick={() => window.location.reload()} className="text-[#00f2fe] text-xs font-bold hover:underline">
+        <button onClick={() => window.location.reload()} className="text-[#2563eb] text-xs font-bold hover:underline">
           Retry
         </button>
       </div>
@@ -232,7 +232,7 @@ export default function Fixtures() {
           onClick={() => setStage('groups')}
           className={`w-1/2 text-center text-xs font-black py-2.5 rounded-full transition-all-custom ${
             stage === 'groups'
-              ? 'bg-[#00f2fe] text-black shadow-[0_0_12px_rgba(0,242,254,0.25)]'
+              ? 'bg-[#2563eb] text-white shadow-[0_0_12px_rgba(37,99,235,0.25)]'
               : 'text-zinc-500 hover:text-zinc-300'
           }`}
         >
@@ -242,7 +242,7 @@ export default function Fixtures() {
           onClick={() => setStage('knockout')}
           className={`w-1/2 text-center text-xs font-black py-2.5 rounded-full transition-all-custom ${
             stage === 'knockout'
-              ? 'bg-[#00f2fe] text-black shadow-[0_0_12px_rgba(0,242,254,0.25)]'
+              ? 'bg-[#2563eb] text-white shadow-[0_0_12px_rgba(37,99,235,0.25)]'
               : 'text-zinc-500 hover:text-zinc-300'
           }`}
         >
@@ -289,14 +289,14 @@ export default function Fixtures() {
                       onClick={() => setActiveKORound(round.roundId)}
                       className={`flex flex-col items-center gap-1 px-4 py-3 rounded-xl transition-all-custom border shrink-0 ${
                         isActive
-                          ? 'bg-[#00f2fe]/10 border-[#00f2fe]/40 text-[#00f2fe]'
+                          ? 'bg-[#2563eb]/10 border-[#2563eb]/40 text-[#2563eb]'
                           : 'bg-zinc-950 border-zinc-800/60 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700'
                       }`}
                     >
-                      <span className={`text-[11px] font-black uppercase tracking-widest ${isActive ? 'text-[#00f2fe]' : ''}`}>
+                      <span className={`text-[11px] font-black uppercase tracking-widest ${isActive ? 'text-[#2563eb]' : ''}`}>
                         {meta.label}
                       </span>
-                      <span className={`text-[9px] font-medium ${isActive ? 'text-[#00f2fe]/60' : 'text-zinc-600'}`}>
+                      <span className={`text-[9px] font-medium ${isActive ? 'text-[#2563eb]/60' : 'text-zinc-600'}`}>
                         {meta.desc}
                       </span>
                     </button>
@@ -331,8 +331,8 @@ export default function Fixtures() {
 
               {/* Bracket connection hint for R16 */}
               {activeRoundData.roundId === 'R16' && (
-                <div className="mx-1 px-3 py-2 rounded-xl bg-[#00f2fe]/5 border border-[#00f2fe]/10">
-                  <p className="text-[10px] font-bold text-[#00f2fe]/60 leading-relaxed">
+                <div className="mx-1 px-3 py-2 rounded-xl bg-[#2563eb]/5 border border-[#2563eb]/10">
+                  <p className="text-[10px] font-bold text-[#2563eb]/60 leading-relaxed">
                     Cross-group pairings: R16-1&2 → QF-A · R16-3&4 → QF-B · R16-5&6 → QF-C · R16-7&8 → QF-D
                   </p>
                 </div>
@@ -358,8 +358,8 @@ export default function Fixtures() {
                               Winners advance to
                             </span>
                             <div className="flex items-center gap-1.5">
-                              <ArrowRight className="w-3 h-3 text-[#00f2fe]/70" />
-                              <span className="text-[11px] font-black text-[#00f2fe] uppercase tracking-wider">
+                              <ArrowRight className="w-3 h-3 text-[#2563eb]/70" />
+                              <span className="text-[11px] font-black text-[#2563eb] uppercase tracking-wider">
                                 {pair.qf}
                               </span>
                             </div>

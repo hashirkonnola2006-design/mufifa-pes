@@ -70,7 +70,7 @@ function App() {
               onClick={() => setActiveTab('home')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'home'
-                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
+                  ? 'bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#2563eb] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -88,7 +88,7 @@ function App() {
               onClick={() => setActiveTab('groups')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'groups'
-                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
+                  ? 'bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#2563eb] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -106,7 +106,7 @@ function App() {
               onClick={() => setActiveTab('fixtures')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'fixtures'
-                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
+                  ? 'bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#2563eb] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}
@@ -124,7 +124,7 @@ function App() {
               onClick={() => setActiveTab('leaderboard')}
               className={`flex flex-col items-center justify-center flex-1 py-1 rounded-xl transition-all-custom ${
                 activeTab === 'leaderboard'
-                  ? 'bg-[#00f2fe]/10 border border-[#00f2fe]/20 text-[#00f2fe] scale-[1.02]'
+                  ? 'bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#2563eb] scale-[1.02]'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
               style={{ height: '44px' }}

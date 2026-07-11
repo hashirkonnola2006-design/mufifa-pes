@@ -158,7 +158,7 @@ export default function Groups() {
                 onClick={() => handleGroupChange(group.id)}
                 className={`snap-start shrink-0 min-w-[56px] h-12 rounded-full flex items-center justify-center text-sm font-black transition-all-custom ${
                   isActive
-                    ? 'bg-[#00f2fe] text-black scale-[1.05] shadow-[0_0_12px_rgba(0,242,254,0.25)]'
+                    ? 'bg-[#2563eb] text-white scale-[1.05] shadow-[0_0_12px_rgba(37,99,235,0.25)]'
                     : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
                 }`}
               >
@@ -191,7 +191,7 @@ export default function Groups() {
                   <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">W</th>
                   <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">D</th>
                   <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-10">L</th>
-                  <th className="py-3 px-3 text-right text-xs font-bold text-[#00f2fe] uppercase tracking-wider w-14">Pts</th>
+                  <th className="py-3 px-3 text-right text-xs font-bold text-[#2563eb] uppercase tracking-wider w-14">Pts</th>
                   <th className="py-3 px-3 text-center text-xs font-bold text-zinc-500 uppercase tracking-wider w-32">Form</th>
                   <th className="py-3 px-3 w-8"></th>
                 </tr>
@@ -292,7 +292,7 @@ export default function Groups() {
                                     {player?.name || '—'}
                                   </h4>
                                   {player?.username && (
-                                    <span className="text-[#00f2fe] text-sm font-bold block mt-1.5 uppercase tracking-wider">
+                                    <span className="text-[#2563eb] text-sm font-bold block mt-1.5 uppercase tracking-wider">
                                       @{player.username}
                                     </span>
                                   )}
@@ -313,7 +313,7 @@ export default function Groups() {
                                   </div>
                                   <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800">
                                     <span className="text-[9px] font-bold uppercase text-zinc-500 block mb-0.5">Abbreviation</span>
-                                    <span className="text-[#00f2fe] text-sm sm:text-base font-black tracking-wide">{team.shortName}</span>
+                                    <span className="text-[#2563eb] text-sm sm:text-base font-black tracking-wide">{team.shortName}</span>
                                   </div>
                                 </div>
 
@@ -416,7 +416,7 @@ export default function Groups() {
 
                     {/* Score / Match number */}
                     <div className="flex flex-col items-center shrink-0 text-center px-1">
-                      <span className="text-[9px] font-black text-[#00f2fe] uppercase tracking-widest mb-0.5">
+                      <span className="text-[9px] font-black text-[#2563eb] uppercase tracking-widest mb-0.5">
                         Match {idx + 1}
                       </span>
                       {isCompleted ? (
