@@ -33,19 +33,19 @@ export default function Home({ setActiveTab }) {
     <div className="space-y-6 animate-fadeIn pb-24 -mx-1 text-zinc-300">
       
       {/* ── 1. TOP BAR ── */}
-      <div className="flex justify-between items-center px-1">
-        {/* mulearn x FIFA Collab Badge */}
-        <div className="flex items-center gap-1.5 select-none">
-          <span className="text-sm font-black text-white lowercase">mulearn</span>
-          <span className="text-xs font-bold text-zinc-500">×</span>
-          <span className="text-sm font-black text-blue-500 uppercase tracking-wider">FIFA</span>
+      <div className="relative flex justify-center items-center py-2 px-1">
+        {/* mulearn x FIFA Collab Badge (Centered and Enlarged) */}
+        <div className="flex items-center gap-2 select-none">
+          <span className="text-lg sm:text-xl font-black text-white lowercase tracking-tight">mulearn</span>
+          <span className="text-sm font-bold text-zinc-500">×</span>
+          <span className="text-lg sm:text-xl font-black text-blue-500 uppercase tracking-widest">FIFA</span>
         </div>
 
-        {/* Admin Login Button */}
+        {/* Admin Login Button (Absolute Right) */}
         <button
           onClick={() => setActiveTab('admin-login')}
           title="Admin Panel"
-          className="w-9 h-9 rounded-xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 hover:text-white flex items-center justify-center text-zinc-400 transition-all duration-200 shadow-lg"
+          className="absolute right-1 w-9 h-9 rounded-xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 hover:text-white flex items-center justify-center text-zinc-400 transition-all duration-200 shadow-lg"
         >
           <Lock className="w-4 h-4" />
         </button>
