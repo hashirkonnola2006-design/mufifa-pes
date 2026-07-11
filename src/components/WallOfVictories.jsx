@@ -93,17 +93,20 @@ export default function WallOfVictories() {
 
   // Helper to extract matches based on round filter
   const getFilteredMatches = () => {
+    let list = [];
     if (activeFilter === 'ALL') {
       // Return all matches
       const koMatches = knockoutRounds.flatMap(r => r.matches || []);
-      return [...groupMatches, ...koMatches];
+      list = [...groupMatches, ...koMatches];
+    } else if (activeFilter === 'GROUP') {
+      list = groupMatches;
+    } else {
+      // For specific knockout rounds
+      const round = knockoutRounds.find(r => r.roundId === activeFilter);
+      list = round ? (round.matches || []) : [];
     }
-    if (activeFilter === 'GROUP') {
-      return groupMatches;
-    }
-    // For specific knockout rounds
-    const round = knockoutRounds.find(r => r.roundId === activeFilter);
-    return round ? (round.matches || []) : [];
+    // Filter to only include completed matches
+    return list.filter(m => m.status === 'completed');
   };
 
   const filteredMatches = getFilteredMatches();
