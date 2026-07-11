@@ -111,7 +111,7 @@ export default function Home({ setActiveTab }) {
                 <line x1="18.2" y1="20" x2="14.5" y2="15.5" />
               </svg>
             </div>
-            <h2 className="text-white text-lg sm:text-xl md:text-2xl font-black tracking-tight uppercase">
+            <h2 className="text-white text-lg sm:text-xl md:text-2xl font-black tracking-tight">
               WHAT IS <span className="text-blue-500">μFIFA?</span>
             </h2>
           </div>
