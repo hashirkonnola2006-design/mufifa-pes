@@ -226,6 +226,7 @@ export default function AdminMatches() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [expandedGroups, setExpandedGroups] = useState({});
 
   const fetchMatches = useCallback(async () => {
     try {
@@ -245,6 +246,13 @@ export default function AdminMatches() {
     const updated = await adminUpdateMatch(id, data);
     setMatches((prev) => prev.map((m) => (String(m._id) === String(id) ? updated : m)));
     return updated;
+  }, []);
+
+  const toggleGroup = useCallback((groupId) => {
+    setExpandedGroups((prev) => ({
+      ...prev,
+      [groupId]: !prev[groupId],
+    }));
   }, []);
 
   if (loading) {
@@ -270,6 +278,17 @@ export default function AdminMatches() {
   const groupMatches = matches.filter((m) => m.stage === 'group');
   const knockoutMatches = matches.filter((m) => m.stage !== 'group');
 
+  // Group groupMatches by group letter
+  const matchesByGroup = {};
+  for (const m of groupMatches) {
+    const gId = m.groupId || 'Unknown';
+    if (!matchesByGroup[gId]) {
+      matchesByGroup[gId] = [];
+    }
+    matchesByGroup[gId].push(m);
+  }
+  const sortedGroupIds = Object.keys(matchesByGroup).sort();
+
   const stageOrder = ['R16', 'QF', 'SF', 'final'];
   const stageLabels = { R16: 'Round of 16', QF: 'Quarter-Finals', SF: 'Semi-Finals', final: 'Final' };
 
@@ -277,16 +296,48 @@ export default function AdminMatches() {
     <div className="space-y-6">
       {/* Group Stage */}
       {groupMatches.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex items-center gap-2 px-1">
             <Users className="w-3.5 h-3.5 text-blue-400" />
             <span className="text-zinc-400 text-xs font-black uppercase tracking-wider">Group Stage</span>
             <span className="text-zinc-600 text-[9px] font-bold">({groupMatches.length} matches)</span>
           </div>
+
           <div className="space-y-2">
-            {groupMatches.map((m) => (
-              <MatchRow key={m._id} match={m} onUpdate={handleUpdate} />
-            ))}
+            {sortedGroupIds.map((gId) => {
+              const isExpanded = !!expandedGroups[gId];
+              const groupMatchesList = matchesByGroup[gId];
+              return (
+                <div key={gId} className="border border-zinc-900/80 rounded-xl overflow-hidden bg-zinc-950/40">
+                  {/* Group Header Row */}
+                  <button
+                    onClick={() => toggleGroup(gId)}
+                    className="w-full flex items-center justify-between p-3.5 bg-zinc-950 hover:bg-zinc-900/50 transition-colors select-none text-left cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-white text-xs font-black uppercase tracking-wider">
+                        Group {gId}
+                      </span>
+                      <span className="text-zinc-600 text-[10px] font-bold">
+                        ({groupMatchesList.length} matches)
+                      </span>
+                    </div>
+                    <div className="text-zinc-500">
+                      {isExpanded ? <ChevronUp className="w-4.5 h-4.5" /> : <ChevronDown className="w-4.5 h-4.5" />}
+                    </div>
+                  </button>
+
+                  {/* Group Matches List (Visible when expanded) */}
+                  {isExpanded && (
+                    <div className="p-3 border-t border-zinc-900/60 bg-black/20 space-y-2 animate-fadeIn">
+                      {groupMatchesList.map((m) => (
+                        <MatchRow key={m._id} match={m} onUpdate={handleUpdate} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
