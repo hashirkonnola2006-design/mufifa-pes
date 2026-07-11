@@ -26,4 +26,7 @@ const matchSchema = new mongoose.Schema({
   winnerAdvancesTo: { type: String, default: null },  // bracketPosition of next match
 }, { timestamps: true });
 
+matchSchema.index({ stage: 1 });
+matchSchema.index({ groupId: 1 });
+
 module.exports = mongoose.model('Match', matchSchema);

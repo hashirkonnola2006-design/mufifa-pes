@@ -22,82 +22,88 @@ router.get('/prizepool', (req, res) => {
 // All groups with fully populated teams (sorted by points) and players
 router.get('/groups', async (req, res) => {
   try {
-    const groups = await Group.find().sort({ groupId: 1 });
-    const allMatches = await Match.find({ stage: 'group' });
+    const [groups, allMatches, allTeams] = await Promise.all([
+      Group.find().sort({ groupId: 1 }),
+      Match.find({ stage: 'group' }),
+      Team.find().populate({ path: 'players', model: 'Player' })
+    ]);
 
-    const result = await Promise.all(
-      groups.map(async (group) => {
-        const teams = await Team.find({ groupId: group.groupId })
-          .populate({ path: 'players', model: 'Player' });
+    const teamsByGroup = {};
+    for (const team of allTeams) {
+      const gId = team.groupId;
+      if (!teamsByGroup[gId]) teamsByGroup[gId] = [];
+      teamsByGroup[gId].push(team);
+    }
 
-        const groupMatches = allMatches.filter(m => m.groupId === group.groupId);
+    const result = groups.map((group) => {
+      const teams = teamsByGroup[group.groupId] || [];
+      const groupMatches = allMatches.filter(m => m.groupId === group.groupId);
 
-        // Sort teams: points desc, GD desc, GF desc, H2H desc
-        teams.sort((a, b) => {
-          if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
+      // Sort teams: points desc, GD desc, GF desc, H2H desc
+      teams.sort((a, b) => {
+        if (b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
 
-          const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
-          const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
-          if (gdB !== gdA) return gdB - gdA;
+        const gdA = a.stats.goalsFor - a.stats.goalsAgainst;
+        const gdB = b.stats.goalsFor - b.stats.goalsAgainst;
+        if (gdB !== gdA) return gdB - gdA;
 
-          if (b.stats.goalsFor !== a.stats.goalsFor) return b.stats.goalsFor - a.stats.goalsFor;
+        if (b.stats.goalsFor !== a.stats.goalsFor) return b.stats.goalsFor - a.stats.goalsFor;
 
-          // Head-to-Head
-          const teamAId = String(a._id);
-          const teamBId = String(b._id);
-          const h2hMatches = groupMatches.filter(m =>
-            m.status === 'completed' &&
-            ((String(m.teamA) === teamAId && String(m.teamB) === teamBId) ||
-             (String(m.teamA) === teamBId && String(m.teamB) === teamAId))
-          );
+        // Head-to-Head
+        const teamAId = String(a._id);
+        const teamBId = String(b._id);
+        const h2hMatches = groupMatches.filter(m =>
+          m.status === 'completed' &&
+          ((String(m.teamA) === teamAId && String(m.teamB) === teamBId) ||
+           (String(m.teamA) === teamBId && String(m.teamB) === teamAId))
+        );
 
-          let h2hPointsA = 0;
-          let h2hPointsB = 0;
-          for (const m of h2hMatches) {
-            const isTeamA = String(m.teamA) === teamAId;
-            const scoreA = isTeamA ? m.scoreA : m.scoreB;
-            const scoreB = isTeamA ? m.scoreB : m.scoreA;
+        let h2hPointsA = 0;
+        let h2hPointsB = 0;
+        for (const m of h2hMatches) {
+          const isTeamA = String(m.teamA) === teamAId;
+          const scoreA = isTeamA ? m.scoreA : m.scoreB;
+          const scoreB = isTeamA ? m.scoreB : m.scoreA;
 
-            if (scoreA > scoreB) h2hPointsA += 3;
-            else if (scoreB > scoreA) h2hPointsB += 3;
-            else {
-              h2hPointsA += 1;
-              h2hPointsB += 1;
-            }
+          if (scoreA > scoreB) h2hPointsA += 3;
+          else if (scoreB > scoreA) h2hPointsB += 3;
+          else {
+            h2hPointsA += 1;
+            h2hPointsB += 1;
           }
+        }
 
-          if (h2hPointsB !== h2hPointsA) return h2hPointsB - h2hPointsA;
-          return 0;
-        });
+        if (h2hPointsB !== h2hPointsA) return h2hPointsB - h2hPointsA;
+        return 0;
+      });
 
-        return {
-          id: group.groupId,
-          name: group.name,
-          teams: teams.map((t) => ({
-            _id: t._id,
-            id: t._id,
-            name: t.name,
-            shortName: t.shortName,
-            groupId: t.groupId,
-            strength: t.strength,
-            accentColor: t.accentColor,
-            gradient: t.gradient,
-            stats: t.stats,
-            players: t.players.map((p) => ({
-              _id: p._id,
-              id: p._id,
-              name: p.name,
-              username: p.username,
-              photo: p.photo,
-              goals: p.goals,
-              matches: p.matchesPlayed,
-              points: p.points,
-              avatarColor: p.avatarColor,
-            })),
+      return {
+        id: group.groupId,
+        name: group.name,
+        teams: teams.map((t) => ({
+          _id: t._id,
+          id: t._id,
+          name: t.name,
+          shortName: t.shortName,
+          groupId: t.groupId,
+          strength: t.strength,
+          accentColor: t.accentColor,
+          gradient: t.gradient,
+          stats: t.stats,
+          players: t.players.map((p) => ({
+            _id: p._id,
+            id: p._id,
+            name: p.name,
+            username: p.username,
+            photo: p.photo,
+            goals: p.goals,
+            matches: p.matchesPlayed,
+            points: p.points,
+            avatarColor: p.avatarColor,
           })),
-        };
-      })
-    );
+        })),
+      };
+    });
 
     res.json(result);
   } catch (err) {
