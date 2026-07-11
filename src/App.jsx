@@ -59,7 +59,7 @@ function App() {
             <div onClick={() => setActiveTab('home')} className="flex items-center gap-2 cursor-pointer select-none">
               <span className="text-xl font-black text-white lowercase tracking-tight">μlearn</span>
               <span className="text-sm font-bold text-zinc-500">×</span>
-              <span className="text-xl font-black text-[#2563eb] tracking-widest">μFIFA</span>
+              <span className="text-xl font-black text-[#2563eb] uppercase tracking-widest">FIFA</span>
             </div>
 
             {/* Center: Tabs */}

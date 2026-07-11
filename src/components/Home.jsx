@@ -38,7 +38,7 @@ export default function Home({ setActiveTab }) {
         <div className="flex items-center gap-2 select-none">
           <span className="text-lg sm:text-xl font-black text-white lowercase tracking-tight">μlearn</span>
           <span className="text-sm font-bold text-zinc-500">×</span>
-          <span className="text-lg sm:text-xl font-black text-blue-500 tracking-widest">μFIFA</span>
+          <span className="text-lg sm:text-xl font-black text-blue-500 uppercase tracking-widest">FIFA</span>
         </div>
 
         {/* Admin Login Button (Absolute Right) */}
