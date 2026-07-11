@@ -209,8 +209,11 @@ router.put('/knockout/:matchId', async (req, res) => {
             const num = parseInt(slotId, 10);
             if (num % 2 === 0) nextSlot = 'teamB';
           } else if (stagePrefix === 'QF') {
+            // QF-A/B go to SF-1, QF-C/D go to SF-2
+            // QF-A/C fill teamA, QF-B/D fill teamB
             if (slotId === 'B' || slotId === 'D') nextSlot = 'teamB';
           } else if (stagePrefix === 'SF') {
+            // SF-1 fills teamA of FINAL, SF-2 fills teamB of FINAL
             if (slotId === '2') nextSlot = 'teamB';
           }
           

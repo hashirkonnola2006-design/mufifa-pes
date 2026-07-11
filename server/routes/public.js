@@ -330,4 +330,52 @@ router.get('/players/:id', async (req, res) => {
   }
 });
 
+// ─── GET /api/champion ───────────────────────────────────────────────────────
+// Returns winner and runner-up from the completed Final match
+router.get('/champion', async (req, res) => {
+  try {
+    const finalMatch = await Match.findOne({ stage: 'final', bracketPosition: 'FINAL' })
+      .populate({
+        path: 'teamA',
+        select: 'name shortName accentColor players',
+        populate: { path: 'players', model: 'Player', select: 'name username photo' }
+      })
+      .populate({
+        path: 'teamB',
+        select: 'name shortName accentColor players',
+        populate: { path: 'players', model: 'Player', select: 'name username photo' }
+      });
+
+    if (!finalMatch || finalMatch.status !== 'completed') {
+      return res.json({ champion: null, runnerUp: null });
+    }
+
+    const teamA = finalMatch.teamA;
+    const teamB = finalMatch.teamB;
+    const scoreA = finalMatch.scoreA;
+    const scoreB = finalMatch.scoreB;
+
+    const winner = scoreA > scoreB ? teamA : teamB;
+    const loser = scoreA > scoreB ? teamB : teamA;
+
+    const format = (team, score) => ({
+      name: team?.name || finalMatch[team === teamA ? 'teamAName' : 'teamBName'] || 'TBD',
+      shortName: team?.shortName || '',
+      accentColor: team?.accentColor || '#71717a',
+      username: team?.players?.[0]?.username || null,
+      playerName: team?.players?.[0]?.name || null,
+      photo: team?.players?.[0]?.photo || null,
+      score,
+    });
+
+    res.json({
+      champion: format(winner, Math.max(scoreA, scoreB)),
+      runnerUp: format(loser, Math.min(scoreA, scoreB)),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch champion' });
+  }
+});
+
 module.exports = router;

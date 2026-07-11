@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Calendar, Star, Flame, Loader2 } from 'lucide-react';
-import { getFixtures, getGroups } from '../lib/api';
+import { Trophy, Calendar, Star, Flame, Loader2, Award, Crown } from 'lucide-react';
+import { getFixtures, getGroups, getChampion } from '../lib/api';
 
 // Full-logo flag component
 function TeamFlag({ photo, name, accentColor, size = 'sm' }) {
@@ -40,15 +40,17 @@ export default function WallOfVictories() {
   const [knockoutRounds, setKnockoutRounds] = useState([]);
   const [totalTeams, setTotalTeams] = useState(38);
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const [championData, setChampionData] = useState({ champion: null, runnerUp: null });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [gFixtures, kFixtures, groupsData] = await Promise.all([
+        const [gFixtures, kFixtures, groupsData, champ] = await Promise.all([
           getFixtures('group'),
           getFixtures('knockout'),
-          getGroups()
+          getGroups(),
+          getChampion()
         ]);
 
         // Flatten all group matches
@@ -57,6 +59,7 @@ export default function WallOfVictories() {
           : [];
         setGroupMatches(flattenedGroups);
         setKnockoutRounds(Array.isArray(kFixtures) ? kFixtures : []);
+        setChampionData(champ || { champion: null, runnerUp: null });
 
         // Calculate total teams
         if (Array.isArray(groupsData)) {
@@ -150,6 +153,44 @@ export default function WallOfVictories() {
           </div>
         </div>
       </div>
+
+      {/* ── Champion & Runner Up Spotlight Card ── */}
+      {championData.champion && (
+        <div className="bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-zinc-950 border border-amber-500/30 rounded-3xl p-5 shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-5 items-center justify-between">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+            <Trophy className="w-48 h-48 text-amber-500" />
+          </div>
+          
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+            <div className="relative">
+              <TeamFlag photo={championData.champion.photo} name={championData.champion.name} accentColor={championData.champion.accentColor} size="lg" />
+              <div className="absolute -top-2 -right-2 bg-amber-500 text-black p-1 rounded-full border border-black shadow">
+                <Crown className="w-3 h-3" fill="currentColor" />
+              </div>
+            </div>
+            <div>
+              <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest block mb-0.5">🏆 Tournament Champion</span>
+              <h2 className="text-xl font-black text-white leading-tight">{championData.champion.name}</h2>
+              {championData.champion.username && (
+                <span className="text-zinc-500 text-xs font-semibold block mt-0.5">@{championData.champion.username}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="border-t md:border-t-0 md:border-l border-zinc-800/80 w-full md:w-auto pt-4 md:pt-0 md:pl-6 flex flex-row md:flex-col items-center md:items-start justify-between md:justify-center gap-2">
+            <div className="flex items-center gap-2.5">
+              <TeamFlag photo={championData.runnerUp?.photo} name={championData.runnerUp?.name} accentColor={championData.runnerUp?.accentColor} size="sm" />
+              <div className="text-left">
+                <span className="text-[9px] font-bold text-zinc-500 uppercase block">🥈 Runner-Up</span>
+                <span className="text-xs font-bold text-zinc-300 block">{championData.runnerUp?.name || 'TBD'}</span>
+                {championData.runnerUp?.username && (
+                  <span className="text-[10px] text-zinc-500 block">@{championData.runnerUp.username}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Navigation Filters ── */}
       <div className="overflow-x-auto no-scrollbar -mx-1 px-1">

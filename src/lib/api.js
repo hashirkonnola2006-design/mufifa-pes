@@ -35,6 +35,7 @@ export const getFixtures = (stage) => cachedGet(`fixtures_${stage}`, () => apiFe
 export const getLeaderboard = () => cachedGet('leaderboard', () => apiFetch('/leaderboard'));
 export const getPlayer = (id) => cachedGet(`player_${id}`, () => apiFetch(`/players/${id}`));
 export const getPrizePool = () => cachedGet('prizepool', () => apiFetch('/prizepool'));
+export const getChampion = () => cachedGet('champion', () => apiFetch('/champion'));
 
 // ─── Admin Auth ───────────────────────────────────────────────────────────────
 export const adminLogin = (username, password) =>
