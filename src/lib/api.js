@@ -21,13 +21,30 @@ async function apiFetch(path, options = {}) {
   return res.json();
 }
 
+// ─── Cache Layer ─────────────────────────────────────────────────────────────
+let cache = {};
+
+function cachedGet(key, fetcher) {
+  if (!cache[key]) {
+    cache[key] = fetcher().catch((err) => {
+      delete cache[key];
+      throw err;
+    });
+  }
+  return cache[key];
+}
+
+export const invalidateCache = () => {
+  cache = {};
+};
+
 // ─── Public endpoints ─────────────────────────────────────────────────────────
-export const getGroups = () => apiFetch('/groups');
-export const getGroup = (id) => apiFetch(`/groups/${id}`);
-export const getFixtures = (stage) => apiFetch(`/fixtures?stage=${stage}`);
-export const getLeaderboard = () => apiFetch('/leaderboard');
-export const getPlayer = (id) => apiFetch(`/players/${id}`);
-export const getPrizePool = () => apiFetch('/prizepool');
+export const getGroups = () => cachedGet('groups', () => apiFetch('/groups'));
+export const getGroup = (id) => cachedGet(`group_${id}`, () => apiFetch(`/groups/${id}`));
+export const getFixtures = (stage) => cachedGet(`fixtures_${stage}`, () => apiFetch(`/fixtures?stage=${stage}`));
+export const getLeaderboard = () => cachedGet('leaderboard', () => apiFetch('/leaderboard'));
+export const getPlayer = (id) => cachedGet(`player_${id}`, () => apiFetch(`/players/${id}`));
+export const getPrizePool = () => cachedGet('prizepool', () => apiFetch('/prizepool'));
 
 // ─── Admin Auth ───────────────────────────────────────────────────────────────
 export const adminLogin = (username, password) =>
@@ -42,20 +59,26 @@ export const adminLogout = () =>
 // ─── Admin Match Management ───────────────────────────────────────────────────
 export const adminGetMatches = () => apiFetch('/admin/matches');
 
-export const adminUpdateMatch = (id, data) =>
-  apiFetch(`/admin/matches/${id}`, {
+export const adminUpdateMatch = (id, data) => {
+  invalidateCache();
+  return apiFetch(`/admin/matches/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
+};
 
-export const adminUpdateKnockout = (matchId, data) =>
-  apiFetch(`/admin/knockout/${matchId}`, {
+export const adminUpdateKnockout = (matchId, data) => {
+  invalidateCache();
+  return apiFetch(`/admin/knockout/${matchId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
+};
 
-export const adminAdjustGoals = (playerId, goals) =>
-  apiFetch(`/admin/players/${playerId}/goals`, {
+export const adminAdjustGoals = (playerId, goals) => {
+  invalidateCache();
+  return apiFetch(`/admin/players/${playerId}/goals`, {
     method: 'PUT',
     body: JSON.stringify({ goals }),
   });
+};
