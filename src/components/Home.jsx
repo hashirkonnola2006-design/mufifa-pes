@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Layout, Crown, Lock, ArrowRight, ExternalLink, Trophy } from 'lucide-react';
+import { Users, Layout, Crown, Lock, ArrowRight, ExternalLink, Trophy, Globe, Shield } from 'lucide-react';
 import { getGroups, getLeaderboard } from '../lib/api';
 
 export default function Home({ setActiveTab }) {
@@ -89,41 +89,86 @@ export default function Home({ setActiveTab }) {
       </div>
 
       {/* ── 3. WHAT IS μFIFA INFO CARD ── */}
-      <div className="rounded-2xl bg-zinc-950/40 p-6 border border-zinc-900/60 shadow-xl space-y-4 text-left">
-        <div className="flex items-center gap-4">
-          {/* Soccer Ball Badge */}
-          <div className="w-12 h-12 rounded-xl bg-blue-950/30 border border-blue-900/40 flex items-center justify-center shrink-0">
-            <svg viewBox="0 0 24 24" className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <polygon points="12,7.5 16.25,10.5 14.5,15.5 9.5,15.5 7.75,10.5" />
-              <line x1="12" y1="2" x2="12" y2="7.5" />
-              <line x1="2.2" y1="9" x2="7.75" y2="10.5" />
-              <line x1="21.8" y1="9" x2="16.25" y2="10.5" />
-              <line x1="5.8" y1="20" x2="9.5" y2="15.5" />
-              <line x1="18.2" y1="20" x2="14.5" y2="15.5" />
-            </svg>
+      <div className="grid grid-cols-1 md:grid-cols-12 rounded-2xl bg-zinc-950/40 p-5 md:p-6 border border-zinc-900/60 shadow-xl gap-6 items-center">
+        {/* Left Side: Image */}
+        <div
+          className="md:col-span-5 w-full aspect-[4/3] bg-cover bg-center rounded-xl border border-zinc-800/80 shrink-0"
+          style={{ backgroundImage: 'url("/tactical_football_pitch.png")' }}
+        />
+
+        {/* Right Side: Content */}
+        <div className="md:col-span-7 flex flex-col space-y-4 text-left w-full">
+          <div className="flex items-center gap-3">
+            {/* Soccer Ball Badge */}
+            <div className="w-10 h-10 rounded-xl bg-blue-950/30 border border-blue-900/40 flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 24 24" className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="12,7.5 16.25,10.5 14.5,15.5 9.5,15.5 7.75,10.5" />
+                <line x1="12" y1="2" x2="12" y2="7.5" />
+                <line x1="2.2" y1="9" x2="7.75" y2="10.5" />
+                <line x1="21.8" y1="9" x2="16.25" y2="10.5" />
+                <line x1="5.8" y1="20" x2="9.5" y2="15.5" />
+                <line x1="18.2" y1="20" x2="14.5" y2="15.5" />
+              </svg>
+            </div>
+            <h2 className="text-white text-base sm:text-lg font-black tracking-tight uppercase">
+              WHAT IS <span className="text-blue-500">μFIFA?</span>
+            </h2>
           </div>
-          <h2 className="text-white text-lg sm:text-xl font-black tracking-tight uppercase">
-            WHAT IS <span className="text-blue-500">μFIFA?</span>
-          </h2>
-        </div>
 
-        {/* Short Blue Underline */}
-        <div className="w-8 h-[2px] bg-blue-500" />
+          {/* Underline */}
+          <div className="w-8 h-[2px] bg-blue-500" />
 
-        <div className="space-y-3">
-          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-semibold">
+          {/* Paragraph */}
+          <p className="text-zinc-400 text-xs leading-relaxed font-semibold">
             μFIFA is a large-scale innovation movement by μLearn that turns learning into a collaborative, gamified experience inspired by the FIFA World Cup. Participants join national squads, pick a domain of expertise, and work with peers on real-world challenges while representing their team.
           </p>
-          <div className="pt-1">
+
+          {/* Features Row */}
+          <div className="grid grid-cols-4 gap-1 pt-3 border-t border-zinc-900/80">
+            {/* Col 1 */}
+            <div className="text-center md:text-left space-y-1.5">
+              <Users className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+                Collaborative Learning
+              </span>
+            </div>
+            
+            {/* Col 2 */}
+            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
+              <Trophy className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+                World Cup Inspired
+              </span>
+            </div>
+
+            {/* Col 3 */}
+            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
+              <Globe className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+                Real-World Challenges
+              </span>
+            </div>
+
+            {/* Col 4 */}
+            <div className="text-center md:text-left space-y-1.5 border-l border-zinc-900 px-2">
+              <Shield className="w-4 h-4 text-blue-500 mx-auto md:mx-0" />
+              <span className="block text-[8px] font-black uppercase text-zinc-500 tracking-wider leading-tight">
+                Represent Your Team
+              </span>
+            </div>
+          </div>
+
+          {/* Link */}
+          <div className="pt-2">
             <a
               href="https://mufifa.mulearn.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-blue-500 hover:text-blue-400 text-xs font-black uppercase tracking-wider transition-colors"
+              className="inline-flex items-center gap-1 text-blue-500 hover:text-blue-400 text-[10px] font-black uppercase tracking-wider transition-colors"
             >
               <span>Check out website</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
