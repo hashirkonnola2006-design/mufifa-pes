@@ -203,6 +203,35 @@ const groupsRaw = [
             "avatarColor": "bg-blue-900 text-blue-200"
           }
         ]
+      },
+      {
+        "id": "b_manchesterunited",
+        "name": "Manchester United F.C",
+        "shortName": "MUN",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "haseeb",
+            "username": "HASEEEB_VT",
+            "photo": "/teams/haseeb.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
       }
     ]
   },
@@ -1272,10 +1301,11 @@ async function seed() {
     { groupId: 'A', teamAKey: 'a_benfica',   teamBKey: 'a_manutd',    date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
     { groupId: 'A', teamAKey: 'a_barcelona', teamBKey: 'a_manutd',    date: 'FRIDAY - JULY 11, 2026',   time: '18:00' },
 
-    // ── Group B: 3 teams → full round-robin (3 matches, 2 per team) ──
-    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_acmilan',     date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
-    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_fcbarcelona', date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
-    { groupId: 'B', teamAKey: 'b_acmilan',    teamBKey: 'b_fcbarcelona', date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    // ── Group B: 4 teams → ring schedule (4 matches, 2 per team) ──
+    { groupId: 'B', teamAKey: 'b_portugal',   teamBKey: 'b_acmilan',          date: 'THURSDAY - JULY 10, 2026', time: '20:30' },
+    { groupId: 'B', teamAKey: 'b_acmilan',    teamBKey: 'b_fcbarcelona',      date: 'SATURDAY - JULY 12, 2026', time: '18:00' },
+    { groupId: 'B', teamAKey: 'b_fcbarcelona', teamBKey: 'b_manchesterunited', date: 'FRIDAY - JULY 11, 2026',   time: '20:30' },
+    { groupId: 'B', teamAKey: 'b_manchesterunited', teamBKey: 'b_portugal',     date: 'SUNDAY - JULY 13, 2026',   time: '18:00' },
 
     // ── Group C: 5 teams → ring schedule (5 matches, 2 per team) ──
     // Ring: c_bayernmunichen → c_japan → c_vivabrazil → c_argentina → c_cr7 → (back to c_bayernmunichen)

@@ -191,6 +191,35 @@ export const groupsData = [
             "avatarColor": "bg-blue-900 text-blue-200"
           }
         ]
+      },
+      {
+        "id": "b_manchesterunited",
+        "name": "Manchester United F.C",
+        "shortName": "MUN",
+        "strength": 80,
+        "accentColor": "#ef4444",
+        "gradient": "from-red-950/40 via-red-950/10 to-zinc-950/40",
+        "stats": {
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 0
+        },
+        "form": [],
+        "players": [
+          {
+            "name": "haseeb",
+            "username": "HASEEEB_VT",
+            "photo": "/teams/haseeb.jpeg",
+            "goals": 0,
+            "matchesPlayed": 0,
+            "points": 0,
+            "avatarColor": "bg-red-900 text-red-200"
+          }
+        ]
       }
     ]
   },
