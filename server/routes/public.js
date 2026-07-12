@@ -11,8 +11,8 @@ router.get('/prizepool', (req, res) => {
   res.json({
     total: '₹50,000',
     breakdown: [
-      { rank: '1st Place', amount: '₹25,000', badge: 'Gold Cup', description: "Champions Trophy + Gold Medals" },
-      { rank: '2nd Place', amount: '₹15,000', badge: 'Silver Cup', description: 'Runner-up Silver Medals' },
+      { rank: '1st Place', amount: '₹25,000', badge: 'Gold Cup', description: "Champions Trophy + Custom Printed Jersey" },
+      { rank: '2nd Place', amount: '₹15,000', badge: 'Silver Cup', description: "Runner-up Prize + Corporate Gift Set" },
       { rank: '3rd Place', amount: '₹10,000', badge: 'Bronze Cup', description: 'Play-off Bronze Medals' },
     ],
   });

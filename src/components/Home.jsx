@@ -199,12 +199,12 @@ export default function Home({ setActiveTab }) {
                 <h3 className="text-amber-500 text-lg sm:text-xl font-black uppercase tracking-tight">GOLD CUP</h3>
                 <div className="space-y-0.5 text-[10px] sm:text-xs">
                   <p className="text-white font-bold">Champion's Trophy</p>
-                  <p className="text-amber-500 font-bold">+ Exclusive Merch</p>
+                  <p className="text-amber-500 font-bold">+ Custom Printed Jersey</p>
                 </div>
               </div>
 
               <div className="mt-2 flex justify-center items-end">
-                <img src="/gold_jersey_pack.png" alt="Gold Cup Prizes" className="w-full object-contain rounded-xl" />
+                <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full object-contain rounded-xl" />
               </div>
             </div>
           </div>
@@ -224,12 +224,12 @@ export default function Home({ setActiveTab }) {
                 <h3 className="text-blue-500 text-lg sm:text-xl font-black uppercase tracking-tight">SILVER CUP</h3>
                 <div className="space-y-0.5 text-[10px] sm:text-xs">
                   <p className="text-white font-bold">Runner-up Prize</p>
-                  <p className="text-blue-500 font-bold">+ Exclusive Merch</p>
+                  <p className="text-blue-500 font-bold">+ Corporate Gift Set</p>
                 </div>
               </div>
 
               <div className="mt-2 flex justify-center items-end">
-                <img src="/silver_jersey_pack.png" alt="Silver Cup Prizes" className="w-full object-contain rounded-xl" />
+                <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full object-contain rounded-xl" />
               </div>
             </div>
           </div>
