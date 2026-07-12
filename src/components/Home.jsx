@@ -215,8 +215,8 @@ export default function Home({ setActiveTab }) {
               </div>
             </div>
 
-            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0">
-              <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full h-auto object-cover" />
+            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 aspect-[1.3] w-full">
+              <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full h-full object-cover object-center" />
               {/* Black fade overlay at the bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
             </div>
@@ -253,8 +253,8 @@ export default function Home({ setActiveTab }) {
               </div>
             </div>
 
-            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0">
-              <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full h-auto object-cover" />
+            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 aspect-[1.3] w-full">
+              <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full h-full object-cover object-center" />
               {/* Black fade overlay at the bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
             </div>
