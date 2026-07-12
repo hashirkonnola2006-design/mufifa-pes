@@ -253,12 +253,12 @@ export default function Home({ setActiveTab }) {
             return (
               <div 
                 key={prize.badge || idx}
-                className={`relative rounded-2xl bg-black border ${config.borderColor} ${config.shadowColor} hover:scale-[1.01] transition-all duration-300 overflow-hidden`}
+                className={`relative rounded-2xl bg-black border ${config.borderColor} ${config.shadowColor} hover:scale-[1.01] transition-all duration-300 overflow-hidden aspect-square`}
               >
                 <img 
                   src={imgSrc} 
                   alt={prize.badge} 
-                  className="w-full h-auto block" 
+                  className="w-full h-full object-cover object-center" 
                 />
               </div>
             );
