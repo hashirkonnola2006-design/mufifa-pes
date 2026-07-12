@@ -185,52 +185,78 @@ export default function Home({ setActiveTab }) {
 
         <div className="grid grid-cols-2 gap-4">
           {/* 1st Place */}
-          <div className="relative rounded-2xl bg-zinc-950/80 border border-amber-500/20 p-5 flex flex-col justify-between shadow-2xl hover:scale-[1.01] transition-all duration-300 overflow-hidden">
-            {/* Golden Badge/Trophy Icon in Top Right */}
-            <div className="absolute top-5 right-5 w-10 h-12 border border-amber-500/30 bg-amber-500/5 rounded-b-xl rounded-t-sm flex items-center justify-center text-amber-500">
-              <Trophy className="w-4 h-4 stroke-[1.5]" />
-            </div>
+          <div className="relative rounded-2xl bg-black border border-amber-500/40 p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(245,158,11,0.1)] hover:scale-[1.01] transition-all duration-300 overflow-hidden">
+            {/* Diagonal accent lines */}
+            <div className="absolute -top-12 -left-12 w-24 h-24 border-r border-b border-amber-500/30 rotate-45 pointer-events-none" />
+            <div className="absolute -top-8 -left-8 w-24 h-24 border-r border-b border-amber-500/20 rotate-45 pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-24 h-24 border-t border-l border-amber-500/30 rotate-45 pointer-events-none" />
+            <div className="absolute -bottom-8 -right-8 w-24 h-24 border-t border-l border-amber-500/20 rotate-45 pointer-events-none" />
 
-            <div className="space-y-4 text-left">
-              <div className="space-y-1.5">
+            <div className="space-y-4 text-left z-10">
+              <div className="flex items-center gap-3">
+                {/* Gold Trophy Badge */}
+                <div className="w-10 h-10 border border-amber-500/40 bg-amber-500/5 rounded-xl flex items-center justify-center text-amber-500 relative shrink-0">
+                  <Trophy className="w-5 h-5 stroke-[1.5] text-amber-400" />
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full" />
+                </div>
                 <span className="inline-block text-[9px] font-black uppercase tracking-wider text-amber-500 border border-amber-500/20 bg-amber-500/5 px-2.5 py-0.5 rounded-md">
                   1ST PLACE
                 </span>
-                <h3 className="text-amber-500 text-lg sm:text-xl font-black uppercase tracking-tight">GOLD CUP</h3>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
+                  GOLD CUP
+                </h3>
                 <div className="space-y-0.5 text-[10px] sm:text-xs">
                   <p className="text-white font-bold">Champion's Trophy</p>
                   <p className="text-amber-500 font-bold">+ Custom Printed Jersey</p>
                 </div>
               </div>
+            </div>
 
-              <div className="mt-2 flex justify-center items-end">
-                <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full object-contain rounded-xl" />
-              </div>
+            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0">
+              <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full h-auto object-cover" />
+              {/* Black fade overlay at the bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
             </div>
           </div>
 
           {/* 2nd Place */}
-          <div className="relative rounded-2xl bg-zinc-950/80 border border-blue-500/20 p-5 flex flex-col justify-between shadow-2xl hover:scale-[1.01] transition-all duration-300 overflow-hidden">
-            {/* Blue Badge/Trophy Icon in Top Right */}
-            <div className="absolute top-5 right-5 w-10 h-12 border border-blue-500/30 bg-blue-500/5 rounded-b-xl rounded-t-sm flex items-center justify-center text-blue-500">
-              <Trophy className="w-4 h-4 stroke-[1.5]" />
-            </div>
+          <div className="relative rounded-2xl bg-black border border-blue-500/40 p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(37,99,235,0.1)] hover:scale-[1.01] transition-all duration-300 overflow-hidden">
+            {/* Diagonal accent lines */}
+            <div className="absolute -top-12 -left-12 w-24 h-24 border-r border-b border-blue-500/20 rotate-45 pointer-events-none" />
+            <div className="absolute -top-8 -left-8 w-24 h-24 border-r border-b border-blue-500/10 rotate-45 pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-24 h-24 border-t border-l border-blue-500/20 rotate-45 pointer-events-none" />
+            <div className="absolute -bottom-8 -right-8 w-24 h-24 border-t border-l border-blue-500/10 rotate-45 pointer-events-none" />
 
-            <div className="space-y-4 text-left">
-              <div className="space-y-1.5">
+            <div className="space-y-4 text-left z-10">
+              <div className="flex items-center gap-3">
+                {/* Blue Trophy Badge */}
+                <div className="w-10 h-10 border border-blue-500/40 bg-blue-500/5 rounded-xl flex items-center justify-center text-blue-500 relative shrink-0">
+                  <Trophy className="w-5 h-5 stroke-[1.5] text-blue-400" />
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full" />
+                </div>
                 <span className="inline-block text-[9px] font-black uppercase tracking-wider text-blue-500 border border-blue-500/20 bg-blue-500/5 px-2.5 py-0.5 rounded-md">
                   2ND PLACE
                 </span>
-                <h3 className="text-blue-500 text-lg sm:text-xl font-black uppercase tracking-tight">SILVER CUP</h3>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500 bg-clip-text text-transparent">
+                  SILVER CUP
+                </h3>
                 <div className="space-y-0.5 text-[10px] sm:text-xs">
                   <p className="text-white font-bold">Runner-up Prize</p>
                   <p className="text-blue-500 font-bold">+ Corporate Gift Set</p>
                 </div>
               </div>
+            </div>
 
-              <div className="mt-2 flex justify-center items-end">
-                <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full object-contain rounded-xl" />
-              </div>
+            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0">
+              <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full h-auto object-cover" />
+              {/* Black fade overlay at the bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
             </div>
           </div>
         </div>
