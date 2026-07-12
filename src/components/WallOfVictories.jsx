@@ -41,6 +41,7 @@ export default function WallOfVictories() {
   const [totalTeams, setTotalTeams] = useState(38);
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [championData, setChampionData] = useState({ champion: null, runnerUp: null });
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +66,7 @@ export default function WallOfVictories() {
         if (Array.isArray(groupsData)) {
           const count = groupsData.reduce((acc, g) => acc + (g.teams?.length || 0), 0);
           if (count > 0) setTotalTeams(count);
+          setGroups(groupsData);
         }
       } catch (err) {
         setError(err.message || 'Failed to load tournament data');
@@ -126,9 +128,51 @@ export default function WallOfVictories() {
   // Last Victory: most recently completed match with a winner (not a draw)
   const lastVictory = completedMatches.find(m => m.scoreA !== m.scoreB);
 
-  // Eliminated teams calculation (placeholder simulation or count from TBDs)
-  // For group stage, nobody is eliminated yet. Let's count teams that have finished knockout stages or lost
-  const eliminatedCount = 0; // standard state for start of tourney
+  // Dynamic eliminated teams calculation
+  const getEliminatedCount = () => {
+    const eliminatedGroupTeams = new Set();
+    const groupStageMatches = groupMatches;
+
+    if (Array.isArray(groups)) {
+      groups.forEach(group => {
+        const matchesInThisGroup = groupStageMatches.filter(m => (m.group || m.groupId) === group.id);
+        const isGroupCompleted = matchesInThisGroup.length > 0 && matchesInThisGroup.every(m => m.status === 'completed');
+        
+        if (isGroupCompleted && Array.isArray(group.teams)) {
+          // Bottom teams (from index 2 onwards) are eliminated
+          group.teams.slice(2).forEach(team => {
+            eliminatedGroupTeams.add(String(team._id || team.id));
+          });
+        }
+      });
+    }
+
+    const eliminatedKnockoutTeams = new Set();
+    const koMatches = knockoutRounds.flatMap(r => r.matches || []);
+    
+    koMatches.forEach(m => {
+      if (m.status === 'completed') {
+        const scoreA = Number(m.scoreA || 0);
+        const scoreB = Number(m.scoreB || 0);
+        if (scoreA > scoreB) {
+          const loser = m.teamB;
+          if (loser && (loser._id || loser.id)) {
+            eliminatedKnockoutTeams.add(String(loser._id || loser.id));
+          }
+        } else if (scoreB > scoreA) {
+          const loser = m.teamA;
+          if (loser && (loser._id || loser.id)) {
+            eliminatedKnockoutTeams.add(String(loser._id || loser.id));
+          }
+        }
+      }
+    });
+
+    const allEliminated = new Set([...eliminatedGroupTeams, ...eliminatedKnockoutTeams]);
+    return allEliminated.size;
+  };
+
+  const eliminatedCount = getEliminatedCount();
 
   return (
     <div className="space-y-6 animate-fadeIn pb-24 text-zinc-300">
