@@ -120,6 +120,7 @@ router.get('/groups/:id', async (req, res) => {
     if (!group) return res.status(404).json({ error: 'Group not found' });
 
     const matches = await Match.find({ stage: 'group', groupId });
+    const teams = await Team.find({ groupId }).populate({ path: 'players', model: 'Player' });
 
     // Sort teams: points desc, GD desc, GF desc, H2H desc
     teams.sort((a, b) => {

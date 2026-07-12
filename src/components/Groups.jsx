@@ -225,11 +225,10 @@ export default function Groups() {
                               <span className="text-white text-sm font-bold tracking-tight truncate block max-w-[130px] xs:max-w-[180px]">
                                 {player?.username ? `@${player.username}` : team.name}
                               </span>
-                              {player?.name && (
-                                <span className="text-zinc-500 text-[11px] font-medium block truncate max-w-[130px]">
-                                  {player.name}
-                                </span>
-                              )}
+                              <div className="flex flex-col text-[11px] font-medium text-zinc-500">
+                                {player?.name && <span className="truncate max-w-[130px]">{player.name}</span>}
+                                <span className="text-zinc-400 font-semibold truncate max-w-[130px]">{team.name}</span>
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -308,7 +307,7 @@ export default function Groups() {
                                     />
                                     <div className="min-w-0 flex-1">
                                       <span className="text-[9px] font-bold uppercase text-zinc-500 block mb-0.5">Representing Team</span>
-                                      <span className="text-white text-xs sm:text-sm font-extrabold tracking-tight truncate block">{team.name}</span>
+                                      <span className="text-white text-xs sm:text-sm font-extrabold tracking-tight block break-words leading-tight">{team.name}</span>
                                     </div>
                                   </div>
                                   <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800">

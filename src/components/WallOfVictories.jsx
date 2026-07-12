@@ -123,8 +123,8 @@ export default function WallOfVictories() {
     .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
   const completedCount = completedMatches.length;
 
-  // Last Victory: most recently completed match (only 1)
-  const lastVictory = completedMatches.length > 0 ? completedMatches[0] : null;
+  // Last Victory: most recently completed match with a winner (not a draw)
+  const lastVictory = completedMatches.find(m => m.scoreA !== m.scoreB);
 
   // Eliminated teams calculation (placeholder simulation or count from TBDs)
   // For group stage, nobody is eliminated yet. Let's count teams that have finished knockout stages or lost
@@ -324,7 +324,8 @@ export default function WallOfVictories() {
               }
 
               // Highlight outline if it is completed or has goals
-              const winnerName = isCompleted
+              const isDraw = isCompleted && match.scoreA === match.scoreB;
+              const winnerName = isCompleted && !isDraw
                 ? (match.scoreA > match.scoreB ? usernameA : usernameB)
                 : null;
 
@@ -339,14 +340,14 @@ export default function WallOfVictories() {
                 >
                   {/* Card Glowing Line Accent for victories */}
                   {isCompleted && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-400 to-yellow-600" />
+                    <div className={`absolute left-0 top-0 bottom-0 w-1 ${isDraw ? 'bg-zinc-600' : 'bg-gradient-to-b from-amber-400 to-yellow-600'}`} />
                   )}
 
                   {/* Header info */}
                   <div className="flex items-center justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3.5">
                     <span>{matchHeader}</span>
-                    <span className={isCompleted ? 'text-amber-500' : isTBD ? 'text-zinc-700' : 'text-zinc-500'}>
-                      {isCompleted ? 'WINNER LOGGED' : isTBD ? 'AWAITING TEAMS' : 'UPCOMING'}
+                    <span className={isCompleted ? (isDraw ? 'text-zinc-400' : 'text-amber-500') : isTBD ? 'text-zinc-700' : 'text-zinc-500'}>
+                      {isCompleted ? (isDraw ? 'DRAW LOGGED' : 'WINNER LOGGED') : isTBD ? 'AWAITING TEAMS' : 'UPCOMING'}
                     </span>
                   </div>
 
@@ -381,11 +382,17 @@ export default function WallOfVictories() {
                   </div>
 
                   {/* Footer Information */}
-                  {winnerName && (
+                  {isCompleted && (
                     <div className="mt-4 pt-3 border-t border-zinc-900 flex justify-end text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-                      <span className="text-amber-500 font-black">
-                        Winner: {winnerName}
-                      </span>
+                      {isDraw ? (
+                        <span className="text-zinc-400 font-black">
+                          Drawed
+                        </span>
+                      ) : (
+                        <span className="text-amber-500 font-black">
+                          Winner: {winnerName}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>

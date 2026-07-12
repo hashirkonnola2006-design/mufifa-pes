@@ -16,6 +16,9 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
+// Enable 'trust proxy' so that express-rate-limit correctly resolves the client's real IP behind Vercel
+app.set('trust proxy', 1);
+
 // ─── HELMET SECURITY HEADERS ──────────────────────────────────────────────────
 app.use(helmet());
 
