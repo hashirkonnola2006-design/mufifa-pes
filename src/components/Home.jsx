@@ -248,47 +248,18 @@ export default function Home({ setActiveTab }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {(prizeData?.breakdown || fallbackPrizeData.breakdown).slice(0, 2).map((prize, idx) => {
             const config = PRIZE_CONFIGS[prize.badge] || DEFAULT_CONFIG;
-            const descParts = (prize.description || '').split('+');
-            const primaryDesc = descParts[0]?.trim();
-            const secondaryDesc = descParts[1] ? `+ ${descParts[1].trim()}` : '';
+            const imgSrc = prize.badge === 'Gold Cup' ? '/gold_cup_prize_pack.png' : '/silver_cup_prize_pack.png';
 
             return (
               <div 
                 key={prize.badge || idx}
-                className={`relative rounded-2xl bg-black border ${config.borderColor} p-5 flex flex-col justify-between ${config.shadowColor} hover:scale-[1.01] transition-all duration-300 overflow-hidden`}
+                className={`relative rounded-2xl bg-black border ${config.borderColor} ${config.shadowColor} hover:scale-[1.01] transition-all duration-300 overflow-hidden`}
               >
-                {/* Diagonal accent lines */}
-                <div className={`absolute -top-12 -left-12 w-24 h-24 border-r border-b ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-20`} />
-                <div className={`absolute -top-8 -left-8 w-24 h-24 border-r border-b ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-10`} />
-                <div className={`absolute -bottom-12 -right-12 w-24 h-24 border-t border-l ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-20`} />
-                <div className={`absolute -bottom-8 -right-8 w-24 h-24 border-t border-l ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-10`} />
-
-                <div className="space-y-4 text-left z-10">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 border ${config.borderColor.split(' ')[0]} bg-white/5 rounded-xl flex items-center justify-center ${config.iconColor} relative shrink-0`}>
-                      <Trophy className="w-5 h-5 stroke-[1.5]" />
-                      <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 ${config.iconColor.replace('text-', 'bg-')} rounded-full`} />
-                    </div>
-                    <span className={`inline-block text-[9px] font-black uppercase tracking-wider ${config.badgeColor} px-2.5 py-0.5 rounded-md`}>
-                      {prize.rank}
-                    </span>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h3 className={`text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r ${config.textGradient} bg-clip-text text-transparent`}>
-                      {prize.badge}
-                    </h3>
-                    <div className="space-y-0.5 text-[10px] sm:text-xs">
-                      {primaryDesc && <p className="text-white font-bold">{primaryDesc}</p>}
-                      {secondaryDesc && <p className={`${config.bulletColor} font-bold`}>{secondaryDesc}</p>}
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 w-[calc(100%+2.5rem)] ${config.imgAspect}`}>
-                  <img src={config.imgSrc} alt={prize.badge} className="w-full h-full object-cover object-center" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                </div>
+                <img 
+                  src={imgSrc} 
+                  alt={prize.badge} 
+                  className="w-full h-auto block" 
+                />
               </div>
             );
           })}
