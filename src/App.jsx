@@ -55,11 +55,17 @@ function App() {
         {/* Desktop Top Header Navigation Bar */}
         {!isAdminView && (
           <header className="hidden md:flex items-center justify-between py-4 border-b border-zinc-900 mb-6 select-none">
-            {/* Left: Collab brand */}
-            <div onClick={() => setActiveTab('home')} className="flex items-center gap-2 cursor-pointer select-none">
-              <span className="text-xl font-black text-white lowercase tracking-tight">μlearn</span>
-              <span className="text-sm font-bold text-zinc-500">×</span>
-              <span className="text-xl font-black text-[#2563eb] uppercase tracking-widest">FIFA</span>
+            {/* Left: μFIFA brand logo */}
+            <div onClick={() => setActiveTab('home')} className="flex items-center gap-3 cursor-pointer select-none group">
+              <div className="flex items-center gap-0.5">
+                <span className="text-2xl font-black text-amber-500 leading-none">μ</span>
+                <span className="text-2xl font-black text-amber-500 tracking-tight leading-none">FIFA</span>
+              </div>
+              <div className="w-[1.5px] h-8 bg-amber-500/30" />
+              <div className="flex flex-col text-[7.5px] font-black uppercase text-amber-500/85 tracking-wider leading-tight text-left">
+                <span>Festival of Innovation,</span>
+                <span>Fellowship & Achievement</span>
+              </div>
             </div>
 
             {/* Center: Tabs */}

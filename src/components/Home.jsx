@@ -1,6 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Layout, Crown, Lock, ArrowRight, ExternalLink, Trophy, Globe, Shield } from 'lucide-react';
-import { getGroups, getLeaderboard } from '../lib/api';
+import { getGroups, getLeaderboard, getPrizePool } from '../lib/api';
+
+const PRIZE_CONFIGS = {
+  'Gold Cup': {
+    borderColor: 'border-amber-500/40 hover:border-amber-500/60 focus-within:border-amber-500/60',
+    shadowColor: 'shadow-[0_0_25px_rgba(245,158,11,0.1)] hover:shadow-[0_0_30px_rgba(245,158,11,0.2)]',
+    textGradient: 'from-amber-200 via-amber-400 to-yellow-600',
+    iconColor: 'text-amber-400',
+    badgeColor: 'text-amber-500 border-amber-500/20 bg-amber-500/5',
+    imgSrc: '/gold_jersey_pack.jpg',
+    bulletColor: 'text-amber-500',
+    imgAspect: 'aspect-[2]'
+  },
+  'Silver Cup': {
+    borderColor: 'border-blue-500/40 hover:border-blue-500/60 focus-within:border-blue-500/60',
+    shadowColor: 'shadow-[0_0_25px_rgba(37,99,235,0.1)] hover:shadow-[0_0_30px_rgba(37,99,235,0.2)]',
+    textGradient: 'from-zinc-100 via-zinc-300 to-zinc-500',
+    iconColor: 'text-blue-400',
+    badgeColor: 'text-blue-500 border-blue-500/20 bg-blue-500/5',
+    imgSrc: '/silver_jersey_pack.jpg',
+    bulletColor: 'text-blue-500',
+    imgAspect: 'aspect-square'
+  },
+  'Bronze Cup': {
+    borderColor: 'border-orange-500/40 hover:border-orange-500/60 focus-within:border-orange-500/60',
+    shadowColor: 'shadow-[0_0_25px_rgba(249,115,22,0.1)] hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]',
+    textGradient: 'from-orange-200 via-orange-400 to-amber-700',
+    iconColor: 'text-orange-400',
+    badgeColor: 'text-orange-500 border-orange-500/20 bg-orange-500/5',
+    imgSrc: '/cyber_trophy.png',
+    bulletColor: 'text-orange-500',
+    imgAspect: 'aspect-square'
+  }
+};
+
+const DEFAULT_CONFIG = {
+  borderColor: 'border-zinc-500/40',
+  shadowColor: 'shadow-[0_0_25px_rgba(150,150,150,0.1)]',
+  textGradient: 'from-zinc-200 via-zinc-400 to-zinc-600',
+  iconColor: 'text-zinc-400',
+  badgeColor: 'text-zinc-500 border-zinc-500/20 bg-zinc-500/5',
+  imgSrc: '/cyber_trophy.png',
+  bulletColor: 'text-zinc-500',
+  imgAspect: 'aspect-square'
+};
+
+const fallbackPrizeData = {
+  total: '₹50,000',
+  breakdown: [
+    { rank: '1st Place', amount: '₹25,000', badge: 'Gold Cup', description: "Champions Trophy + Custom Printed Jersey" },
+    { rank: '2nd Place', amount: '₹15,000', badge: 'Silver Cup', description: "Runner-up Prize + Corporate Gift Set" },
+    { rank: '3rd Place', amount: '₹10,000', badge: 'Bronze Cup', description: 'Play-off Bronze Medals' },
+  ]
+};
 
 export default function Home({ setActiveTab }) {
   const [stats, setStats] = useState({
@@ -8,10 +61,11 @@ export default function Home({ setActiveTab }) {
     groups: 8,
     students: 40
   });
+  const [prizeData, setPrizeData] = useState(null);
 
   useEffect(() => {
-    Promise.all([getGroups(), getLeaderboard()])
-      .then(([groupsData, leaderboardData]) => {
+    Promise.all([getGroups(), getLeaderboard(), getPrizePool()])
+      .then(([groupsData, leaderboardData, prizePoolData]) => {
         const teamsCount = Array.isArray(groupsData)
           ? groupsData.reduce((acc, g) => acc + (g.teams?.length || 0), 0)
           : 40;
@@ -23,6 +77,8 @@ export default function Home({ setActiveTab }) {
           groups: groupsCount > 0 ? groupsCount : 8,
           students: studentsCount > 0 ? studentsCount : 40
         });
+
+        setPrizeData(prizePoolData);
       })
       .catch((err) => {
         console.error('Failed to load dynamic stats:', err);
@@ -34,11 +90,17 @@ export default function Home({ setActiveTab }) {
       
       {/* ── 1. TOP BAR ── */}
       <div className="relative flex md:hidden justify-center items-center py-2 px-1">
-        {/* mulearn x FIFA Collab Badge (Centered and Enlarged) */}
+        {/* μFIFA brand logo */}
         <div className="flex items-center gap-2 select-none">
-          <span className="text-lg sm:text-xl font-black text-white lowercase tracking-tight">μlearn</span>
-          <span className="text-sm font-bold text-zinc-500">×</span>
-          <span className="text-lg sm:text-xl font-black text-blue-500 uppercase tracking-widest">FIFA</span>
+          <div className="flex items-center gap-0.5">
+            <span className="text-xl font-black text-amber-500 leading-none">μ</span>
+            <span className="text-xl font-black text-amber-500 tracking-tight leading-none">FIFA</span>
+          </div>
+          <div className="w-[1px] h-6 bg-amber-500/30" />
+          <div className="flex flex-col text-[6.5px] font-black uppercase text-amber-500/85 tracking-wider leading-tight text-left">
+            <span>Festival of Innovation,</span>
+            <span>Fellowship & Achievement</span>
+          </div>
         </div>
 
         {/* Admin Login Button (Absolute Right) */}
@@ -183,82 +245,53 @@ export default function Home({ setActiveTab }) {
           <span className="text-cyan-500 font-bold text-sm tracking-widest ml-1">////</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          {/* 1st Place */}
-          <div className="relative rounded-2xl bg-black border border-amber-500/40 p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(245,158,11,0.1)] hover:scale-[1.01] transition-all duration-300 overflow-hidden">
-            {/* Diagonal accent lines */}
-            <div className="absolute -top-12 -left-12 w-24 h-24 border-r border-b border-amber-500/30 rotate-45 pointer-events-none" />
-            <div className="absolute -top-8 -left-8 w-24 h-24 border-r border-b border-amber-500/20 rotate-45 pointer-events-none" />
-            <div className="absolute -bottom-12 -right-12 w-24 h-24 border-t border-l border-amber-500/30 rotate-45 pointer-events-none" />
-            <div className="absolute -bottom-8 -right-8 w-24 h-24 border-t border-l border-amber-500/20 rotate-45 pointer-events-none" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {(prizeData?.breakdown || fallbackPrizeData.breakdown).slice(0, 2).map((prize, idx) => {
+            const config = PRIZE_CONFIGS[prize.badge] || DEFAULT_CONFIG;
+            const descParts = (prize.description || '').split('+');
+            const primaryDesc = descParts[0]?.trim();
+            const secondaryDesc = descParts[1] ? `+ ${descParts[1].trim()}` : '';
 
-            <div className="space-y-4 text-left z-10">
-              <div className="flex items-center gap-3">
-                {/* Gold Trophy Badge */}
-                <div className="w-10 h-10 border border-amber-500/40 bg-amber-500/5 rounded-xl flex items-center justify-center text-amber-500 relative shrink-0">
-                  <Trophy className="w-5 h-5 stroke-[1.5] text-amber-400" />
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full" />
+            return (
+              <div 
+                key={prize.badge || idx}
+                className={`relative rounded-2xl bg-black border ${config.borderColor} p-5 flex flex-col justify-between ${config.shadowColor} hover:scale-[1.01] transition-all duration-300 overflow-hidden`}
+              >
+                {/* Diagonal accent lines */}
+                <div className={`absolute -top-12 -left-12 w-24 h-24 border-r border-b ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-20`} />
+                <div className={`absolute -top-8 -left-8 w-24 h-24 border-r border-b ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-10`} />
+                <div className={`absolute -bottom-12 -right-12 w-24 h-24 border-t border-l ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-20`} />
+                <div className={`absolute -bottom-8 -right-8 w-24 h-24 border-t border-l ${config.borderColor.split(' ')[0]} rotate-45 pointer-events-none opacity-10`} />
+
+                <div className="space-y-4 text-left z-10">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 border ${config.borderColor.split(' ')[0]} bg-white/5 rounded-xl flex items-center justify-center ${config.iconColor} relative shrink-0`}>
+                      <Trophy className="w-5 h-5 stroke-[1.5]" />
+                      <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 ${config.iconColor.replace('text-', 'bg-')} rounded-full`} />
+                    </div>
+                    <span className={`inline-block text-[9px] font-black uppercase tracking-wider ${config.badgeColor} px-2.5 py-0.5 rounded-md`}>
+                      {prize.rank}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h3 className={`text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r ${config.textGradient} bg-clip-text text-transparent`}>
+                      {prize.badge}
+                    </h3>
+                    <div className="space-y-0.5 text-[10px] sm:text-xs">
+                      {primaryDesc && <p className="text-white font-bold">{primaryDesc}</p>}
+                      {secondaryDesc && <p className={`${config.bulletColor} font-bold`}>{secondaryDesc}</p>}
+                    </div>
+                  </div>
                 </div>
-                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-amber-500 border border-amber-500/20 bg-amber-500/5 px-2.5 py-0.5 rounded-md">
-                  1ST PLACE
-                </span>
-              </div>
 
-              <div className="space-y-1">
-                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
-                  GOLD CUP
-                </h3>
-                <div className="space-y-0.5 text-[10px] sm:text-xs">
-                  <p className="text-white font-bold">Champion's Trophy</p>
-                  <p className="text-amber-500 font-bold">+ Custom Printed Jersey</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 aspect-[1.3] w-full">
-              <img src="/gold_jersey_pack.jpg" alt="Gold Cup Prizes" className="w-full h-full object-cover object-center" />
-              {/* Black fade overlay at the bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-            </div>
-          </div>
-
-          {/* 2nd Place */}
-          <div className="relative rounded-2xl bg-black border border-blue-500/40 p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(37,99,235,0.1)] hover:scale-[1.01] transition-all duration-300 overflow-hidden">
-            {/* Diagonal accent lines */}
-            <div className="absolute -top-12 -left-12 w-24 h-24 border-r border-b border-blue-500/20 rotate-45 pointer-events-none" />
-            <div className="absolute -top-8 -left-8 w-24 h-24 border-r border-b border-blue-500/10 rotate-45 pointer-events-none" />
-            <div className="absolute -bottom-12 -right-12 w-24 h-24 border-t border-l border-blue-500/20 rotate-45 pointer-events-none" />
-            <div className="absolute -bottom-8 -right-8 w-24 h-24 border-t border-l border-blue-500/10 rotate-45 pointer-events-none" />
-
-            <div className="space-y-4 text-left z-10">
-              <div className="flex items-center gap-3">
-                {/* Blue Trophy Badge */}
-                <div className="w-10 h-10 border border-blue-500/40 bg-blue-500/5 rounded-xl flex items-center justify-center text-blue-500 relative shrink-0">
-                  <Trophy className="w-5 h-5 stroke-[1.5] text-blue-400" />
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full" />
-                </div>
-                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-blue-500 border border-blue-500/20 bg-blue-500/5 px-2.5 py-0.5 rounded-md">
-                  2ND PLACE
-                </span>
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500 bg-clip-text text-transparent">
-                  SILVER CUP
-                </h3>
-                <div className="space-y-0.5 text-[10px] sm:text-xs">
-                  <p className="text-white font-bold">Runner-up Prize</p>
-                  <p className="text-blue-500 font-bold">+ Corporate Gift Set</p>
+                <div className={`-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 w-[calc(100%+2.5rem)] ${config.imgAspect}`}>
+                  <img src={config.imgSrc} alt={prize.badge} className="w-full h-full object-cover object-center" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
                 </div>
               </div>
-            </div>
-
-            <div className="-mx-5 -mb-5 mt-4 overflow-hidden relative z-0 aspect-[1.3] w-full">
-              <img src="/silver_jersey_pack.jpg" alt="Silver Cup Prizes" className="w-full h-full object-cover object-center" />
-              {/* Black fade overlay at the bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
 
